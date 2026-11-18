@@ -1,0 +1,12 @@
+{
+  "id": "fix-003",
+  "headword": "run",
+  "status": "fixture",
+  "senses": [
+    { "key": "s1", "pos": "verb" },
+    { "key": "s2", "pos": "verb" },
+    { "key": "s3", "pos": "noun" },
+    { "key": "s4", "pos": "verb" }
+  ],
+  "rights_default": { "class": "fixture" }
+}
