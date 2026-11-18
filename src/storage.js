@@ -1,15 +1,11 @@
 /**
- * @file Stage 6 IndexedDB persistence for bookmarks, vocabulary, history, and settings.
+ * @file IndexedDB persistence for bookmarks, vocabulary, history, and settings.
  */
 
 const DB_NAME = 'shobdo-user-db';
 const DB_VERSION = 1;
 const STORES = ['bookmarks', 'vocabulary', 'history', 'settings'];
 
-/**
- * Open (and initialize if needed) the SHOBDO IndexedDB database.
- * @returns {Promise<IDBDatabase>}
- */
 function openDb() {
   return new Promise((resolve, reject) => {
     const req = indexedDB.open(DB_NAME, DB_VERSION);
@@ -33,39 +29,28 @@ function openDb() {
   });
 }
 
-/**
- * Run a single store operation inside a transaction.
- * @template T
- * @param {string} storeName
- * @param {'readonly' | 'readwrite'} mode
- * @param {(store: IDBObjectStore) => IDBRequest<T>} fn
- * @returns {Promise<T>}
- */
 async function withStore(storeName, mode, fn) {
   const db = await openDb();
   return new Promise((resolve, reject) => {
     const tx = db.transaction(storeName, mode);
     const store = tx.objectStore(storeName);
     const req = fn(store);
-    req.onsuccess = () => resolve(req.result);
-    req.onerror = () => reject(req.error);
+    let result;
+
+    req.onsuccess = () => {
+      result = req.result;
+    };
+    req.onerror = () => reject(req.error || new Error('IndexedDB request failed'));
+    tx.oncomplete = () => resolve(result);
+    tx.onerror = () => reject(tx.error || new Error('IndexedDB transaction failed'));
+    tx.onabort = () => reject(tx.error || new Error('IndexedDB transaction aborted'));
   });
 }
 
-/**
- * Get all records from a store.
- * @param {string} storeName
- * @returns {Promise<Array<any>>}
- */
 export function getAllRecords(storeName) {
   return withStore(storeName, 'readonly', (s) => s.getAll());
 }
 
-/**
- * Toggle bookmark state for an entry.
- * @param {object} entry
- * @returns {Promise<boolean>} true if now bookmarked, false if removed
- */
 export async function toggleBookmark(entry) {
   const existing = await withStore('bookmarks', 'readonly', (s) => s.get(entry.id));
   if (existing) {
@@ -78,32 +63,16 @@ export async function toggleBookmark(entry) {
   return true;
 }
 
-/**
- * Check if an entry is bookmarked.
- * @param {string} id
- * @returns {Promise<boolean>}
- */
 export async function isBookmarked(id) {
   const item = await withStore('bookmarks', 'readonly', (s) => s.get(id));
   return Boolean(item);
 }
 
-/**
- * List all bookmarks newest-first.
- * @returns {Promise<Array<{ id: string, headword: string, savedAt: string }>>}
- */
 export async function listBookmarks() {
   const items = await getAllRecords('bookmarks');
   return items.sort((a, b) => b.savedAt.localeCompare(a.savedAt));
 }
 
-/**
- * Save or delete a personal vocabulary note for an entry.
- * @param {object} entry
- * @param {string} note
- * @param {Array<string>} tags
- * @returns {Promise<void>}
- */
 export async function saveVocabNote(entry, note, tags) {
   const trimmed = note.trim();
   if (!trimmed && tags.length === 0) {
@@ -121,29 +90,15 @@ export async function saveVocabNote(entry, note, tags) {
   );
 }
 
-/**
- * Get a personal vocabulary note by entry ID.
- * @param {string} id
- * @returns {Promise<{ id: string, headword: string, note: string, tags: Array<string>, updatedAt: string } | undefined>}
- */
 export function getVocabNote(id) {
   return withStore('vocabulary', 'readonly', (s) => s.get(id));
 }
 
-/**
- * List all saved vocabulary notes newest-first.
- * @returns {Promise<Array<object>>}
- */
 export async function listVocabulary() {
   const items = await getAllRecords('vocabulary');
   return items.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
 }
 
-/**
- * Record a search query in history.
- * @param {string} rawQuery
- * @returns {Promise<void>}
- */
 export async function recordHistory(rawQuery) {
   const query = rawQuery.trim();
   if (!query) return;
@@ -152,28 +107,15 @@ export async function recordHistory(rawQuery) {
   );
 }
 
-/**
- * List recent search history newest-first.
- * @param {number} [limit=20]
- * @returns {Promise<Array<{ query: string, searchedAt: string }>>}
- */
 export async function listHistory(limit = 20) {
   const items = await getAllRecords('history');
   return items.sort((a, b) => b.searchedAt.localeCompare(a.searchedAt)).slice(0, limit);
 }
 
-/**
- * Clear all search history.
- * @returns {Promise<void>}
- */
 export function clearHistory() {
   return withStore('history', 'readwrite', (s) => s.clear());
 }
 
-/**
- * Export all user data into a portable JSON object.
- * @returns {Promise<object>}
- */
 export async function exportAllUserData() {
   const [bookmarks, vocabulary, history, settings] = await Promise.all(
     STORES.map((name) => getAllRecords(name))
@@ -188,11 +130,6 @@ export async function exportAllUserData() {
   };
 }
 
-/**
- * Import user data from an exported JSON object.
- * @param {object} payload
- * @returns {Promise<{ bookmarks: number, vocabulary: number, history: number }>}
- */
 export async function importUserData(payload) {
   if (!payload || payload.schema !== 'shobdo-user-v1') {
     throw new Error('Invalid backup file (expected schema "shobdo-user-v1").');
@@ -215,36 +152,20 @@ export async function importUserData(payload) {
         vocabulary: (payload.vocabulary || []).length,
         history: (payload.history || []).length
       });
-    tx.onerror = () => reject(tx.error);
+    tx.onerror = () => reject(tx.error || new Error('IndexedDB import failed'));
+    tx.onabort = () => reject(tx.error || new Error('IndexedDB import aborted'));
   });
-          }
-          
-/**
- * Read a setting value from IndexedDB.
- * @template T
- * @param {string} key
- * @param {T} defaultValue
- * @returns {Promise<T>}
- */
+}
+
 export async function getSetting(key, defaultValue) {
   const row = await withStore('settings', 'readonly', (s) => s.get(key));
   return row ? row.value : defaultValue;
 }
 
-/**
- * Save a setting value in IndexedDB.
- * @param {string} key
- * @param {any} value
- * @returns {Promise<void>}
- */
 export async function setSetting(key, value) {
   await withStore('settings', 'readwrite', (s) => s.put({ key, value }));
 }
 
-/**
- * Clear bookmarks and personal vocabulary stores.
- * @returns {Promise<void>}
- */
 export async function clearBookmarksAndVocab() {
   const db = await openDb();
   return new Promise((resolve, reject) => {
@@ -252,14 +173,11 @@ export async function clearBookmarksAndVocab() {
     tx.objectStore('bookmarks').clear();
     tx.objectStore('vocabulary').clear();
     tx.oncomplete = () => resolve();
-    tx.onerror = () => reject(tx.error);
+    tx.onerror = () => reject(tx.error || new Error('IndexedDB clear failed'));
+    tx.onabort = () => reject(tx.error || new Error('IndexedDB clear aborted'));
   });
 }
 
-/**
- * Clear all user data stores in IndexedDB.
- * @returns {Promise<void>}
- */
 export async function clearAllUserData() {
   const db = await openDb();
   return new Promise((resolve, reject) => {
@@ -268,7 +186,7 @@ export async function clearAllUserData() {
       tx.objectStore(storeName).clear();
     }
     tx.oncomplete = () => resolve();
-    tx.onerror = () => reject(tx.error);
+    tx.onerror = () => reject(tx.error || new Error('IndexedDB clear failed'));
+    tx.onabort = () => reject(tx.error || new Error('IndexedDB clear aborted'));
   });
 }
-
