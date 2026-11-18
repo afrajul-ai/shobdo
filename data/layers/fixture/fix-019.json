@@ -1,0 +1,16 @@
+{
+  "ipa": { "uk": "/ˈstʌdi/", "us": "/ˈstʌdi/" },
+  "forms": ["studies", "studied", "studying"],
+  "s1": {
+    "definition_en": { "text": "To spend time reading and learning about a subject." },
+    "explanation_bn": { "text": "কোনো বিষয় সম্পর্কে জানার জন্য মন দিয়ে পড়াশোনা করা।" },
+    "translations": [{ "bn": "পড়াশোনা করা", "region": "general", "bn_style": "cholito" }],
+    "examples": [{ "en": "She studies science at college.", "bn": "তিনি কলেজে বিজ্ঞান নিয়ে পড়াশোনা করেন।" }]
+  },
+  "s2": {
+    "definition_en": { "text": "Careful research or examination of a topic." },
+    "explanation_bn": { "text": "কোনো বিষয় নিয়ে গভীর গবেষণা বা পর্যালোচনা।" },
+    "translations": [{ "bn": "গবেষণা", "region": "general", "bn_style": "cholito" }],
+    "examples": [{ "en": "A new study examined solar energy.", "bn": "একটি নতুন গবেষণায় সৌরশক্তি পরীক্ষা করা হয়েছে।" }]
+  }
+}
