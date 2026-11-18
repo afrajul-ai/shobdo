@@ -1,0 +1,22 @@
+{
+  "ipa": { "uk": "/taɪm/", "us": "/taɪm/" },
+  "forms": ["times"],
+  "s1": {
+    "definition_en": { "text": "The continuous passing of seconds, minutes, hours, and years." },
+    "explanation_bn": { "text": "সেকেন্ড, মিনিট, ঘণ্টা ও বছরের নিরবচ্ছিন্ন প্রবাহ।" },
+    "translations": [{ "bn": "সময়", "region": "general", "bn_style": "cholito" }],
+    "phrases": [
+      {
+        "phrase": "on time",
+        "meaning_en": "At the planned or exact hour, not late.",
+        "meaning_bn": "নির্ধারিত ঠিক সময়ে, দেরি না করে।"
+      },
+      {
+        "phrase": "in time",
+        "meaning_en": "Early enough to do something before it is too late.",
+        "meaning_bn": "দেরি হয়ে যাওয়ার আগে যথেষ্ট সময় থাকতে।"
+      }
+    ],
+    "examples": [{ "en": "The train arrived on time.", "bn": "ট্রেনটি ঠিক সময়ে পৌঁছেছে।" }]
+  }
+}
