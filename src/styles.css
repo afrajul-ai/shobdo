@@ -139,6 +139,16 @@ body {
 }
 
 .suggestion-pos {
+  .match-hint {
+  display: inline-block;
+  margin-left: 0.4rem;
+  font-size: 0.72rem;
+  color: #065f46;
+  background: #d1fae5;
+  padding: 0.08rem 0.35rem;
+  border-radius: 4px;
+}
+
   font-size: 0.8rem;
   color: var(--muted);
   margin-left: 0.35rem;
