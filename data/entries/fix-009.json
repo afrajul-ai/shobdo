@@ -1,0 +1,9 @@
+{
+  "id": "fix-009",
+  "headword": "constitution",
+  "status": "fixture",
+  "senses": [
+    { "key": "s1", "pos": "noun" }
+  ],
+  "rights_default": { "class": "fixture" }
+}
