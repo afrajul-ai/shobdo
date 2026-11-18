@@ -28,6 +28,9 @@ jobs:
       - name: Run negative rights and audit-gate tests
         run: node scripts/test-negative.mjs
 
+      - name: Run IndexedDB storage transaction tests
+        run: node scripts/test-storage.mjs
+        
       - name: Build test site and validate fixtures
         run: node scripts/build.mjs --mode=test --out=_site
 
