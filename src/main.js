@@ -1,14 +1,15 @@
 /**
- * @file Stage 3 application entry point for SHOBDO (offline prefix search on fixtures).
+ * @file Stage 4 application entry point for SHOBDO (search + full entry screen).
  */
 
 import { buildPrefixIndex, searchPrefix } from './search.js';
+import { renderEntryView } from './entryView.js';
 
 /** @type {'test'} */
 const BUILD_MODE = 'test';
 
 /** @type {string} */
-const APP_VERSION = '0.2.0-stage3';
+const APP_VERSION = '0.3.0-stage4';
 
 /**
  * Register the Service Worker for offline caching.
@@ -147,21 +148,20 @@ async function renderDebugPanel(registration, entryCount) {
 }
 
 /**
- * Initialize Stage 3 search UI.
+ * Initialize Stage 4 search and entry UI.
  * @returns {Promise<void>}
  */
-async function initStage3() {
+async function initStage4() {
   const statusEl = document.getElementById('app-status');
   const versionEl = document.getElementById('app-version');
+  const searchSection = document.getElementById('search-section');
   const searchInput = document.getElementById('search-input');
   const clearBtn = document.getElementById('clear-btn');
   const metaEl = document.getElementById('search-meta');
   const listEl = document.getElementById('suggestions-list');
-  const previewEl = document.getElementById('selected-preview');
-  const previewTitle = document.getElementById('preview-title');
-  const previewSummary = document.getElementById('preview-summary');
+  const entryViewEl = document.getElementById('entry-view');
 
-  if (!statusEl || !versionEl || !searchInput || !clearBtn || !metaEl || !listEl) {
+  if (!statusEl || !versionEl || !searchSection || !searchInput || !clearBtn || !metaEl || !listEl || !entryViewEl) {
     return;
   }
 
@@ -174,14 +174,23 @@ async function initStage3() {
     index = buildPrefixIndex(entries);
     metaEl.textContent = `${entries.length} fixture entries ready. Type to search.`;
     statusEl.textContent = registration
-      ? 'Offline search ready.'
-      : 'Search ready (no Service Worker).';
+      ? 'Offline dictionary ready.'
+      : 'Dictionary ready (no Service Worker).';
     await renderDebugPanel(registration, entries.length);
   } catch (err) {
     metaEl.textContent = `Error loading fixtures: ${err.message}`;
     statusEl.textContent = 'Failed to load fixture data.';
     return;
   }
+
+  const showEntry = (entry) => {
+    searchSection.hidden = true;
+    entryViewEl.hidden = false;
+    renderEntryView(entryViewEl, entry, () => {
+      entryViewEl.hidden = true;
+      searchSection.hidden = false;
+    });
+  };
 
   const handleSearch = () => {
     const query = searchInput.value;
@@ -195,23 +204,15 @@ async function initStage3() {
 
     const { results, durationMs } = searchPrefix(index, query);
     metaEl.textContent = `${results.length} match${results.length === 1 ? '' : 'es'} in ${durationMs.toFixed(2)} ms`;
-
-    renderSuggestions(results, listEl, (entry) => {
-      if (previewEl && previewTitle && previewSummary) {
-        previewEl.hidden = false;
-        previewTitle.textContent = `${entry.headword} — ${getPrimaryBengali(entry)}`;
-        previewSummary.textContent = entry.senses?.[0]?.definition_en?.text || '';
-      }
-    });
+    renderSuggestions(results, listEl, showEntry);
   };
 
   searchInput.addEventListener('input', handleSearch);
   clearBtn.addEventListener('click', () => {
     searchInput.value = '';
-    if (previewEl) previewEl.hidden = true;
     handleSearch();
     searchInput.focus();
   });
 }
 
-initStage3();
+initStage4();
