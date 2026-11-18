@@ -1,8 +1,8 @@
 /**
- * @file Stage 3 Service Worker for SHOBDO offline app shell and fixture data.
+ * @file Stage 4 Service Worker for SHOBDO offline app shell and fixture data.
  */
 
-const APP_VERSION = '0.2.0-stage3';
+const APP_VERSION = '0.3.0-stage4';
 const CACHE_NAME = `shobdo-shell-${APP_VERSION}`;
 
 const SHELL_ASSETS = [
@@ -12,6 +12,7 @@ const SHELL_ASSETS = [
   './src/styles.css',
   './src/main.js',
   './src/search.js',
+  './src/entryView.js',
   './data/dictionary.json',
   './data/attributions.json',
   './icons/icon-192.png',
