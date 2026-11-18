@@ -1,0 +1,24 @@
+{
+  "ipa": { "uk": "/laɪt/", "us": "/laɪt/" },
+  "forms": ["lights", "lit", "lighted"],
+  "s1": {
+    "definition_en": { "text": "Brightness from the sun or a lamp that lets you see." },
+    "explanation_bn": { "text": "সূর্য বা প্রদীপ থেকে আসা উজ্জ্বলতা, যার সাহায্যে আমরা দেখতে পাই।" },
+    "translations": [
+      { "bn": "আলো", "region": "general", "bn_style": "cholito" }
+    ],
+    "examples": [
+      { "en": "Turn on the light.", "bn": "আলোটা জ্বালান।" }
+    ]
+  },
+  "s2": {
+    "definition_en": { "text": "Not heavy; easy to lift or carry." },
+    "explanation_bn": { "text": "যার ওজন খুব কম এবং সহজে তোলা যায়।" },
+    "translations": [
+      { "bn": "হালকা", "region": "general", "bn_style": "cholito" }
+    ],
+    "examples": [
+      { "en": "This bag is very light.", "bn": "এই ব্যাগটা খুব হালকা।" }
+    ]
+  }
+}
