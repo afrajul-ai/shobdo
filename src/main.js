@@ -1,24 +1,31 @@
 /**
- * @file Stage 5 application entry point for SHOBDO (inflected-form & fuzzy search).
+ * @file Stage 6 application entry point for SHOBDO (IndexedDB user data + backup).
  */
 
 import { buildSearchIndex, searchEntries } from './search.js';
 import { renderEntryView } from './entryView.js';
+import {
+  clearHistory,
+  exportAllUserData,
+  importUserData,
+  listBookmarks,
+  listHistory,
+  listVocabulary,
+  recordHistory
+} from './storage.js';
 
 /** @type {'test'} */
 const BUILD_MODE = 'test';
 
 /** @type {string} */
-const APP_VERSION = '0.4.0-stage5';
+const APP_VERSION = '0.5.0-stage6';
 
 /**
  * Register the Service Worker for offline caching.
  * @returns {Promise<ServiceWorkerRegistration | null>}
  */
 async function registerServiceWorker() {
-  if (!('serviceWorker' in navigator)) {
-    return null;
-  }
+  if (!('serviceWorker' in navigator)) return null;
   try {
     return await navigator.serviceWorker.register('./sw.js', { scope: './' });
   } catch (error) {
@@ -33,9 +40,7 @@ async function registerServiceWorker() {
  */
 async function loadFixtures() {
   const response = await fetch('./data/dictionary.json');
-  if (!response.ok) {
-    throw new Error(`Failed to load dictionary.json (${response.status})`);
-  }
+  if (!response.ok) throw new Error(`Failed to load dictionary.json (${response.status})`);
   const payload = await response.json();
   return payload.entries || [];
 }
@@ -46,8 +51,7 @@ async function loadFixtures() {
  * @returns {string}
  */
 function getPrimaryBengali(entry) {
-  const firstSense = entry.senses?.[0];
-  return firstSense?.translations?.[0]?.bn || '';
+  return entry.senses?.[0]?.translations?.[0]?.bn || '';
 }
 
 /**
@@ -73,10 +77,9 @@ function renderSuggestions(results, listEl, onSelect) {
     wordSpan.className = 'suggestion-word';
     wordSpan.textContent = entry.headword;
 
-    const posList = (entry.senses || []).map((s) => s.pos).join(', ');
     const posSpan = document.createElement('span');
     posSpan.className = 'suggestion-pos';
-    posSpan.textContent = posList;
+    posSpan.textContent = (entry.senses || []).map((s) => s.pos).join(', ');
 
     left.append(wordSpan, posSpan);
 
@@ -120,15 +123,11 @@ function renderSuggestions(results, listEl, onSelect) {
  */
 async function renderDebugPanel(registration, entryCount) {
   const params = new URLSearchParams(window.location.search);
-  if (params.get('debug') !== '1') {
-    return;
-  }
+  if (params.get('debug') !== '1') return;
 
   const panelEl = document.getElementById('debug-panel');
   const outputEl = document.getElementById('debug-output');
-  if (!panelEl || !outputEl) {
-    return;
-  }
+  if (!panelEl || !outputEl) return;
 
   panelEl.hidden = false;
 
@@ -160,10 +159,10 @@ async function renderDebugPanel(registration, entryCount) {
 }
 
 /**
- * Initialize Stage 5 search and entry UI.
+ * Initialize Stage 6 UI and IndexedDB handlers.
  * @returns {Promise<void>}
  */
-async function initStage5() {
+async function initStage6() {
   const statusEl = document.getElementById('app-status');
   const versionEl = document.getElementById('app-version');
   const searchSection = document.getElementById('search-section');
@@ -173,20 +172,31 @@ async function initStage5() {
   const listEl = document.getElementById('suggestions-list');
   const entryViewEl = document.getElementById('entry-view');
 
-  if (!statusEl || !versionEl || !searchSection || !searchInput || !clearBtn || !metaEl || !listEl || !entryViewEl) {
-    return;
-  }
+  const panelBookmarks = document.getElementById('panel-bookmarks');
+  const panelVocabulary = document.getElementById('panel-vocabulary');
+  const panelHistory = document.getElementById('panel-history');
+  const panelBackup = document.getElementById('panel-backup');
+  const bookmarksList = document.getElementById('bookmarks-list');
+  const vocabularyList = document.getElementById('vocabulary-list');
+  const historyList = document.getElementById('history-list');
+  const clearHistoryBtn = document.getElementById('clear-history-btn');
+  const exportBtn = document.getElementById('export-btn');
+  const importInput = document.getElementById('import-input');
+  const backupStatus = document.getElementById('backup-status');
+  const tabButtons = document.querySelectorAll('.tab-btn');
 
   versionEl.textContent = `Version: ${APP_VERSION} (${BUILD_MODE} mode)`;
   const registration = await registerServiceWorker();
 
   let index = [];
+  const entriesById = new Map();
   try {
     const entries = await loadFixtures();
+    entries.forEach((e) => entriesById.set(e.id, e));
     index = buildSearchIndex(entries);
     metaEl.textContent = `${entries.length} fixture entries ready. Type to search.`;
     statusEl.textContent = registration
-      ? 'Offline dictionary ready.'
+      ? 'Offline dictionary & local storage ready.'
       : 'Dictionary ready (no Service Worker).';
     await renderDebugPanel(registration, entries.length);
   } catch (err) {
@@ -195,14 +205,89 @@ async function initStage5() {
     return;
   }
 
-  const showEntry = (entry) => {
+  let activeTab = 'search';
+
+  const hideAllPanels = () => {
     searchSection.hidden = true;
-    entryViewEl.hidden = false;
-    renderEntryView(entryViewEl, entry, () => {
-      entryViewEl.hidden = true;
-      searchSection.hidden = false;
-    });
+    panelBookmarks.hidden = true;
+    panelVocabulary.hidden = true;
+    panelHistory.hidden = true;
+    panelBackup.hidden = true;
+    entryViewEl.hidden = true;
   };
+
+  const showEntry = async (entry, fromSearchQuery = '') => {
+    if (fromSearchQuery) {
+      await recordHistory(fromSearchQuery);
+    }
+    hideAllPanels();
+    entryViewEl.hidden = false;
+    await renderEntryView(entryViewEl, entry, () => switchTab(activeTab));
+  };
+
+  const renderSavedList = (ulEl, items, formatRight, onClickItem) => {
+    ulEl.innerHTML = '';
+    for (const item of items) {
+      const li = document.createElement('li');
+      li.className = 'suggestion-item';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'suggestion-btn';
+      const left = document.createElement('span');
+      left.className = 'suggestion-word';
+      left.textContent = item.headword || item.query;
+      const right = document.createElement('span');
+      right.className = 'suggestion-pos';
+      right.textContent = formatRight(item);
+      btn.append(left, right);
+      btn.addEventListener('click', () => onClickItem(item));
+      li.appendChild(btn);
+      ulEl.appendChild(li);
+    }
+  };
+
+  const switchTab = async (tabName) => {
+    activeTab = tabName;
+    tabButtons.forEach((b) => b.classList.toggle('active', b.dataset.tab === tabName));
+    hideAllPanels();
+
+    if (tabName === 'search') {
+      searchSection.hidden = false;
+    } else if (tabName === 'bookmarks') {
+      panelBookmarks.hidden = false;
+      const items = await listBookmarks();
+      renderSavedList(bookmarksList, items, () => 'Open →', (item) => {
+        const entry = entriesById.get(item.id);
+        if (entry) showEntry(entry);
+      });
+    } else if (tabName === 'vocabulary') {
+      panelVocabulary.hidden = false;
+      const items = await listVocabulary();
+      renderSavedList(
+        vocabularyList,
+        items,
+        (item) => (item.tags?.length ? item.tags.join(', ') : 'Note'),
+        (item) => {
+          const entry = entriesById.get(item.id);
+          if (entry) showEntry(entry);
+        }
+      );
+    } else if (tabName === 'history') {
+      panelHistory.hidden = false;
+      const items = await listHistory();
+      renderSavedList(historyList, items, () => 'Search →', (item) => {
+        searchInput.value = item.query;
+        switchTab('search');
+        handleSearch();
+      });
+    } else if (tabName === 'backup') {
+      panelBackup.hidden = false;
+    }
+  };
+
+  tabButtons.forEach((btn) => {
+    btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+  });
 
   const handleSearch = () => {
     const query = searchInput.value;
@@ -216,7 +301,7 @@ async function initStage5() {
 
     const { results, durationMs } = searchEntries(index, query);
     metaEl.textContent = `${results.length} match${results.length === 1 ? '' : 'es'} in ${durationMs.toFixed(2)} ms`;
-    renderSuggestions(results, listEl, showEntry);
+    renderSuggestions(results, listEl, (entry) => showEntry(entry, query));
   };
 
   searchInput.addEventListener('input', handleSearch);
@@ -225,6 +310,36 @@ async function initStage5() {
     handleSearch();
     searchInput.focus();
   });
+
+  clearHistoryBtn.addEventListener('click', async () => {
+    await clearHistory();
+    switchTab('history');
+  });
+
+  exportBtn.addEventListener('click', async () => {
+    const data = await exportAllUserData();
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `shobdo-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    backupStatus.textContent = `Exported ${data.bookmarks.length} bookmarks, ${data.vocabulary.length} notes, ${data.history.length} history items.`;
+  });
+
+  importInput.addEventListener('change', async () => {
+    const file = importInput.files?.[0];
+    if (!file) return;
+    try {
+      const parsed = JSON.parse(await file.text());
+      const counts = await importUserData(parsed);
+      backupStatus.textContent = `Restored ${counts.bookmarks} bookmarks, ${counts.vocabulary} notes, ${counts.history} history items.`;
+    } catch (err) {
+      backupStatus.textContent = `Import failed: ${err.message}`;
+    }
+    importInput.value = '';
+  });
 }
 
-initStage5();
+initStage6();
