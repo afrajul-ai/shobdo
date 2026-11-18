@@ -1,5 +1,5 @@
 /**
- * @file Stage 2 build and rights-enforcement script for SHOBDO.
+ * @file Stage 2+ build, governance-gate, provenance, and external-request enforcement script.
  * Zero external dependencies. Supports --mode=test|release and --out=<dir>.
  */
 
@@ -28,14 +28,29 @@ const SENSE_CONTENT_FIELDS = [
   'usage_note'
 ];
 
-/**
- * Validate a single resolved rights object against audit register and build mode.
- * @param {object | null} rights
- * @param {string} contextLabel
- * @param {Map<string, object>} auditMap
- * @param {'test' | 'release'} mode
- * @returns {void}
- */
+function assertReleaseGovernance(rootDir) {
+  const govPath = path.join(rootDir, 'docs', 'governance.json');
+  if (!fs.existsSync(govPath)) {
+    throw new Error('Release blocked: missing docs/governance.json');
+  }
+  const gov = JSON.parse(fs.readFileSync(govPath, 'utf8'));
+  if (gov.D1_data_source_approved !== true) {
+    throw new Error('Release blocked: D1 (data source & LA-1 audit) is not approved');
+  }
+  if (gov.D7_reviewers_registered !== true) {
+    throw new Error('Release blocked: D7 (qualified reviewers) is not registered');
+  }
+  if (gov.D10_licences_approved !== true) {
+    throw new Error('Release blocked: D10 (code/data licences) is not approved');
+  }
+  if (gov.release_enabled !== true) {
+    throw new Error('Release blocked: release_enabled is false in docs/governance.json');
+  }
+  if (!fs.existsSync(path.join(rootDir, 'LICENSE'))) {
+    throw new Error('Release blocked: LICENSE file missing (D10/G6)');
+  }
+}
+
 function validateRights(rights, contextLabel, auditMap, mode) {
   if (!rights || typeof rights !== 'object') {
     throw new Error(`Missing rights on ${contextLabel}`);
@@ -46,6 +61,27 @@ function validateRights(rights, contextLabel, auditMap, mode) {
   if (mode === 'release' && rights.class === 'fixture') {
     throw new Error(`Fixture rights class is forbidden in release mode (${contextLabel})`);
   }
+
+  if (rights.class === 'original') {
+    if (!rights.author_id || typeof rights.author_id !== 'string') {
+      throw new Error(`Original field missing author_id on ${contextLabel}`);
+    }
+    if (rights.authoring_method !== 'independent') {
+      throw new Error(
+        `Original field must have authoring_method "independent" (got "${rights.authoring_method}") on ${contextLabel}`
+      );
+    }
+    if (rights.origin !== 'human' && rights.origin !== 'ai_assisted') {
+      throw new Error(`Original field has invalid origin "${rights.origin}" on ${contextLabel}`);
+    }
+    if (rights.origin === 'ai_assisted' && (!rights.ai_model || !rights.prompt_id)) {
+      throw new Error(`AI-assisted original field missing ai_model or prompt_id on ${contextLabel}`);
+    }
+    if (rights.contributor_permission !== true) {
+      throw new Error(`Original field missing contributor_permission: true on ${contextLabel}`);
+    }
+  }
+
   if (EXTERNAL_CLASSES.has(rights.class)) {
     const audit = auditMap.get(rights.source_id);
     if (!audit) {
@@ -62,41 +98,58 @@ function validateRights(rights, contextLabel, auditMap, mode) {
   }
 }
 
-/**
- * Scan built web files for forbidden external http(s) requests.
- * @param {string} outDir
- * @returns {void}
- */
-function checkNoExternalRequests(outDir) {
-  const targets = ['index.html', 'manifest.json', 'sw.js'];
-  const srcDir = path.join(outDir, 'src');
-  if (fs.existsSync(srcDir)) {
-    for (const file of fs.readdirSync(srcDir)) {
-      if (file.endsWith('.js') || file.endsWith('.css')) {
-        targets.push(path.join('src', file));
-      }
+function walkFiles(dir) {
+  const results = [];
+  if (!fs.existsSync(dir)) return results;
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      results.push(...walkFiles(full));
+    } else {
+      results.push(full);
     }
   }
+  return results;
+}
 
+function stripComments(text) {
+  return text
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/^\s*\/\/.*$/gm, '');
+}
+
+export function checkNoExternalRequests(outDir) {
+  const inspectExts = new Set(['.html', '.js', '.mjs', '.css', '.json', '.webmanifest', '.svg']);
   const urlPattern = /https?:\/\//i;
-  for (const relPath of targets) {
-    const fullPath = path.join(outDir, relPath);
-    if (!fs.existsSync(fullPath)) continue;
-    const content = fs.readFileSync(fullPath, 'utf8');
+
+  for (const fullPath of walkFiles(outDir)) {
+    const ext = path.extname(fullPath).toLowerCase();
+    if (!inspectExts.has(ext)) continue;
+
+    const relPath = path.relative(outDir, fullPath).replace(/\\/g, '/');
+    let content = fs.readFileSync(fullPath, 'utf8');
+
+    if (ext === '.js' || ext === '.mjs' || ext === '.css') {
+      content = stripComments(content);
+    } else if (ext === '.svg') {
+      content = content.replace(/http:\/\/www\.w3\.org\/(2000\/svg|1999\/xlink)/g, '');
+    } else if (relPath === 'data/dictionary.json' || relPath === 'data/attributions.json') {
+      content = content.replace(/"source_url"\s*:\s*"https?:\/\/[^"]*"/g, '"source_url": ""');
+    }
+
     if (urlPattern.test(content)) {
-      throw new Error(`External URL reference found in built file: ${relPath}`);
+      throw new Error(`External URL reference found in built asset: ${relPath}`);
     }
   }
 }
 
-/**
- * Build and validate the SHOBDO site data and static shell.
- * @param {{ rootDir: string, outDir: string, mode: 'test' | 'release', copyStatic?: boolean }} options
- * @returns {{ entryCount: number, attributionCount: number }}
- */
 export function buildSite({ rootDir, outDir, mode, copyStatic = true }) {
   if (mode !== 'test' && mode !== 'release') {
     throw new Error(`Invalid build mode: ${mode}`);
+  }
+
+  if (mode === 'release') {
+    assertReleaseGovernance(rootDir);
   }
 
   const auditPath = path.join(rootDir, 'licenses', 'audit-register.json');
@@ -247,5 +300,5 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href) {
 
   const result = buildSite({ rootDir, outDir, mode, copyStatic: true });
   console.log(`Build succeeded (${mode}): ${result.entryCount} entries.`);
-  }
+}
   
