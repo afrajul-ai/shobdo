@@ -404,3 +404,140 @@ body {
   word-break: break-word;
   font-size: 0.8rem;
 }
+/* Stage 6 Tabs, Bookmarks, Vocabulary, Backup */
+.tab-bar {
+  display: flex;
+  gap: 0.35rem;
+  overflow-x: auto;
+  margin-bottom: 1rem;
+  padding-bottom: 0.25rem;
+}
+
+.tab-btn {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.tab-btn.active {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
+}
+
+.entry-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.entry-topbar .back-btn {
+  margin-bottom: 0;
+}
+
+.bookmark-btn {
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  color: #92400e;
+  border-radius: 8px;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.vocab-box {
+  margin-top: 1rem;
+  padding: 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.vocab-title {
+  margin: 0 0 0.5rem;
+  font-size: 0.95rem;
+}
+
+.vocab-input,
+.vocab-tags-input {
+  width: 100%;
+  padding: 0.55rem 0.65rem;
+  font-family: inherit;
+  font-size: 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+
+.vocab-actions,
+.backup-actions,
+.panel-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.primary-btn {
+  background: var(--accent);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.secondary-btn {
+  background: var(--card-bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.45rem 0.8rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.vocab-saved-msg {
+  font-size: 0.82rem;
+  color: #065f46;
+}
+
+.list-panel h2 {
+  margin: 0 0 0.6rem;
+  font-size: 1.15rem;
+}
+
+.panel-desc {
+  margin: 0 0 0.75rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.saved-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.saved-list:empty::after {
+  content: "Nothing saved yet.";
+  display: block;
+  padding: 0.85rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
