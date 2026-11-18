@@ -1,0 +1,28 @@
+{
+  "ipa": { "uk": "/rʌn/", "us": "/rʌn/" },
+  "forms": ["runs", "ran", "running"],
+  "s1": {
+    "definition_en": { "text": "To move quickly on foot, faster than walking." },
+    "explanation_bn": { "text": "হাঁটার চেয়ে দ্রুত পায়ে এগিয়ে যাওয়া।" },
+    "translations": [{ "bn": "দৌড়ানো", "region": "general", "bn_style": "cholito" }],
+    "examples": [{ "en": "She runs every morning.", "bn": "তিনি প্রতিদিন সকালে দৌড়ান।" }]
+  },
+  "s2": {
+    "definition_en": { "text": "To manage or operate a business, machine, or system." },
+    "explanation_bn": { "text": "কোনো ব্যবসা, যন্ত্র বা ব্যবস্থা পরিচালনা করা।" },
+    "translations": [{ "bn": "চালানো", "region": "general", "bn_style": "cholito" }],
+    "examples": [{ "en": "They run a small bookshop.", "bn": "তাঁরা একটি ছোট বইয়ের দোকান চালান।" }]
+  },
+  "s3": {
+    "definition_en": { "text": "A period of running for exercise or sport." },
+    "explanation_bn": { "text": "ব্যায়াম বা খেলার জন্য একটানা দৌড়।" },
+    "translations": [{ "bn": "দৌড়", "region": "general", "bn_style": "cholito" }],
+    "examples": [{ "en": "He went for a short run.", "bn": "তিনি অল্প সময়ের জন্য দৌড়াতে বেরিয়েছিলেন।" }]
+  },
+  "s4": {
+    "definition_en": { "text": "Of a liquid, to flow steadily." },
+    "explanation_bn": { "text": "তরল পদার্থের একটানা প্রবাহিত হওয়া।" },
+    "translations": [{ "bn": "বয়ে যাওয়া", "region": "general", "bn_style": "cholito" }],
+    "examples": [{ "en": "Cold water ran from the tap.", "bn": "কল থেকে ঠান্ডা জল বয়ে এল।" }]
+  }
+}
