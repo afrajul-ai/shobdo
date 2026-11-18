@@ -1,0 +1,10 @@
+{
+  "ipa": { "uk": "/raɪt/", "us": "/raɪt/" },
+  "forms": ["writes", "wrote", "written", "writing"],
+  "s1": {
+    "definition_en": { "text": "To mark letters, words, or symbols on paper or a screen." },
+    "explanation_bn": { "text": "কাগজে বা পর্দায় অক্ষর, শব্দ বা চিহ্ন অঙ্কন করা।" },
+    "translations": [{ "bn": "লেখা", "region": "general", "bn_style": "cholito" }],
+    "examples": [{ "en": "Please write your name here.", "bn": "দয়া করে এখানে আপনার নাম লিখুন।" }]
+  }
+}
