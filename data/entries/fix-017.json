@@ -1,0 +1,9 @@
+{
+  "id": "fix-017",
+  "headword": "honest",
+  "status": "fixture",
+  "senses": [
+    { "key": "s1", "pos": "adjective" }
+  ],
+  "rights_default": { "class": "fixture" }
+}
