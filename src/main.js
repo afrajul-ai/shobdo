@@ -1,5 +1,5 @@
 /**
- * @file Stage 7 application entry point for SHOBDO (A-Z browse, Settings, About, Privacy).
+ * @file SHOBDO application entry point (reads build mode from dictionary.json).
  */
 
 import { buildSearchIndex, searchEntries } from './search.js';
@@ -18,16 +18,9 @@ import {
   setSetting
 } from './storage.js';
 
-/** @type {'test'} */
-const BUILD_MODE = 'test';
-
 /** @type {string} */
-const APP_VERSION = '0.6.0-stage7';
+const APP_VERSION = '0.6.1-stage7';
 
-/**
- * Register the Service Worker for offline caching.
- * @returns {Promise<ServiceWorkerRegistration | null>}
- */
 async function registerServiceWorker() {
   if (!('serviceWorker' in navigator)) return null;
   try {
@@ -38,33 +31,20 @@ async function registerServiceWorker() {
   }
 }
 
-/**
- * Load dictionary JSON built in Stage 2.
- * @returns {Promise<Array<object>>}
- */
-async function loadFixtures() {
+async function loadDictionaryPayload() {
   const response = await fetch('./data/dictionary.json');
   if (!response.ok) throw new Error(`Failed to load dictionary.json (${response.status})`);
   const payload = await response.json();
-  return payload.entries || [];
+  return {
+    mode: payload.mode === 'release' ? 'release' : 'test',
+    entries: payload.entries || []
+  };
 }
 
-/**
- * Extract the primary Bengali translation for suggestion display.
- * @param {object} entry
- * @returns {string}
- */
 function getPrimaryBengali(entry) {
   return entry.senses?.[0]?.translations?.[0]?.bn || '';
 }
 
-/**
- * Render search suggestions into the DOM.
- * @param {Array<{ entry: object, matchType: string, matchedText: string }>} results
- * @param {HTMLElement} listEl
- * @param {(entry: object) => void} onSelect
- * @returns {void}
- */
 function renderSuggestions(results, listEl, onSelect) {
   listEl.innerHTML = '';
 
@@ -119,13 +99,7 @@ function renderSuggestions(results, listEl, onSelect) {
   }
 }
 
-/**
- * Render ?debug=1 diagnostics panel when requested.
- * @param {ServiceWorkerRegistration | null} registration
- * @param {number} entryCount
- * @returns {Promise<void>}
- */
-async function renderDebugPanel(registration, entryCount) {
+async function renderDebugPanel(registration, entryCount, buildMode) {
   const params = new URLSearchParams(window.location.search);
   if (params.get('debug') !== '1') return;
 
@@ -153,8 +127,8 @@ async function renderDebugPanel(registration, entryCount) {
 
   outputEl.textContent = [
     `Version: ${APP_VERSION}`,
-    `Build mode: ${BUILD_MODE}`,
-    `Loaded fixtures: ${entryCount}`,
+    `Build mode: ${buildMode}`,
+    `Loaded entries: ${entryCount}`,
     `Online: ${navigator.onLine}`,
     `Service Worker: ${swState}`,
     `Caches: ${cacheSummary}`,
@@ -162,11 +136,8 @@ async function renderDebugPanel(registration, entryCount) {
   ].join('\n');
 }
 
-/**
- * Initialize Stage 7 full TP-20 application shell.
- * @returns {Promise<void>}
- */
-async function initStage7() {
+async function initApp() {
+  const testBannerEl = document.getElementById('test-banner');
   const statusEl = document.getElementById('app-status');
   const versionEl = document.getElementById('app-version');
   const searchSection = document.getElementById('search-section');
@@ -206,21 +177,27 @@ async function initStage7() {
   const aboutAttributions = document.getElementById('about-attributions');
   const tabButtons = document.querySelectorAll('.tab-btn');
 
-  versionEl.textContent = `Version: ${APP_VERSION} (${BUILD_MODE} mode)`;
   const registration = await registerServiceWorker();
 
+  let buildMode = 'test';
   let index = [];
   const entriesById = new Map();
   try {
-    const entries = await loadFixtures();
-    entries.forEach((e) => entriesById.set(e.id, e));
-    index = buildSearchIndex(entries);
-    metaEl.textContent = `${entries.length} fixture entries ready. Type to search.`;
+    const payload = await loadDictionaryPayload();
+    buildMode = payload.mode;
+    if (testBannerEl) {
+      testBannerEl.hidden = buildMode === 'release';
+    }
+    versionEl.textContent = `Version: ${APP_VERSION} (${buildMode} mode)`;
+    payload.entries.forEach((e) => entriesById.set(e.id, e));
+    index = buildSearchIndex(payload.entries);
+    metaEl.textContent = `${payload.entries.length} fixture entries ready. Type to search.`;
     statusEl.textContent = registration
       ? 'Offline dictionary & local storage ready.'
       : 'Dictionary ready (no Service Worker).';
-    await renderDebugPanel(registration, entries.length);
+    await renderDebugPanel(registration, payload.entries.length, buildMode);
   } catch (err) {
+    versionEl.textContent = `Version: ${APP_VERSION} (test mode)`;
     metaEl.textContent = `Error loading fixtures: ${err.message}`;
     statusEl.textContent = 'Failed to load fixture data.';
     return;
@@ -394,10 +371,14 @@ async function initStage7() {
     await clearAllUserData();
     if ('caches' in window) {
       const keys = await caches.keys();
-      await Promise.all(keys.map((k) => caches.delete(k)));
+      await Promise.all(keys.filter((k) => k.startsWith('shobdo-')).map((k) => caches.delete(k)));
+    }
+    if ('serviceWorker' in navigator) {
+      const regs = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(regs.map((r) => r.unregister()));
     }
     toggleHistory.checked = true;
-    settingsStatus.textContent = 'All app data and offline caches cleared for this site.';
+    settingsStatus.textContent = 'SHOBDO local data, offline caches, and service worker cleared. Reload to fetch fresh files.';
   });
 
   const handleSearch = () => {
@@ -454,4 +435,5 @@ async function initStage7() {
   });
 }
 
-initStage7();
+initApp();
+                                                                                   
