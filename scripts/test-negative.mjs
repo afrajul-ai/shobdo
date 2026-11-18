@@ -1,21 +1,21 @@
 /**
- * @file Stage 2 negative tests (v0.2.1 Section 3.5).
- * Each deliberately invalid fixture MUST cause buildSite() to throw.
+ * @file Stage 2+ negative & gate tests (v0.2.1 Section 3.5 + Release Governance + Provenance).
  */
 
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { buildSite } from './build.mjs';
+import { buildSite, checkNoExternalRequests } from './build.mjs';
 
-/**
- * Create an isolated temporary project directory for a negative test.
- * @param {string} name
- * @returns {string}
- */
-function makeTempProject(name) {
+function makeTempProject(name, gov = {
+  D1_data_source_approved: false,
+  D7_reviewers_registered: false,
+  D10_licences_approved: false,
+  release_enabled: false
+}) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), `shobdo-neg-${name}-`));
   fs.mkdirSync(path.join(dir, 'licenses'), { recursive: true });
+  fs.mkdirSync(path.join(dir, 'docs'), { recursive: true });
   fs.mkdirSync(path.join(dir, 'data', 'entries'), { recursive: true });
   fs.mkdirSync(path.join(dir, 'data', 'layers', 'fixture'), { recursive: true });
   fs.mkdirSync(path.join(dir, 'data', 'layers', 'original'), { recursive: true });
@@ -26,15 +26,12 @@ function makeTempProject(name) {
       sources: [{ source_id: 'src-wikt', name: 'English Wiktionary', status: 'not_audited' }]
     })
   );
+  if (gov) {
+    fs.writeFileSync(path.join(dir, 'docs', 'governance.json'), JSON.stringify(gov));
+  }
   return dir;
 }
 
-/**
- * Assert that a test case throws an error matching expectedPattern.
- * @param {string} label
- * @param {() => void} fn
- * @param {RegExp} expectedPattern
- */
 function expectFail(label, fn, expectedPattern) {
   let failed = false;
   try {
@@ -47,7 +44,7 @@ function expectFail(label, fn, expectedPattern) {
     console.log(`PASS (failed as intended): ${label} -> ${err.message}`);
   }
   if (!failed) {
-    throw new Error(`[${label}] Expected build to fail, but it succeeded!`);
+    throw new Error(`[${label}] Expected failure, but succeeded!`);
   }
 }
 
@@ -60,13 +57,9 @@ function expectFail(label, fn, expectedPattern) {
   );
   fs.writeFileSync(
     path.join(dir, 'data', 'layers', 'fixture', 'e1.json'),
-    JSON.stringify({ s1: { definition_en: { text: 'Missing rights here.' } } })
+    JSON.stringify({ s1: { definition_en: { text: 'Missing rights.' } } })
   );
-  expectFail(
-    'Missing rights',
-    () => buildSite({ rootDir: dir, outDir: path.join(dir, '_out'), mode: 'test', copyStatic: false }),
-    /Missing rights/i
-  );
+  expectFail('Missing rights', () => buildSite({ rootDir: dir, outDir: path.join(dir, '_out'), mode: 'test', copyStatic: false }), /Missing rights/i);
 }
 
 // 2. Unaudited source
@@ -81,20 +74,16 @@ function expectFail(label, fn, expectedPattern) {
     JSON.stringify({
       s1: {
         definition_en: {
-          text: 'Unaudited external claim.',
+          text: 'Unaudited external.',
           rights: { class: 'wiktionary', source_id: 'src-wikt', audit_ref: 'LA-1' }
         }
       }
     })
   );
-  expectFail(
-    'Unaudited source',
-    () => buildSite({ rootDir: dir, outDir: path.join(dir, '_out'), mode: 'test', copyStatic: false }),
-    /status "not_audited"/i
-  );
+  expectFail('Unaudited source', () => buildSite({ rootDir: dir, outDir: path.join(dir, '_out'), mode: 'test', copyStatic: false }), /status "not_audited"/i);
 }
 
-// 3. Mixed / conflicting layers on the same field
+// 3. Mixed / conflicting layers
 {
   const dir = makeTempProject('mixed-classes');
   fs.writeFileSync(
@@ -107,34 +96,86 @@ function expectFail(label, fn, expectedPattern) {
   );
   fs.writeFileSync(
     path.join(dir, 'data', 'layers', 'original', 'e3.json'),
-    JSON.stringify({ s1: { definition_en: { text: 'B', rights: { class: 'original' } } } })
-  );
-  expectFail(
-    'Mixed/conflicting classes',
-    () => buildSite({ rootDir: dir, outDir: path.join(dir, '_out'), mode: 'test', copyStatic: false }),
-    /Field conflict/i
-  );
-}
-
-// 4. Fixture entry in release mode
-{
-  const dir = makeTempProject('fixture-in-release');
-  fs.writeFileSync(
-    path.join(dir, 'data', 'entries', 'e4.json'),
     JSON.stringify({
-      id: 'e4',
-      headword: 'test',
-      status: 'fixture',
-      senses: [{ key: 's1', pos: 'noun' }],
-      rights_default: { class: 'fixture' }
+      s1: {
+        definition_en: {
+          text: 'B',
+          rights: { class: 'original', author_id: 'a1', authoring_method: 'independent', origin: 'human', contributor_permission: true }
+        }
+      }
     })
   );
-  expectFail(
-    'Fixture in release mode',
-    () => buildSite({ rootDir: dir, outDir: path.join(dir, '_out'), mode: 'release', copyStatic: false }),
-    /forbidden in release mode/i
-  );
+  expectFail('Mixed/conflicting classes', () => buildSite({ rootDir: dir, outDir: path.join(dir, '_out'), mode: 'test', copyStatic: false }), /Field conflict/i);
 }
 
-console.log('All 4 negative tests passed!');
-                                                                              
+// 4. Release fails when D1/D7/D10 are unresolved
+{
+  const dir = makeTempProject('release-blocked-d1');
+  fs.writeFileSync(
+    path.join(dir, 'data', 'entries', 'e4.json'),
+    JSON.stringify({ id: 'e4', headword: 'test', status: 'published', senses: [{ key: 's1', pos: 'noun' }] })
+  );
+  expectFail('Release blocked by unresolved D1', () => buildSite({ rootDir: dir, outDir: path.join(dir, '_out'), mode: 'release', copyStatic: false }), /D1/i);
+}
+
+// 5. Release fails when D7 is false even if D1 & D10 are true
+{
+  const dir = makeTempProject('release-blocked-d7', {
+    D1_data_source_approved: true,
+    D7_reviewers_registered: false,
+    D10_licences_approved: true,
+    release_enabled: true
+  });
+  expectFail('Release blocked by unresolved D7', () => buildSite({ rootDir: dir, outDir: path.join(dir, '_out'), mode: 'release', copyStatic: false }), /D7/i);
+}
+
+// 6. Fixture in release mode fails
+{
+  const dir = makeTempProject('fixture-in-release', {
+    D1_data_source_approved: true,
+    D7_reviewers_registered: true,
+    D10_licences_approved: true,
+    release_enabled: true
+  });
+  fs.writeFileSync(path.join(dir, 'LICENSE'), 'Pending');
+  fs.writeFileSync(
+    path.join(dir, 'data', 'entries', 'e5.json'),
+    JSON.stringify({ id: 'e5', headword: 'test', status: 'fixture', senses: [{ key: 's1', pos: 'noun' }], rights_default: { class: 'fixture' } })
+  );
+  expectFail('Fixture in release mode', () => buildSite({ rootDir: dir, outDir: path.join(dir, '_out'), mode: 'release', copyStatic: false }), /forbidden in release mode/i);
+}
+
+// 7. Original provenance checks
+{
+  const dir = makeTempProject('original-provenance');
+  fs.writeFileSync(
+    path.join(dir, 'data', 'entries', 'e6.json'),
+    JSON.stringify({ id: 'e6', headword: 'test', status: 'draft', senses: [{ key: 's1', pos: 'noun' }] })
+  );
+  fs.writeFileSync(
+    path.join(dir, 'data', 'layers', 'original', 'e6.json'),
+    JSON.stringify({
+      s1: {
+        definition_en: {
+          text: 'Test',
+          rights: { class: 'original', author_id: 'a1', authoring_method: 'edited_from_source', origin: 'human', contributor_permission: true }
+        }
+      }
+    })
+  );
+  expectFail('Original edited_from_source rejected', () => buildSite({ rootDir: dir, outDir: path.join(dir, '_out'), mode: 'test', copyStatic: false }), /independent/i);
+}
+
+// 8. Recursive external-request check catches nested JS fetch, ignores comments
+{
+  const out = fs.mkdtempSync(path.join(os.tmpdir(), 'shobdo-ext-'));
+  fs.mkdirSync(path.join(out, 'src', 'nested'), { recursive: true });
+  fs.writeFileSync(path.join(out, 'src', 'nested', 'ok.js'), '// Docs: https://example.com\nconst x = 1;');
+  checkNoExternalRequests(out);
+
+  fs.writeFileSync(path.join(out, 'src', 'nested', 'bad.js'), 'fetch("https://evil.example/data.json");');
+  expectFail('Nested external fetch rejected', () => checkNoExternalRequests(out), /External URL reference found/i);
+}
+
+console.log('All 8 negative & governance tests passed!');
+                      
