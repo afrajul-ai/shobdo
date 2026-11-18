@@ -1,0 +1,9 @@
+{
+  "id": "fix-005",
+  "headword": "behold",
+  "status": "fixture",
+  "senses": [
+    { "key": "s1", "pos": "verb" }
+  ],
+  "rights_default": { "class": "fixture" }
+}
