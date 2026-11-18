@@ -1,15 +1,15 @@
 /**
- * @file Stage 4 application entry point for SHOBDO (search + full entry screen).
+ * @file Stage 5 application entry point for SHOBDO (inflected-form & fuzzy search).
  */
 
-import { buildPrefixIndex, searchPrefix } from './search.js';
+import { buildSearchIndex, searchEntries } from './search.js';
 import { renderEntryView } from './entryView.js';
 
 /** @type {'test'} */
 const BUILD_MODE = 'test';
 
 /** @type {string} */
-const APP_VERSION = '0.3.0-stage4';
+const APP_VERSION = '0.4.0-stage5';
 
 /**
  * Register the Service Worker for offline caching.
@@ -51,8 +51,8 @@ function getPrimaryBengali(entry) {
 }
 
 /**
- * Render prefix suggestions into the DOM.
- * @param {Array<object>} results
+ * Render search suggestions into the DOM.
+ * @param {Array<{ entry: object, matchType: string, matchedText: string }>} results
  * @param {HTMLElement} listEl
  * @param {(entry: object) => void} onSelect
  * @returns {void}
@@ -60,7 +60,7 @@ function getPrimaryBengali(entry) {
 function renderSuggestions(results, listEl, onSelect) {
   listEl.innerHTML = '';
 
-  for (const entry of results) {
+  for (const { entry, matchType, matchedText } of results) {
     const li = document.createElement('li');
     li.className = 'suggestion-item';
 
@@ -79,6 +79,18 @@ function renderSuggestions(results, listEl, onSelect) {
     posSpan.textContent = posList;
 
     left.append(wordSpan, posSpan);
+
+    if (matchType === 'form') {
+      const hint = document.createElement('span');
+      hint.className = 'match-hint';
+      hint.textContent = `form: ${matchedText}`;
+      left.appendChild(hint);
+    } else if (matchType === 'fuzzy') {
+      const hint = document.createElement('span');
+      hint.className = 'match-hint';
+      hint.textContent = 'similar';
+      left.appendChild(hint);
+    }
 
     const right = document.createElement('span');
     const bnSpan = document.createElement('span');
@@ -148,10 +160,10 @@ async function renderDebugPanel(registration, entryCount) {
 }
 
 /**
- * Initialize Stage 4 search and entry UI.
+ * Initialize Stage 5 search and entry UI.
  * @returns {Promise<void>}
  */
-async function initStage4() {
+async function initStage5() {
   const statusEl = document.getElementById('app-status');
   const versionEl = document.getElementById('app-version');
   const searchSection = document.getElementById('search-section');
@@ -171,7 +183,7 @@ async function initStage4() {
   let index = [];
   try {
     const entries = await loadFixtures();
-    index = buildPrefixIndex(entries);
+    index = buildSearchIndex(entries);
     metaEl.textContent = `${entries.length} fixture entries ready. Type to search.`;
     statusEl.textContent = registration
       ? 'Offline dictionary ready.'
@@ -202,7 +214,7 @@ async function initStage4() {
       return;
     }
 
-    const { results, durationMs } = searchPrefix(index, query);
+    const { results, durationMs } = searchEntries(index, query);
     metaEl.textContent = `${results.length} match${results.length === 1 ? '' : 'es'} in ${durationMs.toFixed(2)} ms`;
     renderSuggestions(results, listEl, showEntry);
   };
@@ -215,4 +227,4 @@ async function initStage4() {
   });
 }
 
-initStage4();
+initStage5();
