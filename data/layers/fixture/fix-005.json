@@ -1,0 +1,15 @@
+{
+  "ipa": { "uk": "/bɪˈhəʊld/", "us": "/bɪˈhoʊld/" },
+  "forms": ["beholds", "beheld", "beholding"],
+  "s1": {
+    "register": "literary",
+    "definition_en": { "text": "To look at or see something remarkable." },
+    "explanation_bn": { "text": "বিস্ময় বা গভীর মনোযোগ সহকারে কোনোকিছু অবলোকন করা।" },
+    "translations": [
+      { "bn": "অবলোকন করা", "region": "general", "bn_style": "sadhu" }
+    ],
+    "examples": [
+      { "en": "Behold the quiet dawn.", "bn": "নীরব প্রভাত নিরীক্ষণ করুন।" }
+    ]
+  }
+}
