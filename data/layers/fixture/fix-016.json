@@ -1,0 +1,17 @@
+{
+  "ipa": { "uk": "/spiːk/", "us": "/spiːk/" },
+  "forms": ["speaks", "spoke", "spoken", "speaking"],
+  "s1": {
+    "definition_en": { "text": "To say words using your voice; to talk to someone." },
+    "explanation_bn": { "text": "মুখের ভাষায় কথা বলা বা মনের ভাব প্রকাশ করা।" },
+    "translations": [{ "bn": "কথা বলা", "region": "general", "bn_style": "cholito" }],
+    "phrases": [
+      {
+        "phrase": "speak up",
+        "meaning_en": "To speak louder so others can hear clearly.",
+        "meaning_bn": "অন্যরা যেন স্পষ্ট শুনতে পান সেজন্য জোরে কথা বলা।"
+      }
+    ],
+    "examples": [{ "en": "Can you speak Bengali?", "bn": "আপনি কি বাংলা বলতে পারেন?" }]
+  }
+}
