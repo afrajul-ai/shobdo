@@ -158,6 +158,205 @@ body {
   border-radius: 4px;
 }
 
+/* Stage 4 Entry Screen */
+.back-btn {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--accent);
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.entry-header {
+  margin-bottom: 1rem;
+}
+
+.entry-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.entry-headword {
+  margin: 0;
+  font-size: 1.75rem;
+}
+
+.entry-ipa {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.4rem;
+}
+
+.ipa-pill {
+  font-size: 0.85rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.15rem 0.5rem;
+}
+
+.entry-translit,
+.entry-forms {
+  margin: 0.4rem 0 0;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+.sense-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.9rem 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.sense-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 0.45rem;
+}
+
+.sense-num {
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.pos-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: #e0e7ff;
+  color: #1e3a8a;
+  padding: 0.12rem 0.45rem;
+  border-radius: 4px;
+}
+
+.register-badge {
+  font-size: 0.75rem;
+  background: #fef3c7;
+  color: #92400e;
+  padding: 0.12rem 0.45rem;
+  border-radius: 4px;
+}
+
+.translations-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.bn-translation {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.sub-tag {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.def-en {
+  margin: 0.25rem 0;
+  font-size: 0.98rem;
+}
+
+.exp-bn {
+  margin: 0.25rem 0 0;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.examples-block {
+  margin-top: 0.65rem;
+  padding-left: 0.75rem;
+  border-left: 3px solid var(--border);
+}
+
+.example-en {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.example-bn {
+  margin: 0.1rem 0 0;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+.phrases-block,
+.relations-block {
+  margin-top: 0.65rem;
+  font-size: 0.88rem;
+}
+
+.phrase-item,
+.rel-line {
+  margin: 0.2rem 0 0;
+}
+
+.usage-note {
+  margin: 0.65rem 0 0;
+  font-size: 0.85rem;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 6px;
+  padding: 0.45rem 0.65rem;
+}
+
+.sources-panel {
+  margin-top: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card-bg);
+  padding: 0.65rem 0.9rem;
+}
+
+.sources-summary {
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.sources-classes {
+  margin: 0.5rem 0;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.sources-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.8rem;
+}
+
+.sources-list li {
+  margin-bottom: 0.25rem;
+}
+
+.rights-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.08rem 0.35rem;
+  border-radius: 4px;
+  background: #e5e7eb;
+}
+
+.rights-fixture {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
 .status-card {
   background-color: var(--card-bg);
   border: 1px solid var(--border);
@@ -166,20 +365,9 @@ body {
   margin-top: 1rem;
 }
 
-.status-card h2 {
-  margin: 0 0 0.5rem;
-  font-size: 1.1rem;
-}
-
 .status-card p {
   margin: 0;
   color: var(--muted);
-}
-
-.preview-note {
-  margin-top: 0.5rem !important;
-  font-size: 0.8rem;
-  font-style: italic;
 }
 
 .version-line {
