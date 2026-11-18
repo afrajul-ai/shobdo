@@ -1,0 +1,9 @@
+{
+  "id": "fix-018",
+  "headword": "happy",
+  "status": "fixture",
+  "senses": [
+    { "key": "s1", "pos": "adjective" }
+  ],
+  "rights_default": { "class": "fixture" }
+}
