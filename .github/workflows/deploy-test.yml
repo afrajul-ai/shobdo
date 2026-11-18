@@ -30,9 +30,6 @@ jobs:
         with:
           node-version: '24'
 
-      - name: Verify Node.js version
-        run: node --version
-
       - name: Run negative rights and audit-gate tests
         run: node scripts/test-negative.mjs
         
