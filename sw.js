@@ -1,8 +1,8 @@
 /**
- * @file Stage 1 Service Worker for SHOBDO offline app shell.
+ * @file Stage 3 Service Worker for SHOBDO offline app shell and fixture data.
  */
 
-const APP_VERSION = '0.1.0-stage1';
+const APP_VERSION = '0.2.0-stage3';
 const CACHE_NAME = `shobdo-shell-${APP_VERSION}`;
 
 const SHELL_ASSETS = [
@@ -11,6 +11,9 @@ const SHELL_ASSETS = [
   './manifest.json',
   './src/styles.css',
   './src/main.js',
+  './src/search.js',
+  './data/dictionary.json',
+  './data/attributions.json',
   './icons/icon-192.png',
   './icons/icon-512.png'
 ];
@@ -59,4 +62,3 @@ self.addEventListener('fetch', (event) => {
     })
   );
 });
-
