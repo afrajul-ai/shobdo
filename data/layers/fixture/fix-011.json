@@ -1,0 +1,17 @@
+{
+  "ipa": { "uk": "/bʊk/", "us": "/bʊk/" },
+  "forms": ["books", "booked", "booking"],
+  "s1": {
+    "definition_en": { "text": "A set of printed or written pages bound together inside a cover." },
+    "explanation_bn": { "text": "মলাটের ভেতর বাঁধানো ছাপা বা লেখা পাতার সমষ্টি।" },
+    "translations": [{ "bn": "বই", "region": "general", "bn_style": "cholito" }],
+    "examples": [{ "en": "I am reading a new book.", "bn": "আমি একটি নতুন বই পড়ছি।" }]
+  },
+  "s2": {
+    "definition_en": { "text": "To arrange to have a seat, room, or ticket kept for you." },
+    "explanation_bn": { "text": "আগে থেকে আসন, ঘর বা টিকিট সংরক্ষণ করা।" },
+    "translations": [{ "bn": "বুক করা", "region": "general", "bn_style": "cholito" }],
+    "usage_note": { "text": "As a verb, 'book' is commonly used for tickets, hotels, and appointments." },
+    "examples": [{ "en": "We booked two train tickets.", "bn": "আমরা দুটি ট্রেনের টিকিট বুক করেছি।" }]
+  }
+}
