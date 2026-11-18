@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1a365d">
   <title>SHOBDO (শব্দ) — Test Build</title>
+  <link rel="manifest" href="./manifest.json">
   <link rel="stylesheet" href="./src/styles.css">
 </head>
 <body>
@@ -18,12 +20,17 @@
     </header>
 
     <section class="status-card" aria-live="polite">
-      <h2>Stage 0 Shell</h2>
+      <h2>Stage 1 Offline Shell</h2>
       <p id="app-status">Initializing…</p>
+      <p id="app-version" class="version-line"></p>
+    </section>
+
+    <section id="debug-panel" class="debug-panel" hidden>
+      <h2>Debug Diagnostics (<code>?debug=1</code>)</h2>
+      <pre id="debug-output">Loading diagnostics…</pre>
     </section>
   </main>
 
   <script type="module" src="./src/main.js"></script>
 </body>
-  </html>
-  
+</html>
