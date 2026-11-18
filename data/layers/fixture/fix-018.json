@@ -1,0 +1,14 @@
+{
+  "ipa": { "uk": "/ˈhæpi/", "us": "/ˈhæpi/" },
+  "forms": ["happier", "happiest"],
+  "s1": {
+    "definition_en": { "text": "Feeling or showing pleasure, joy, or contentment." },
+    "explanation_bn": { "text": "মনে আনন্দ বা সন্তুষ্টি অনুভব করা।" },
+    "translations": [{ "bn": "খুশি", "region": "general", "bn_style": "cholito" }],
+    "relations": {
+      "synonyms": ["glad", "cheerful"],
+      "antonyms": ["sad", "unhappy"]
+    },
+    "examples": [{ "en": "They were happy with the result.", "bn": "তাঁরা ফলাফলে খুশি হয়েছিলেন।" }]
+  }
+}
