@@ -37,6 +37,9 @@ function assertReleaseGovernance(rootDir) {
   if (gov.D1_data_source_approved !== true) {
     throw new Error('Release blocked: D1 (data source & LA-1 audit) is not approved');
   }
+  if (gov.D5_style_guide_approved !== true) {
+    throw new Error('Release blocked: D5 (Bengali style guide SG-0.1) is not approved');
+  }
   if (gov.D7_reviewers_registered !== true) {
     throw new Error('Release blocked: D7 (qualified reviewers) is not registered');
   }
@@ -317,4 +320,5 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href) {
 
   const result = buildSite({ rootDir, outDir, mode, copyStatic: true });
   console.log(`Build succeeded (${mode}): ${result.entryCount} entries.`);
-}
+    }
+  
