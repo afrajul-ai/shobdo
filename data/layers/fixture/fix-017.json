@@ -1,0 +1,11 @@
+{
+  "ipa": { "uk": "/ˈɒnɪst/", "us": "/ˈɑːnɪst/" },
+  "transliteration_bn": "অনেস্ট (approximate)",
+  "s1": {
+    "definition_en": { "text": "Always telling the truth and never stealing or cheating." },
+    "explanation_bn": { "text": "যিনি সর্বদা সত্য কথা বলেন এবং প্রতারণা বা অসৎ কাজ করেন না।" },
+    "translations": [{ "bn": "সৎ", "region": "general", "bn_style": "cholito" }],
+    "usage_note": { "text": "The 'h' is silent, so we say 'an honest person', not 'a honest person'." },
+    "examples": [{ "en": "He gave an honest answer.", "bn": "তিনি একটি সৎ উত্তর দিয়েছেন।" }]
+  }
+}
