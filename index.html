@@ -19,8 +19,31 @@
       <p class="subtitle">English–Bengali Learner's Dictionary</p>
     </header>
 
-    <section class="status-card" aria-live="polite">
-      <h2>Stage 1 Offline Shell</h2>
+    <section class="search-section" aria-label="Dictionary search">
+      <div class="search-box">
+        <input
+          id="search-input"
+          type="search"
+          inputmode="search"
+          autocomplete="off"
+          autocapitalize="none"
+          spellcheck="false"
+          placeholder="Search English word (e.g. light, water, run)…"
+          aria-label="Search English word"
+        >
+        <button id="clear-btn" type="button" class="clear-btn" aria-label="Clear search" hidden>×</button>
+      </div>
+      <p id="search-meta" class="search-meta" aria-live="polite">Loading fixtures…</p>
+      <ul id="suggestions-list" class="suggestions-list" role="listbox" aria-label="Search suggestions"></ul>
+    </section>
+
+    <section id="selected-preview" class="status-card" hidden>
+      <h2 id="preview-title"></h2>
+      <p id="preview-summary"></p>
+      <p class="preview-note">Full entry screen &amp; Sources panel coming in Stage 4.</p>
+    </section>
+
+    <section class="status-card footer-status" aria-live="polite">
       <p id="app-status">Initializing…</p>
       <p id="app-version" class="version-line"></p>
     </section>
