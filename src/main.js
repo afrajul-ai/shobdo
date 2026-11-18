@@ -5,6 +5,7 @@
 import { buildSearchIndex, searchEntries } from './search.js';
 import { renderEntryView } from './entryView.js';
 import { isShobdoRegistration } from './sw-cleanup.js';
+import { getUiLabels } from './ui-mode.js';
 import {
   clearAllUserData,
   clearBookmarksAndVocab,
@@ -20,7 +21,7 @@ import {
 } from './storage.js';
 
 /** @type {string} */
-const APP_VERSION = '0.6.2-stage7';
+const APP_VERSION = '0.6.3-stage7';
 
 async function registerServiceWorker() {
   if (!('serviceWorker' in navigator)) return null;
@@ -46,7 +47,7 @@ function getPrimaryBengali(entry) {
   return entry.senses?.[0]?.translations?.[0]?.bn || '';
 }
 
-function renderSuggestions(results, listEl, onSelect) {
+function renderSuggestions(results, listEl, onSelect, ui) {
   listEl.innerHTML = '';
 
   for (const { entry, matchType, matchedText } of results) {
@@ -86,12 +87,15 @@ function renderSuggestions(results, listEl, onSelect) {
     bnSpan.lang = 'bn';
     bnSpan.textContent = getPrimaryBengali(entry);
 
-    const tag = document.createElement('span');
-    tag.className = 'fixture-tag';
-    tag.textContent = 'FIXTURE';
-    tag.style.marginLeft = '0.4rem';
+    right.append(bnSpan);
+    if (ui.showFixtureBadge(entry)) {
+      const tag = document.createElement('span');
+      tag.className = 'fixture-tag';
+      tag.textContent = 'FIXTURE';
+      tag.style.marginLeft = '0.4rem';
+      right.append(tag);
+    }
 
-    right.append(bnSpan, tag);
     btn.append(left, right);
     btn.addEventListener('click', () => onSelect(entry));
 
@@ -175,32 +179,40 @@ async function initApp() {
   const openPrivacyBtn = document.getElementById('open-privacy-btn');
   const aboutPrivacyBtn = document.getElementById('about-privacy-btn');
   const privacyBackBtn = document.getElementById('privacy-back-btn');
+  const aboutStatusEl = document.getElementById('about-status');
   const aboutAttributions = document.getElementById('about-attributions');
   const tabButtons = document.querySelectorAll('.tab-btn');
 
   const registration = await registerServiceWorker();
 
   let buildMode = 'test';
+  let ui = getUiLabels('test');
   let index = [];
   const entriesById = new Map();
   try {
     const payload = await loadDictionaryPayload();
     buildMode = payload.mode;
+    ui = getUiLabels(buildMode);
+    document.title = ui.pageTitle;
     if (testBannerEl) {
       testBannerEl.hidden = buildMode === 'release';
+    }
+    if (aboutStatusEl) {
+      aboutStatusEl.textContent = ui.aboutStatusText;
     }
     versionEl.textContent = `Version: ${APP_VERSION} (${buildMode} mode)`;
     payload.entries.forEach((e) => entriesById.set(e.id, e));
     index = buildSearchIndex(payload.entries);
-    metaEl.textContent = `${payload.entries.length} fixture entries ready. Type to search.`;
+    metaEl.textContent = ui.entriesReadyText(payload.entries.length);
     statusEl.textContent = registration
       ? 'Offline dictionary & local storage ready.'
       : 'Dictionary ready (no Service Worker).';
     await renderDebugPanel(registration, payload.entries.length, buildMode);
   } catch (err) {
-    versionEl.textContent = `Version: ${APP_VERSION} (test mode)`;
-    metaEl.textContent = `Error loading fixtures: ${err.message}`;
-    statusEl.textContent = 'Failed to load fixture data.';
+    ui = getUiLabels(buildMode);
+    versionEl.textContent = `Version: ${APP_VERSION} (${buildMode} mode)`;
+    metaEl.textContent = ui.loadErrorText(err.message);
+    statusEl.textContent = ui.failedStatusText;
     return;
   }
 
@@ -232,7 +244,7 @@ async function initApp() {
     }
     hideAllPanels();
     entryViewEl.hidden = false;
-    await renderEntryView(entryViewEl, entry, () => switchTab(activeTab));
+    await renderEntryView(entryViewEl, entry, () => switchTab(activeTab), buildMode);
   };
 
   const renderSavedList = (ulEl, items, formatRight, onClickItem) => {
@@ -332,9 +344,9 @@ async function initApp() {
         const att = await res.json();
         aboutAttributions.textContent = att.sources?.length
           ? `Approved external sources: ${att.sources.map((s) => s[0]).join(', ')}`
-          : 'Sources & attributions: No external sources bundled (test fixtures only; LA-1 audit pending).';
+          : ui.attributionsEmptyText;
       } catch {
-        aboutAttributions.textContent = 'Sources & attributions: Pending LA-1 audit.';
+        aboutAttributions.textContent = ui.attributionsEmptyText;
       }
     }
   };
@@ -375,11 +387,10 @@ async function initApp() {
       await Promise.all(keys.filter((k) => k.startsWith('shobdo-')).map((k) => caches.delete(k)));
     }
     if ('serviceWorker' in navigator) {
-    const regs = await navigator.serviceWorker.getRegistrations();
-const ownedRegs = regs.filter((r) =>
-  isShobdoRegistration(r, window.location.href)
-);
-await Promise.all(ownedRegs.map((r) => r.unregister()));
+      const regs = await navigator.serviceWorker.getRegistrations();
+      const ownedRegs = regs.filter((r) => isShobdoRegistration(r, window.location.href));
+      await Promise.all(ownedRegs.map((r) => r.unregister()));
+    }
     toggleHistory.checked = true;
     settingsStatus.textContent = 'SHOBDO local data, offline caches, and service worker cleared. Reload to fetch fresh files.';
   });
@@ -390,13 +401,13 @@ await Promise.all(ownedRegs.map((r) => r.unregister()));
 
     if (!query.trim()) {
       listEl.innerHTML = '';
-      metaEl.textContent = `${index.length} fixture entries ready. Type to search.`;
+      metaEl.textContent = ui.entriesReadyText(index.length);
       return;
     }
 
     const { results, durationMs } = searchEntries(index, query);
     metaEl.textContent = `${results.length} match${results.length === 1 ? '' : 'es'} in ${durationMs.toFixed(2)} ms`;
-    renderSuggestions(results, listEl, (entry) => showEntry(entry, query));
+    renderSuggestions(results, listEl, (entry) => showEntry(entry, query), ui);
   };
 
   searchInput.addEventListener('input', handleSearch);
@@ -439,4 +450,4 @@ await Promise.all(ownedRegs.map((r) => r.unregister()));
 }
 
 initApp();
-                                                                                   
+  
