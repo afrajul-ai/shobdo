@@ -6,6 +6,8 @@
   --banner-bg: #b91c1c;
   --banner-text: #ffffff;
   --card-bg: #f8f9fa;
+  --debug-bg: #111827;
+  --debug-text: #e5e7eb;
 }
 
 * {
@@ -61,5 +63,30 @@ body {
 .status-card p {
   margin: 0;
   color: var(--muted);
+}
+
+.version-line {
+  margin-top: 0.5rem !important;
+  font-size: 0.85rem;
+}
+
+.debug-panel {
+  margin-top: 1rem;
+  background-color: var(--debug-bg);
+  color: var(--debug-text);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.debug-panel h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+}
+
+.debug-panel pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: 0.8rem;
 }
 
