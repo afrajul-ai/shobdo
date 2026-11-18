@@ -1,0 +1,10 @@
+{
+  "id": "fix-019",
+  "headword": "study",
+  "status": "fixture",
+  "senses": [
+    { "key": "s1", "pos": "verb" },
+    { "key": "s2", "pos": "noun" }
+  ],
+  "rights_default": { "class": "fixture" }
+}
