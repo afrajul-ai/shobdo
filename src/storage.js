@@ -219,3 +219,56 @@ export async function importUserData(payload) {
   });
           }
           
+/**
+ * Read a setting value from IndexedDB.
+ * @template T
+ * @param {string} key
+ * @param {T} defaultValue
+ * @returns {Promise<T>}
+ */
+export async function getSetting(key, defaultValue) {
+  const row = await withStore('settings', 'readonly', (s) => s.get(key));
+  return row ? row.value : defaultValue;
+}
+
+/**
+ * Save a setting value in IndexedDB.
+ * @param {string} key
+ * @param {any} value
+ * @returns {Promise<void>}
+ */
+export async function setSetting(key, value) {
+  await withStore('settings', 'readwrite', (s) => s.put({ key, value }));
+}
+
+/**
+ * Clear bookmarks and personal vocabulary stores.
+ * @returns {Promise<void>}
+ */
+export async function clearBookmarksAndVocab() {
+  const db = await openDb();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(['bookmarks', 'vocabulary'], 'readwrite');
+    tx.objectStore('bookmarks').clear();
+    tx.objectStore('vocabulary').clear();
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+/**
+ * Clear all user data stores in IndexedDB.
+ * @returns {Promise<void>}
+ */
+export async function clearAllUserData() {
+  const db = await openDb();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORES, 'readwrite');
+    for (const storeName of STORES) {
+      tx.objectStore(storeName).clear();
+    }
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
