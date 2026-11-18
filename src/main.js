@@ -1,24 +1,28 @@
 /**
- * @file Stage 6 application entry point for SHOBDO (IndexedDB user data + backup).
+ * @file Stage 7 application entry point for SHOBDO (A-Z browse, Settings, About, Privacy).
  */
 
 import { buildSearchIndex, searchEntries } from './search.js';
 import { renderEntryView } from './entryView.js';
 import {
+  clearAllUserData,
+  clearBookmarksAndVocab,
   clearHistory,
   exportAllUserData,
+  getSetting,
   importUserData,
   listBookmarks,
   listHistory,
   listVocabulary,
-  recordHistory
+  recordHistory,
+  setSetting
 } from './storage.js';
 
 /** @type {'test'} */
 const BUILD_MODE = 'test';
 
 /** @type {string} */
-const APP_VERSION = '0.5.0-stage6';
+const APP_VERSION = '0.6.0-stage7';
 
 /**
  * Register the Service Worker for offline caching.
@@ -159,10 +163,10 @@ async function renderDebugPanel(registration, entryCount) {
 }
 
 /**
- * Initialize Stage 6 UI and IndexedDB handlers.
+ * Initialize Stage 7 full TP-20 application shell.
  * @returns {Promise<void>}
  */
-async function initStage6() {
+async function initStage7() {
   const statusEl = document.getElementById('app-status');
   const versionEl = document.getElementById('app-version');
   const searchSection = document.getElementById('search-section');
@@ -172,10 +176,17 @@ async function initStage6() {
   const listEl = document.getElementById('suggestions-list');
   const entryViewEl = document.getElementById('entry-view');
 
+  const panelBrowse = document.getElementById('panel-browse');
+  const azBar = document.getElementById('az-bar');
+  const browseList = document.getElementById('browse-list');
   const panelBookmarks = document.getElementById('panel-bookmarks');
   const panelVocabulary = document.getElementById('panel-vocabulary');
   const panelHistory = document.getElementById('panel-history');
   const panelBackup = document.getElementById('panel-backup');
+  const panelSettings = document.getElementById('panel-settings');
+  const panelAbout = document.getElementById('panel-about');
+  const panelPrivacy = document.getElementById('panel-privacy');
+
   const bookmarksList = document.getElementById('bookmarks-list');
   const vocabularyList = document.getElementById('vocabulary-list');
   const historyList = document.getElementById('history-list');
@@ -183,6 +194,16 @@ async function initStage6() {
   const exportBtn = document.getElementById('export-btn');
   const importInput = document.getElementById('import-input');
   const backupStatus = document.getElementById('backup-status');
+
+  const toggleHistory = document.getElementById('toggle-history');
+  const settingsClearHistory = document.getElementById('settings-clear-history');
+  const settingsClearSaved = document.getElementById('settings-clear-saved');
+  const settingsClearAll = document.getElementById('settings-clear-all');
+  const settingsStatus = document.getElementById('settings-status');
+  const openPrivacyBtn = document.getElementById('open-privacy-btn');
+  const aboutPrivacyBtn = document.getElementById('about-privacy-btn');
+  const privacyBackBtn = document.getElementById('privacy-back-btn');
+  const aboutAttributions = document.getElementById('about-attributions');
   const tabButtons = document.querySelectorAll('.tab-btn');
 
   versionEl.textContent = `Version: ${APP_VERSION} (${BUILD_MODE} mode)`;
@@ -205,19 +226,30 @@ async function initStage6() {
     return;
   }
 
+  toggleHistory.checked = await getSetting('saveHistory', true);
+
   let activeTab = 'search';
+  let activeLetter = 'All';
 
   const hideAllPanels = () => {
-    searchSection.hidden = true;
-    panelBookmarks.hidden = true;
-    panelVocabulary.hidden = true;
-    panelHistory.hidden = true;
-    panelBackup.hidden = true;
-    entryViewEl.hidden = true;
+    [
+      searchSection,
+      panelBrowse,
+      panelBookmarks,
+      panelVocabulary,
+      panelHistory,
+      panelBackup,
+      panelSettings,
+      panelAbout,
+      panelPrivacy,
+      entryViewEl
+    ].forEach((p) => {
+      p.hidden = true;
+    });
   };
 
   const showEntry = async (entry, fromSearchQuery = '') => {
-    if (fromSearchQuery) {
+    if (fromSearchQuery && toggleHistory.checked) {
       await recordHistory(fromSearchQuery);
     }
     hideAllPanels();
@@ -246,6 +278,33 @@ async function initStage6() {
     }
   };
 
+  const renderBrowse = () => {
+    const letters = ['All', ...new Set(index.map((i) => i.key[0]?.toUpperCase()).filter(Boolean))];
+    azBar.innerHTML = '';
+    for (const letter of letters) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = `az-btn${letter === activeLetter ? ' active' : ''}`;
+      btn.textContent = letter;
+      btn.addEventListener('click', () => {
+        activeLetter = letter;
+        renderBrowse();
+      });
+      azBar.appendChild(btn);
+    }
+
+    const filtered = activeLetter === 'All'
+      ? index
+      : index.filter((i) => i.key[0]?.toUpperCase() === activeLetter);
+
+    renderSavedList(
+      browseList,
+      filtered.map((i) => i.entry),
+      (entry) => getPrimaryBengali(entry),
+      (entry) => showEntry(entry)
+    );
+  };
+
   const switchTab = async (tabName) => {
     activeTab = tabName;
     tabButtons.forEach((b) => b.classList.toggle('active', b.dataset.tab === tabName));
@@ -253,6 +312,9 @@ async function initStage6() {
 
     if (tabName === 'search') {
       searchSection.hidden = false;
+    } else if (tabName === 'browse') {
+      panelBrowse.hidden = false;
+      renderBrowse();
     } else if (tabName === 'bookmarks') {
       panelBookmarks.hidden = false;
       const items = await listBookmarks();
@@ -282,11 +344,60 @@ async function initStage6() {
       });
     } else if (tabName === 'backup') {
       panelBackup.hidden = false;
+    } else if (tabName === 'settings') {
+      panelSettings.hidden = false;
+      settingsStatus.textContent = '';
+    } else if (tabName === 'about') {
+      panelAbout.hidden = false;
+      try {
+        const res = await fetch('./data/attributions.json');
+        const att = await res.json();
+        aboutAttributions.textContent = att.sources?.length
+          ? `Approved external sources: ${att.sources.map((s) => s[0]).join(', ')}`
+          : 'Sources & attributions: No external sources bundled (test fixtures only; LA-1 audit pending).';
+      } catch {
+        aboutAttributions.textContent = 'Sources & attributions: Pending LA-1 audit.';
+      }
     }
   };
 
   tabButtons.forEach((btn) => {
     btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+  });
+
+  const openPrivacy = () => {
+    hideAllPanels();
+    panelPrivacy.hidden = false;
+  };
+  openPrivacyBtn.addEventListener('click', openPrivacy);
+  aboutPrivacyBtn.addEventListener('click', openPrivacy);
+  privacyBackBtn.addEventListener('click', () => switchTab(activeTab));
+
+  toggleHistory.addEventListener('change', async () => {
+    await setSetting('saveHistory', toggleHistory.checked);
+    settingsStatus.textContent = toggleHistory.checked
+      ? 'Search history enabled.'
+      : 'Search history paused.';
+  });
+
+  settingsClearHistory.addEventListener('click', async () => {
+    await clearHistory();
+    settingsStatus.textContent = 'Search history cleared.';
+  });
+
+  settingsClearSaved.addEventListener('click', async () => {
+    await clearBookmarksAndVocab();
+    settingsStatus.textContent = 'Bookmarks and vocabulary notes cleared.';
+  });
+
+  settingsClearAll.addEventListener('click', async () => {
+    await clearAllUserData();
+    if ('caches' in window) {
+      const keys = await caches.keys();
+      await Promise.all(keys.map((k) => caches.delete(k)));
+    }
+    toggleHistory.checked = true;
+    settingsStatus.textContent = 'All app data and offline caches cleared for this site.';
   });
 
   const handleSearch = () => {
@@ -301,6 +412,50 @@ async function initStage6() {
 
     const { results, durationMs } = searchEntries(index, query);
     metaEl.textContent = `${results.length} match${results.length === 1 ? '' : 'es'} in ${durationMs.toFixed(2)} ms`;
+    renderSuggestions(results, listEl, (entry) => showEntry(entry, query));
+  };
+
+  searchInput.addEventListener('input', handleSearch);
+  clearBtn.addEventListener('click', () => {
+    searchInput.value = '';
+    handleSearch();
+    searchInput.focus();
+  });
+
+  clearHistoryBtn.addEventListener('click', async () => {
+    await clearHistory();
+    switchTab('history');
+  });
+
+  exportBtn.addEventListener('click', async () => {
+    const data = await exportAllUserData();
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `shobdo-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    backupStatus.textContent = `Exported ${data.bookmarks.length} bookmarks, ${data.vocabulary.length} notes, ${data.history.length} history items.`;
+  });
+
+  importInput.addEventListener('change', async () => {
+    const file = importInput.files?.[0];
+    if (!file) return;
+    try {
+      const parsed = JSON.parse(await file.text());
+      const counts = await importUserData(parsed);
+      toggleHistory.checked = await getSetting('saveHistory', true);
+      backupStatus.textContent = `Restored ${counts.bookmarks} bookmarks, ${counts.vocabulary} notes, ${counts.history} history items.`;
+    } catch (err) {
+      backupStatus.textContent = `Import failed: ${err.message}`;
+    }
+    importInput.value = '';
+  });
+}
+
+initStage7();
+ `${results.length} match${results.length === 1 ? '' : 'es'} in ${durationMs.toFixed(2)} ms`;
     renderSuggestions(results, listEl, (entry) => showEntry(entry, query));
   };
 
