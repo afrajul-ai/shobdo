@@ -1,6 +1,8 @@
 /**
- * @file Stage 4 Dictionary Entry screen renderer with dynamic Sources & Licences panel.
+ * @file Stage 6 Dictionary Entry screen with Bookmark, Vocabulary note, and Sources panel.
  */
+
+import { getVocabNote, isBookmarked, saveVocabNote, toggleBookmark } from './storage.js';
 
 /**
  * Create an element with optional className and textContent.
@@ -52,9 +54,7 @@ function formatRightsSummary(rights) {
 function buildSourcesPanel(entry) {
   const details = document.createElement('details');
   details.className = 'sources-panel';
-
-  const summary = el('summary', 'sources-summary', 'Sources and licences');
-  details.appendChild(summary);
+  details.appendChild(el('summary', 'sources-summary', 'Sources and licences'));
 
   const body = el('div', 'sources-body');
   const classes = entry.entry_rights_summary?.classes || [];
@@ -97,19 +97,75 @@ function buildSourcesPanel(entry) {
 }
 
 /**
+ * Render the Personal Vocabulary Note card for an entry.
+ * @param {object} entry
+ * @returns {Promise<HTMLElement>}
+ */
+async function buildVocabBox(entry) {
+  const box = el('section', 'vocab-box');
+  box.appendChild(el('h3', 'vocab-title', 'Personal Vocabulary Note'));
+
+  const existing = await getVocabNote(entry.id);
+
+  const textarea = document.createElement('textarea');
+  textarea.className = 'vocab-input';
+  textarea.rows = 2;
+  textarea.placeholder = 'Add your own study note or memory tip…';
+  textarea.value = existing?.note || '';
+
+  const tagsInput = document.createElement('input');
+  tagsInput.type = 'text';
+  tagsInput.className = 'vocab-tags-input';
+  tagsInput.placeholder = 'Tags (comma-separated, e.g. exam, verb)';
+  tagsInput.value = (existing?.tags || []).join(', ');
+
+  const actions = el('div', 'vocab-actions');
+  const saveBtn = el('button', 'primary-btn', 'Save note');
+  saveBtn.type = 'button';
+  const msg = el('span', 'vocab-saved-msg', '');
+
+  saveBtn.addEventListener('click', async () => {
+    const tags = tagsInput.value
+      .split(',')
+      .map((t) => t.trim())
+      .filter(Boolean);
+    await saveVocabNote(entry, textarea.value, tags);
+    msg.textContent = textarea.value.trim() || tags.length ? 'Saved on device.' : 'Note cleared.';
+  });
+
+  actions.append(saveBtn, msg);
+  box.append(textarea, tagsInput, actions);
+  return box;
+}
+
+/**
  * Render a full dictionary entry into containerEl.
  * @param {HTMLElement} containerEl
  * @param {object} entry
  * @param {() => void} onBack
- * @returns {void}
+ * @returns {Promise<void>}
  */
-export function renderEntryView(containerEl, entry, onBack) {
+export async function renderEntryView(containerEl, entry, onBack) {
   containerEl.innerHTML = '';
 
-  const backBtn = el('button', 'back-btn', '← Back to search');
+  const topBar = el('div', 'entry-topbar');
+  const backBtn = el('button', 'back-btn', '← Back');
   backBtn.type = 'button';
   backBtn.addEventListener('click', onBack);
-  containerEl.appendChild(backBtn);
+
+  const bmBtn = el('button', 'bookmark-btn', '☆ Bookmark');
+  bmBtn.type = 'button';
+  const bookmarked = await isBookmarked(entry.id);
+  bmBtn.textContent = bookmarked ? '★ Bookmarked' : '☆ Bookmark';
+  bmBtn.setAttribute('aria-pressed', String(bookmarked));
+  bmBtn.addEventListener('click', async () => {
+    const nowSaved = await toggleBookmark(entry);
+    bmBtn.textContent = nowSaved ? '★ Bookmarked' : '☆ Bookmark';
+    bmBtn.setAttribute('aria-pressed', String(nowSaved));
+  });
+
+  topBar.append(backBtn, bmBtn);
+  containerEl.appendChild(topBar);
 
   const header = el('div', 'entry-header');
   const titleRow = el('div', 'entry-title-row');
@@ -195,7 +251,6 @@ export function renderEntryView(containerEl, entry, onBack) {
       phWrap.appendChild(el('strong', 'block-label', 'Phrases:'));
       sense.phrases.forEach((p) => {
         const pLine = el('p', 'phrase-item');
-        pLine.innerHTML = '';
         pLine.appendChild(el('strong', '', `${p.phrase}: `));
         pLine.appendChild(document.createTextNode(`${p.meaning_en} — `));
         const bnSpan = el('span', '', p.meaning_bn);
@@ -218,13 +273,12 @@ export function renderEntryView(containerEl, entry, onBack) {
     }
 
     if (sense.usage_note?.text) {
-      const note = el('p', 'usage-note', `Usage note: ${sense.usage_note.text}`);
-      card.appendChild(note);
+      card.appendChild(el('p', 'usage-note', `Usage note: ${sense.usage_note.text}`));
     }
 
     containerEl.appendChild(card);
   });
 
+  containerEl.appendChild(await buildVocabBox(entry));
   containerEl.appendChild(buildSourcesPanel(entry));
-                                                         }
-    
+}
