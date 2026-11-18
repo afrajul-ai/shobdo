@@ -19,6 +19,14 @@
       <p class="subtitle">English–Bengali Learner's Dictionary</p>
     </header>
 
+    <nav class="tab-bar" aria-label="Main sections">
+      <button type="button" class="tab-btn active" data-tab="search">Search</button>
+      <button type="button" class="tab-btn" data-tab="bookmarks">Bookmarks</button>
+      <button type="button" class="tab-btn" data-tab="vocabulary">Vocabulary</button>
+      <button type="button" class="tab-btn" data-tab="history">History</button>
+      <button type="button" class="tab-btn" data-tab="backup">Backup</button>
+    </nav>
+
     <section id="search-section" class="search-section" aria-label="Dictionary search">
       <div class="search-box">
         <input
@@ -28,13 +36,44 @@
           autocomplete="off"
           autocapitalize="none"
           spellcheck="false"
-          placeholder="Search English word (e.g. light, water, run)…"
+          placeholder="Search English word (e.g. light, went, lght)…"
           aria-label="Search English word"
         >
         <button id="clear-btn" type="button" class="clear-btn" aria-label="Clear search" hidden>×</button>
       </div>
       <p id="search-meta" class="search-meta" aria-live="polite">Loading fixtures…</p>
       <ul id="suggestions-list" class="suggestions-list" role="listbox" aria-label="Search suggestions"></ul>
+    </section>
+
+    <section id="panel-bookmarks" class="list-panel" hidden>
+      <h2>Bookmarks</h2>
+      <ul id="bookmarks-list" class="saved-list"></ul>
+    </section>
+
+    <section id="panel-vocabulary" class="list-panel" hidden>
+      <h2>Personal Vocabulary</h2>
+      <ul id="vocabulary-list" class="saved-list"></ul>
+    </section>
+
+    <section id="panel-history" class="list-panel" hidden>
+      <div class="panel-header-row">
+        <h2>Search History</h2>
+        <button id="clear-history-btn" type="button" class="secondary-btn">Clear history</button>
+      </div>
+      <ul id="history-list" class="saved-list"></ul>
+    </section>
+
+    <section id="panel-backup" class="list-panel" hidden>
+      <h2>Backup &amp; Restore</h2>
+      <p class="panel-desc">All data stays on your device. Export a JSON backup or restore one below.</p>
+      <div class="backup-actions">
+        <button id="export-btn" type="button" class="primary-btn">Export JSON backup</button>
+        <label class="secondary-btn file-label">
+          Import JSON backup
+          <input id="import-input" type="file" accept="application/json,.json" hidden>
+        </label>
+      </div>
+      <p id="backup-status" class="search-meta"></p>
     </section>
 
     <section id="entry-view" class="entry-view" aria-live="polite" hidden></section>
