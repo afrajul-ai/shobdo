@@ -17,4 +17,5 @@
 
 - **Device:** OPPO CPH2617
 - **OS:** Android 15
-- **Browser:** Chrome (exact version pending confirmation)
+- **Browser:** Brave (Chromium `157.0.0.0`; standalone Chrome version still pending confirmation)
+- 
