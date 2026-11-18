@@ -1,0 +1,14 @@
+{
+  "ipa": { "uk": "/ɡəʊ/", "us": "/ɡoʊ/" },
+  "forms": ["goes", "went", "gone", "going"],
+  "s1": {
+    "definition_en": { "text": "To move or travel from one place to another." },
+    "explanation_bn": { "text": "এক স্থান থেকে অন্য স্থানে গমন করা বা চলে যাওয়া।" },
+    "translations": [
+      { "bn": "যাওয়া", "region": "general", "bn_style": "cholito" }
+    ],
+    "examples": [
+      { "en": "We went to school early.", "bn": "আমরা সকালে তাড়াতাড়ি স্কুলে গিয়েছিলাম।" }
+    ]
+  }
+}
