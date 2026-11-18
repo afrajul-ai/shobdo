@@ -1,0 +1,9 @@
+{
+  "id": "fix-002",
+  "headword": "utshob",
+  "status": "fixture",
+  "senses": [
+    { "key": "s1", "pos": "noun" }
+  ],
+  "rights_default": { "class": "fixture" }
+}
