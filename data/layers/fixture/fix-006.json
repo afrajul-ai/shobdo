@@ -1,0 +1,21 @@
+{
+  "ipa": { "uk": "/ɡɪv/", "us": "/ɡɪv/" },
+  "forms": ["gives", "gave", "given", "giving"],
+  "s1": {
+    "definition_en": { "text": "To hand something to someone freely or as a gift." },
+    "explanation_bn": { "text": "কাউকে কোনো কিছু প্রদান করা বা তুলে দেওয়া।" },
+    "translations": [
+      { "bn": "দেওয়া", "region": "general", "bn_style": "cholito" }
+    ],
+    "phrases": [
+      {
+        "phrase": "give up",
+        "meaning_en": "To stop trying to do something.",
+        "meaning_bn": "চেষ্টা ছেড়ে দেওয়া বা হাল ছেড়ে দেওয়া।"
+      }
+    ],
+    "examples": [
+      { "en": "Please give me the book.", "bn": "দয়া করে বইটি আমাকে দিন।" }
+    ]
+  }
+}
