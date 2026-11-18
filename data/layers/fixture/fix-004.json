@@ -1,0 +1,15 @@
+{
+  "ipa": { "uk": "/ˈwɔːtə/", "us": "/ˈwɔːtər/" },
+  "forms": ["waters"],
+  "s1": {
+    "definition_en": { "text": "The clear liquid that falls as rain and fills rivers and seas." },
+    "explanation_bn": { "text": "বৃষ্টি, নদী ও সমুদ্রে থাকা স্বচ্ছ তরল যা পান করা হয়।" },
+    "translations": [
+      { "bn": "জল", "region": "wb", "bn_style": "cholito" },
+      { "bn": "পানি", "region": "bd", "bn_style": "cholito" }
+    ],
+    "examples": [
+      { "en": "Please drink clean water.", "bn": "দয়া করে পরিষ্কার জল পান করুন।" }
+    ]
+  }
+}
