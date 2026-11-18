@@ -1,0 +1,10 @@
+{
+  "id": "fix-008",
+  "headword": "bright",
+  "status": "fixture",
+  "senses": [
+    { "key": "s1", "pos": "adjective" }
+  ],
+  "rights_default": { "class": "fixture" }
+}
+
