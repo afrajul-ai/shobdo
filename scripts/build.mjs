@@ -321,3 +321,4 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   const result = buildSite({ rootDir, outDir, mode, copyStatic: true });
   console.log(`Build succeeded (${mode}): ${result.entryCount} entries.`);
 }
+  
