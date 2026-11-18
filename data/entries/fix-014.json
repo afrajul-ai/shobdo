@@ -1,0 +1,10 @@
+{
+  "id": "fix-014",
+  "headword": "calm",
+  "status": "fixture",
+  "senses": [
+    { "key": "s1", "pos": "adjective" },
+    { "key": "s2", "pos": "verb" }
+  ],
+  "rights_default": { "class": "fixture" }
+}
