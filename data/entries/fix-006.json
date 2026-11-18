@@ -1,0 +1,9 @@
+{
+  "id": "fix-006",
+  "headword": "give",
+  "status": "fixture",
+  "senses": [
+    { "key": "s1", "pos": "verb" }
+  ],
+  "rights_default": { "class": "fixture" }
+}
