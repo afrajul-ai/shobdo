@@ -1,0 +1,10 @@
+{
+  "ipa": { "uk": "/ˈrɪvə/", "us": "/ˈrɪvər/" },
+  "forms": ["rivers"],
+  "s1": {
+    "definition_en": { "text": "A large natural stream of water flowing toward a sea or lake." },
+    "explanation_bn": { "text": "পাহাড় বা উৎস থেকে সাগর বা হ্রদের দিকে বয়ে চলা প্রাকৃতিক জলধারা।" },
+    "translations": [{ "bn": "নদী", "region": "general", "bn_style": "cholito" }],
+    "examples": [{ "en": "The river flows past the village.", "bn": "নদীটি গ্রামের পাশ দিয়ে বয়ে যায়।" }]
+  }
+}
