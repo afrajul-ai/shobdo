@@ -1,0 +1,14 @@
+{
+  "ipa": { "uk": "/ˌkɒnstɪˈtjuːʃən/", "us": "/ˌkɑːnstɪˈtuːʃən/" },
+  "forms": ["constitutions"],
+  "s1": {
+    "definition_en": { "text": "The system of basic laws and principles by which a country is governed." },
+    "explanation_bn": { "text": "একটি রাষ্ট্র বা দেশের শাসনব্যবস্থা পরিচালনার জন্য লিখিত বা অলিখিত মৌলিক আইন ও নীতিমালার সমষ্টি, যা নাগরিকদের মৌলিক অধিকার, সরকারের বিভিন্ন বিভাগের ক্ষমতা এবং পারস্পরিক দায়িত্ব সুস্পষ্টভাবে নির্ধারণ করে দেয়।" },
+    "translations": [
+      { "bn": "সংবিধান", "region": "general", "bn_style": "cholito" }
+    ],
+    "examples": [
+      { "en": "Every citizen should respect the constitution.", "bn": "প্রতিটি নাগরিকের সংবিধানকে সম্মান করা উচিত।" }
+    ]
+  }
+}
