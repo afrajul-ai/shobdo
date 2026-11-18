@@ -25,11 +25,24 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Assemble test site artifact
+      - name: Assemble test site artifact and icons
         run: |
-          mkdir -p _site
-          cp index.html _site/
+          mkdir -p _site/icons
+          cp index.html manifest.json sw.js _site/
           cp -r src _site/
+          python3 -c '
+          import struct, zlib
+          def write_png(path, size, bg=(26, 54, 93), accent=(255, 255, 255)):
+              m = size // 4
+              rows = [b"\x00" + b"".join(bytes(accent if (m <= x < size - m and m <= y < size - m) else bg) for x in range(size)) for y in range(size)]
+              raw = b"".join(rows)
+              chunk = lambda t, d: struct.pack(">I", len(d)) + t + d + struct.pack(">I", zlib.crc32(t + d) & 0xffffffff)
+              ihdr = struct.pack(">IIBBBBB", size, size, 8, 2, 0, 0, 0)
+              with open(path, "wb") as f:
+                  f.write(b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", ihdr) + chunk(b"IDAT", zlib.compress(raw, 9)) + chunk(b"IEND", b""))
+          write_png("_site/icons/icon-192.png", 192)
+          write_png("_site/icons/icon-512.png", 512)
+          '
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -42,3 +55,4 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        
