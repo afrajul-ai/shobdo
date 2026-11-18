@@ -6,7 +6,7 @@
 | D2 | Distribution | PWA on GitHub Pages; Play Store postponed | Provisionally approved |
 | D3 | Storage engine | JSON shards + in-memory index; Cache Storage; IndexedDB for user data | Provisionally approved |
 | D4 | Framework | Plain JavaScript ES modules + JSDoc; no bundler | Provisionally approved |
-| D5 | Bengali dialect and style | West Bengal standard চলিত (`SG-0.1`) | Proposed; needs reviewer sign-off and spelling reference |
+| D5 | Bengali dialect and style | West Bengal standard চলিত (`SG-0.1`) | Proposed; needs reviewer sign-off and spelling reference (enforced as D5_style_guide_approved in docs/governance.json)
 | D6 | Role of AI | Draft only; scorecard governs approval; no external text in prompts before audit | Provisionally approved |
 | D7 | Reviewers | Volunteers; author is never approver; Bengali-reading approver required | **BLOCKED** (publishing disabled until named reviewers registered) |
 | D8 | Analytics | None; privacy notice (Section 8) | Provisionally approved |
