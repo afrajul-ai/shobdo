@@ -29,19 +29,22 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '24'
-          
+
       - name: Verify Node.js version
         run: node --version
 
       - name: Run negative rights and audit-gate tests
         run: node scripts/test-negative.mjs
-        
+
       - name: Run IndexedDB storage transaction tests
         run: node scripts/test-storage.mjs
 
       - name: Run Service Worker cleanup safety tests
         run: node scripts/test-sw-cleanup.mjs
-        
+
+      - name: Run release-mode UI correctness tests
+        run: node scripts/test-ui-mode.mjs
+
       - name: Build test site and validate fixtures
         run: node scripts/build.mjs --mode=test --out=_site
 
