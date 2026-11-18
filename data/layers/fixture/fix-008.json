@@ -1,0 +1,18 @@
+{
+  "ipa": { "uk": "/braɪt/", "us": "/braɪt/" },
+  "forms": ["brighter", "brightest"],
+  "s1": {
+    "definition_en": { "text": "Giving out or reflecting a lot of light; shining." },
+    "explanation_bn": { "text": "প্রচুর আলো ছড়ায় বা ঝলমল করে এমন।" },
+    "translations": [
+      { "bn": "উজ্জ্বল", "region": "general", "bn_style": "cholito" }
+    ],
+    "relations": {
+      "synonyms": ["luminous", "radiant"],
+      "antonyms": ["dim", "dark"]
+    },
+    "examples": [
+      { "en": "The morning sun is bright.", "bn": "সকালের রোদ বেশ উজ্জ্বল।" }
+    ]
+  }
+}
