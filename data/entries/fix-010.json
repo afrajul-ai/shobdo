@@ -1,0 +1,9 @@
+{
+  "id": "fix-010",
+  "headword": "ephemeral",
+  "status": "fixture",
+  "senses": [
+    { "key": "s1", "pos": "adjective" }
+  ],
+  "rights_default": { "class": "fixture" }
+}
