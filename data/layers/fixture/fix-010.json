@@ -1,0 +1,11 @@
+{
+  "ipa": { "uk": "/ɪˈfemərəl/", "us": "/ɪˈfemərəl/" },
+  "s1": {
+    "register": "formal",
+    "definition_en": { "text": "Lasting for only a very short time." },
+    "explanation_bn": { "text": "খুব অল্প সময় স্থায়ী হয় বা দ্রুত মিলিয়ে যায় এমন।" },
+    "translations": [
+      { "bn": "ক্ষণস্থায়ী", "region": "general", "bn_style": "cholito" }
+    ]
+  }
+}
