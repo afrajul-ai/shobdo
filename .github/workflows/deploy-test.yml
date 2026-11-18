@@ -25,11 +25,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Assemble test site artifact and icons
+      - name: Run negative rights and audit-gate tests
+        run: node scripts/test-negative.mjs
+
+      - name: Build test site and validate fixtures
+        run: node scripts/build.mjs --mode=test --out=_site
+
+      - name: Generate PWA icons
         run: |
           mkdir -p _site/icons
-          cp index.html manifest.json sw.js _site/
-          cp -r src _site/
           python3 -c '
           import struct, zlib
           def write_png(path, size, bg=(26, 54, 93), accent=(255, 255, 255)):
