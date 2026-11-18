@@ -21,10 +21,13 @@
 
     <nav class="tab-bar" aria-label="Main sections">
       <button type="button" class="tab-btn active" data-tab="search">Search</button>
+      <button type="button" class="tab-btn" data-tab="browse">A–Z</button>
       <button type="button" class="tab-btn" data-tab="bookmarks">Bookmarks</button>
       <button type="button" class="tab-btn" data-tab="vocabulary">Vocabulary</button>
       <button type="button" class="tab-btn" data-tab="history">History</button>
       <button type="button" class="tab-btn" data-tab="backup">Backup</button>
+      <button type="button" class="tab-btn" data-tab="settings">Settings</button>
+      <button type="button" class="tab-btn" data-tab="about">About</button>
     </nav>
 
     <section id="search-section" class="search-section" aria-label="Dictionary search">
@@ -43,6 +46,12 @@
       </div>
       <p id="search-meta" class="search-meta" aria-live="polite">Loading fixtures…</p>
       <ul id="suggestions-list" class="suggestions-list" role="listbox" aria-label="Search suggestions"></ul>
+    </section>
+
+    <section id="panel-browse" class="list-panel" hidden>
+      <h2>A–Z Browse</h2>
+      <div id="az-bar" class="az-bar" aria-label="Filter by starting letter"></div>
+      <ul id="browse-list" class="saved-list"></ul>
     </section>
 
     <section id="panel-bookmarks" class="list-panel" hidden>
@@ -74,6 +83,50 @@
         </label>
       </div>
       <p id="backup-status" class="search-meta"></p>
+    </section>
+
+    <section id="panel-settings" class="list-panel" hidden>
+      <h2>Settings</h2>
+      <div class="settings-card">
+        <label class="toggle-row">
+          <span>Save search history on this device</span>
+          <input id="toggle-history" type="checkbox" checked>
+        </label>
+      </div>
+      <div class="settings-actions">
+        <button id="settings-clear-history" type="button" class="secondary-btn">Clear search history</button>
+        <button id="settings-clear-saved" type="button" class="secondary-btn">Clear bookmarks &amp; vocabulary</button>
+        <button id="settings-clear-all" type="button" class="danger-btn">Clear everything (app &amp; site data)</button>
+        <button id="open-privacy-btn" type="button" class="secondary-btn">Privacy Notice</button>
+      </div>
+      <p id="settings-status" class="search-meta"></p>
+    </section>
+
+    <section id="panel-about" class="list-panel" hidden>
+      <h2>About SHOBDO (শব্দ)</h2>
+      <div class="status-card">
+        <p><strong>Status:</strong> Technical Pilot (test mode). Licence pending (decisions D1 and D10 unresolved).</p>
+        <p id="about-attributions" class="version-line">Sources &amp; attributions: Pending LA-1 primary-source audit.</p>
+        <p class="version-line"><strong>Report a problem:</strong> Contact via project email or GitHub Issues (note: GitHub Issues are public—do not post personal information).</p>
+        <div style="margin-top: 0.75rem;">
+          <button id="about-privacy-btn" type="button" class="secondary-btn">Read Privacy Notice</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="panel-privacy" class="list-panel" hidden>
+      <div class="panel-header-row">
+        <h2>Privacy Notice (Draft v0.1)</h2>
+        <button id="privacy-back-btn" type="button" class="back-btn">← Back</button>
+      </div>
+      <div class="status-card privacy-card">
+        <p><strong>What SHOBDO collects.</strong> SHOBDO has no accounts, no advertising, no analytics and no tracking cookies. We do not receive your searches, bookmarks, notes or history.</p>
+        <p><strong>What is stored on your phone.</strong> To work offline, SHOBDO stores the dictionary files in your browser's storage for this site. It also stores, on your device only: your bookmarks, vocabulary notes and tags, your search history (you can turn this off), and your settings. This information is not sent to us. You can delete it in Settings, or by clearing the site's data in your browser. If you export your data, the file is plain text; keep it somewhere safe.</p>
+        <p><strong>What happens when you visit the site.</strong> SHOBDO is hosted on GitHub Pages. According to GitHub's documentation, when a GitHub Pages site is visited, the visitor's IP address is logged and stored for security purposes, whether or not the visitor is signed in to GitHub. GitHub may process other technical information as described in the GitHub Privacy Statement. These requests happen when you first open or install the site and when the app checks for dictionary updates (at most once a day while you are online). Using the app offline makes no such requests. Your browser and phone vendor have their own data practices, which we do not control.</p>
+        <p><strong>Reporting a problem.</strong> If you email us, we receive your email address and message. If you use a GitHub issue, what you write and your GitHub username are public. Please do not include personal information.</p>
+        <p><strong>Children.</strong> SHOBDO collects no personal information from anyone, including children.</p>
+        <p><strong>Changes and contact.</strong> Changes are shown by a new version number and date at the top of this notice. Contact: [project contact, to be provided].</p>
+      </div>
     </section>
 
     <section id="entry-view" class="entry-view" aria-live="polite" hidden></section>
