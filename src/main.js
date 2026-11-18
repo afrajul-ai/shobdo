@@ -4,6 +4,7 @@
 
 import { buildSearchIndex, searchEntries } from './search.js';
 import { renderEntryView } from './entryView.js';
+import { isShobdoRegistration } from './sw-cleanup.js';
 import {
   clearAllUserData,
   clearBookmarksAndVocab,
@@ -19,7 +20,7 @@ import {
 } from './storage.js';
 
 /** @type {string} */
-const APP_VERSION = '0.6.1-stage7';
+const APP_VERSION = '0.6.2-stage7';
 
 async function registerServiceWorker() {
   if (!('serviceWorker' in navigator)) return null;
@@ -374,9 +375,11 @@ async function initApp() {
       await Promise.all(keys.filter((k) => k.startsWith('shobdo-')).map((k) => caches.delete(k)));
     }
     if ('serviceWorker' in navigator) {
-      const regs = await navigator.serviceWorker.getRegistrations();
-      await Promise.all(regs.map((r) => r.unregister()));
-    }
+    const regs = await navigator.serviceWorker.getRegistrations();
+const ownedRegs = regs.filter((r) =>
+  isShobdoRegistration(r, window.location.href)
+);
+await Promise.all(ownedRegs.map((r) => r.unregister()));
     toggleHistory.checked = true;
     settingsStatus.textContent = 'SHOBDO local data, offline caches, and service worker cleared. Reload to fetch fresh files.';
   });
