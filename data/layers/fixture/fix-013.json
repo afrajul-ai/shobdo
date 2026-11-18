@@ -1,0 +1,14 @@
+{
+  "ipa": { "uk": "/frend/", "us": "/frend/" },
+  "forms": ["friends"],
+  "s1": {
+    "definition_en": { "text": "A person whom you know well and like, and who likes you." },
+    "explanation_bn": { "text": "এমন একজন মানুষ যাঁর সঙ্গে আপনার স্নেহ ও বিশ্বাসের সম্পর্ক রয়েছে।" },
+    "translations": [{ "bn": "বন্ধু", "region": "general", "bn_style": "cholito" }],
+    "relations": {
+      "synonyms": ["companion", "pal"],
+      "antonyms": ["enemy", "stranger"]
+    },
+    "examples": [{ "en": "She is my closest friend.", "bn": "ও আমার সবচেয়ে কাছের বন্ধু।" }]
+  }
+}
