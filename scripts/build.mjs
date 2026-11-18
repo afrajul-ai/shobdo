@@ -260,45 +260,4 @@ export function buildSite({ rootDir, outDir, mode, copyStatic = true }) {
     builtEntries.push(merged);
   }
 
-  fs.mkdirSync(path.join(outDir, 'data'), { recursive: true });
-  fs.writeFileSync(
-    path.join(outDir, 'data', 'dictionary.json'),
-    JSON.stringify({ mode, entries: builtEntries }, null, 2)
-  );
-  fs.writeFileSync(
-    path.join(outDir, 'data', 'attributions.json'),
-    JSON.stringify({ sources: [...attributions.entries()] }, null, 2)
-  );
-
-  if (copyStatic) {
-    for (const staticFile of ['index.html', 'manifest.json', 'sw.js']) {
-      const src = path.join(rootDir, staticFile);
-      if (fs.existsSync(src)) {
-        fs.copyFileSync(src, path.join(outDir, staticFile));
-      }
-    }
-    const srcFolder = path.join(rootDir, 'src');
-    if (fs.existsSync(srcFolder)) {
-      fs.cpSync(srcFolder, path.join(outDir, 'src'), { recursive: true });
-    }
-    checkNoExternalRequests(outDir);
-  }
-
-  return { entryCount: builtEntries.length, attributionCount: attributions.size };
-}
-
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
-  const args = new Map(
-    process.argv.slice(2).map((arg) => {
-      const [k, v] = arg.replace(/^--/, '').split('=');
-      return [k, v];
-    })
-  );
-  const mode = args.get('mode') || 'test';
-  const outDir = path.resolve(args.get('out') || '_site');
-  const rootDir = process.cwd();
-
-  const result = buildSite({ rootDir, outDir, mode, copyStatic: true });
-  console.log(`Build succeeded (${mode}): ${result.entryCount} entries.`);
-      }
-                                           
+      
