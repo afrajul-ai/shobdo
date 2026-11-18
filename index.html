@@ -19,7 +19,7 @@
       <p class="subtitle">English–Bengali Learner's Dictionary</p>
     </header>
 
-    <section class="search-section" aria-label="Dictionary search">
+    <section id="search-section" class="search-section" aria-label="Dictionary search">
       <div class="search-box">
         <input
           id="search-input"
@@ -37,11 +37,7 @@
       <ul id="suggestions-list" class="suggestions-list" role="listbox" aria-label="Search suggestions"></ul>
     </section>
 
-    <section id="selected-preview" class="status-card" hidden>
-      <h2 id="preview-title"></h2>
-      <p id="preview-summary"></p>
-      <p class="preview-note">Full entry screen &amp; Sources panel coming in Stage 4.</p>
-    </section>
+    <section id="entry-view" class="entry-view" aria-live="polite" hidden></section>
 
     <section class="status-card footer-status" aria-live="polite">
       <p id="app-status">Initializing…</p>
