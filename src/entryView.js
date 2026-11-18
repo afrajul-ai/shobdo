@@ -3,6 +3,7 @@
  */
 
 import { getVocabNote, isBookmarked, saveVocabNote, toggleBookmark } from './storage.js';
+import { getUiLabels } from './ui-mode.js';
 
 /**
  * Create an element with optional className and textContent.
@@ -145,7 +146,10 @@ async function buildVocabBox(entry) {
  * @param {() => void} onBack
  * @returns {Promise<void>}
  */
-export async function renderEntryView(containerEl, entry, onBack) {
+export async function renderEntryView(containerEl, entry, onBack, buildMode = 'test') {
+  containerEl.innerHTML = '';
+  const ui = getUiLabels(buildMode);
+  
   containerEl.innerHTML = '';
 
   const topBar = el('div', 'entry-topbar');
@@ -170,7 +174,7 @@ export async function renderEntryView(containerEl, entry, onBack) {
   const header = el('div', 'entry-header');
   const titleRow = el('div', 'entry-title-row');
   titleRow.appendChild(el('h2', 'entry-headword', entry.headword));
-  if (entry.status === 'fixture') {
+  if (ui.showFixtureBadge(entry)) {
     titleRow.appendChild(el('span', 'fixture-tag', 'FIXTURE'));
   }
   header.appendChild(titleRow);
