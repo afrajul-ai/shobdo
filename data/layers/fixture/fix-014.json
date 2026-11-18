@@ -1,0 +1,17 @@
+{
+  "ipa": { "uk": "/kɑːm/", "us": "/kɑːm/" },
+  "forms": ["calmer", "calmest", "calms", "calmed", "calming"],
+  "s1": {
+    "definition_en": { "text": "Peaceful and quiet; not excited, nervous, or angry." },
+    "explanation_bn": { "text": "উত্তেজনা, ভয় বা রাগহীন শান্ত অবস্থা।" },
+    "translations": [{ "bn": "শান্ত", "region": "general", "bn_style": "cholito" }],
+    "examples": [{ "en": "Try to stay calm during the exam.", "bn": "পরীক্ষার সময় শান্ত থাকার চেষ্টা করুন।" }]
+  },
+  "s2": {
+    "definition_en": { "text": "To make someone or something quiet and relaxed." },
+    "explanation_bn": { "text": "কাউকে বা কোনো পরিস্থিতিকে শান্ত করা।" },
+    "translations": [{ "bn": "শান্ত করা", "region": "general", "bn_style": "cholito" }],
+    "usage_note": { "text": "The 'l' in 'calm' is silent in standard pronunciation." },
+    "examples": [{ "en": "Deep breaths help calm the mind.", "bn": "গভীর শ্বাস মনকে শান্ত করতে সাহায্য করে।" }]
+  }
+}
