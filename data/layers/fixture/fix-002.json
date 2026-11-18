@@ -1,0 +1,10 @@
+{
+  "s1": {
+    "definition_en": { "text": "A public celebration or religious festival." },
+    "explanation_bn": { "text": "সকলের আনন্দের মুহূর্ত ও ধর্মীয় বা সামাজিক উৎসব (যুক্তাক্ষর, রেফ ও ৎ পরীক্ষার জন্য)।" },
+    "translations": [
+      { "bn": "উৎসব", "region": "wb", "bn_style": "cholito" },
+      { "bn": "পর্ব", "region": "wb", "bn_style": "cholito" }
+    ]
+  }
+}
