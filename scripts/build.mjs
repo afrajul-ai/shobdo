@@ -1,5 +1,5 @@
 /**
- * @file Stage 2+ build, governance-gate, provenance, attribution, and external-request enforcement script.
+ * @file Stage 2+ build, governance-gate, provenance, attribution, font/licence copy, and external-request enforcement script.
  * Zero external dependencies. Supports --mode=test|release and --out=<dir>.
  */
 
@@ -324,6 +324,16 @@ export function buildSite({ rootDir, outDir, mode, copyStatic = true }) {
     if (fs.existsSync(srcFolder)) {
       fs.cpSync(srcFolder, path.join(outDir, 'src'), { recursive: true });
     }
+    const fontsFolder = path.join(rootDir, 'fonts');
+    if (fs.existsSync(fontsFolder)) {
+      fs.cpSync(fontsFolder, path.join(outDir, 'fonts'), { recursive: true });
+    }
+    const oflSrc = path.join(rootDir, 'licenses', 'src-bn-font', 'OFL-1.1.txt');
+    if (fs.existsSync(oflSrc)) {
+      const oflDestDir = path.join(outDir, 'licenses', 'src-bn-font');
+      fs.mkdirSync(oflDestDir, { recursive: true });
+      fs.copyFileSync(oflSrc, path.join(oflDestDir, 'OFL-1.1.txt'));
+    }
     checkNoExternalRequests(outDir);
   }
 
@@ -343,5 +353,5 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href) {
 
   const result = buildSite({ rootDir, outDir, mode, copyStatic: true });
   console.log(`Build succeeded (${mode}): ${result.entryCount} entries.`);
-  }
-      
+      }
+                                        
