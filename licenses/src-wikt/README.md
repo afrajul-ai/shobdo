@@ -1,19 +1,18 @@
 # LA-1 Audit Report: English Wiktionary (`src-wikt`)
 
-* **Audit Status:** `in_review` (awaiting owner sign-off; zero data imported)
+* **Audit Status:** `approved_with_conditions` (signed off by `afrajul-ai` on `2026-11-19`; zero data imported)
 * **Retrieved On:** 2026-11-19
-* **Primary Licence Archive:** `licenses/src-wikt/WIKTIONARY-COPYRIGHTS-ARCHIVE.md`
+* **Primary Licence Archives:**
+  * `licenses/src-wikt/CC-BY-SA-4.0.txt`
+  * `licenses/src-wikt/WIKTIONARY-COPYRIGHTS-ARCHIVE.md`
 * **Distribution Context:** Public GitHub Pages URL (counts as public "Sharing" under CC BY-SA 4.0)
 
-## Plain-Language Obligations
-1. **Attribution:** Link back to the exact Wiktionary entry URL/revision (`source_url`, `source_revision`), link to CC BY-SA 4.0, retain warranty-disclaimer notices, and indicate modifications (`modified: none | minor | substantial`).
-2. **Share-Alike:** Adapted or translated Wiktionary-derived fields must remain licensed under CC BY-SA 4.0 with no added restrictions.
-3. **Database Rights:** Covered under CC BY-SA 4.0 Section 4 and Wikimedia Terms of Use.
-4. **Exclusions:** Do not import contemporary fair-use quotations, third-party media, or GFDL-only material.
+## Approved Conditions
+1. Elect **CC BY-SA 4.0** only. Exclude GFDL-only pages and revisions.
+2. Every Wiktionary-derived field must record `source_url`, `source_revision`, `modified` (`none | minor | substantial`), `licence_id`, `licence_version`, and `attribution_text`. Display this information through *"Sources and licences"* and `attributions.json`. Preserve creator and copyright notices where supplied; do not invent missing details.
+3. Keep Wiktionary-derived fields under **CC BY-SA 4.0** in `/data/layers/wiktionary/`, strictly separate from `/data/layers/original/` (All rights reserved) and MIT code.
+4. Exclude contemporary fair-use quotations and third-party media.
+5. This is `LA-1` audit sign-off only. No Wiktionary entries are authorised for import yet. `D1`, `D5`, and `D7` release gates remain in place.
 
-## Compatibility with SHOBDO (`D10`)
-* **Original entries (All rights reserved):** Kept strictly separate in `/data/layers/original/`.
-* **Code (MIT):** Kept separate from dictionary data (`LICENSE`).
-
-## Proposed Attribution Wording (For Test If Approved)
+## Proposed Attribution Wording
 `Adapted from English Wiktionary (<source_url>), licensed under CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/).`
