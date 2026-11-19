@@ -1,5 +1,5 @@
 /**
- * @file Stage 2+ build, governance-gate, provenance, and external-request enforcement script.
+ * @file Stage 2+ build, governance-gate, provenance, attribution, and external-request enforcement script.
  * Zero external dependencies. Supports --mode=test|release and --out=<dir>.
  */
 
@@ -98,6 +98,15 @@ function validateRights(rights, contextLabel, auditMap, mode) {
     if (!rights.audit_ref) {
       throw new Error(`Missing audit_ref on external field ${contextLabel}`);
     }
+    if (!rights.attribution_text && !rights.licence_id) {
+      throw new Error(`Missing attribution_text and licence_id on external field ${contextLabel}`);
+    }
+  }
+}
+
+function recordAttribution(resolved, attributions) {
+  if (EXTERNAL_CLASSES.has(resolved.class)) {
+    attributions.set(resolved.source_id, resolved.attribution_text || resolved.licence_id);
   }
 }
 
@@ -215,9 +224,27 @@ export function buildSite({ rootDir, outDir, mode, copyStatic = true }) {
           }
           fieldOwners.set(topField, layerName);
           merged[topField] = layerData[topField];
-          const resolved = layerData[topField]?.rights || entryDefaultRights;
-          validateRights(resolved, `${entryId}.${topField}`, auditMap, mode);
-          classesUsed.add(resolved.class);
+
+          const value = layerData[topField];
+          if (Array.isArray(value)) {
+            if (value.length === 0) {
+              validateRights(entryDefaultRights, `${entryId}.${topField}`, auditMap, mode);
+              classesUsed.add(entryDefaultRights.class);
+              recordAttribution(entryDefaultRights, attributions);
+            } else {
+              value.forEach((item, idx) => {
+                const resolved = (item && typeof item === 'object' ? item.rights : null) || entryDefaultRights;
+                validateRights(resolved, `${entryId}.${topField}[${idx}]`, auditMap, mode);
+                classesUsed.add(resolved.class);
+                recordAttribution(resolved, attributions);
+              });
+            }
+          } else {
+            const resolved = value?.rights || entryDefaultRights;
+            validateRights(resolved, `${entryId}.${topField}`, auditMap, mode);
+            classesUsed.add(resolved.class);
+            recordAttribution(resolved, attributions);
+          }
         }
       }
 
@@ -243,17 +270,13 @@ export function buildSite({ rootDir, outDir, mode, copyStatic = true }) {
               const resolved = item?.rights || senseDefault;
               validateRights(resolved, `${entryId}.${fieldKey}[${idx}]`, auditMap, mode);
               classesUsed.add(resolved.class);
-              if (EXTERNAL_CLASSES.has(resolved.class)) {
-                attributions.set(resolved.source_id, resolved.attribution_text || resolved.licence_id);
-              }
+              recordAttribution(resolved, attributions);
             });
           } else {
             const resolved = value?.rights || senseDefault;
             validateRights(resolved, `${entryId}.${fieldKey}`, auditMap, mode);
             classesUsed.add(resolved.class);
-            if (EXTERNAL_CLASSES.has(resolved.class)) {
-              attributions.set(resolved.source_id, resolved.attribution_text || resolved.licence_id);
-            }
+            recordAttribution(resolved, attributions);
           }
         }
       }
@@ -320,5 +343,5 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href) {
 
   const result = buildSite({ rootDir, outDir, mode, copyStatic: true });
   console.log(`Build succeeded (${mode}): ${result.entryCount} entries.`);
-}
-  
+  }
+      
