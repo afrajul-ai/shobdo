@@ -21,7 +21,7 @@ import {
 } from './storage.js';
 
 /** @type {string} */
-const APP_VERSION = '0.6.3-stage7';
+const APP_VERSION = '0.6.4-stage7';
 
 async function registerServiceWorker() {
   if (!('serviceWorker' in navigator)) return null;
