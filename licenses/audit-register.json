@@ -4,13 +4,21 @@
     {
       "source_id": "src-wikt",
       "name": "English Wiktionary",
-      "status": "not_audited",
-      "licence_snapshot": null,
-      "obligations": [],
-      "compatibility_notes": [],
-      "auditor": null,
+      "status": "in_review",
+      "licence_snapshot": "licenses/src-wikt/WIKTIONARY-COPYRIGHTS-ARCHIVE.md",
+      "obligations": [
+        "Attribution with link to exact Wiktionary page/revision and CC BY-SA 4.0",
+        "Indicate if changes were made (modified: none | minor | substantial)",
+        "Share-Alike: Wiktionary-derived fields remain under CC BY-SA 4.0",
+        "Exclude fair-use quotations, third-party media, and GFDL-only material"
+      ],
+      "compatibility_notes": [
+        "Public GitHub Pages URL triggers CC BY-SA 4.0 Share obligations for Wiktionary-derived fields.",
+        "Original entries (All rights reserved) stay isolated in /data/layers/original/."
+      ],
+      "auditor": "Gemini (LA-1 primary-source retrieval)",
       "signed_off_by": null,
-      "date": null
+      "date": "2026-11-19"
     },
     {
       "source_id": "src-wn30",
@@ -101,4 +109,4 @@
       "date": null
     }
   ]
-}
+    }
