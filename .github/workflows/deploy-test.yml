@@ -33,6 +33,11 @@ jobs:
       - name: Verify Node.js version
         run: node --version
 
+      - name: Run JS syntax regression checks
+        run: |
+          node --check sw.js
+          for f in src/*.js scripts/*.mjs; do node --check "$f"; done
+
       - name: Run negative rights and audit-gate tests
         run: node scripts/test-negative.mjs
 
@@ -48,8 +53,68 @@ jobs:
       - name: Run attribution completeness tests
         run: node scripts/test-attribution.mjs
 
+      - name: Fetch, SHA-256 verify, inspect, and prepare Noto Sans Bengali WOFF2 fonts
+        run: |
+          curl -fsSL -o NotoSansBengali-v3.011.zip \
+            "https://github.com/notofonts/bengali/releases/download/NotoSansBengali-v3.011/NotoSansBengali-v3.011.zip"
+          echo "2aca24bf71665e66c32e14862ee58857dd8b8b07b6321ec7c96f3121ad6683b1  NotoSansBengali-v3.011.zip" | sha256sum -c -
+          mkdir -p _font_tmp fonts
+          unzip -q NotoSansBengali-v3.011.zip -d _font_tmp
+          echo "Archive font files:"
+          find _font_tmp -type f \( -name "*.woff2" -o -name "*.ttf" \) | sort
+          python3 -m pip install --no-cache-dir fonttools==4.55.3 brotli==1.1.0
+          python3 - <<'EOF'
+          import glob, os, shutil
+          from fontTools.ttLib import TTFont, woff2
+
+          def pick_file(pattern):
+              matches = sorted(glob.glob(f"_font_tmp/**/{pattern}", recursive=True))
+              for pref in ("hinted", "full", "unhinted"):
+                  for m in matches:
+                      if pref in m:
+                          return m
+              return matches[0] if matches else None
+
+          for weight in ("Regular", "Bold"):
+              out_woff2 = f"fonts/NotoSansBengali-{weight}.woff2"
+              src_woff2 = pick_file(f"NotoSansBengali-{weight}.woff2")
+              if src_woff2:
+                  print(f"Using upstream WOFF2: {src_woff2}")
+                  shutil.copyfile(src_woff2, out_woff2)
+              else:
+                  src_ttf = pick_file(f"NotoSansBengali-{weight}.ttf")
+                  if not src_ttf:
+                      raise SystemExit(f"Missing NotoSansBengali-{weight} font in archive")
+                  print(f"Converting TTF to WOFF2 (fonttools 4.55.3 + brotli 1.1.0): {src_ttf}")
+                  woff2.compress(src_ttf, out_woff2)
+
+              font = TTFont(out_woff2)
+              cmap = font.getBestCmap() or {}
+              required = {
+                  0x0995: "ক", 0x0996: "খ", 0x09A4: "ত", 0x09AF: "য",
+                  0x09BE: "া", 0x09BF: "ি", 0x09C1: "ু", 0x09C7: "ে",
+                  0x09CD: "্ (virama)", 0x09CE: "ৎ", 0x09BC: "় (nukta)",
+                  0x0964: "। (daari)", 0x09E6: "০", 0x09EF: "৯"
+              }
+              missing = [f"U+{cp:04X} ({name})" for cp, name in required.items() if cp not in cmap]
+              if missing:
+                  raise SystemExit(f"{out_woff2} missing Bengali codepoints: {missing}")
+              for tbl in ("GSUB", "GPOS"):
+                  if tbl not in font:
+                      raise SystemExit(f"{out_woff2} missing OpenType {tbl} table")
+              print(f"Verified {out_woff2}: {os.path.getsize(out_woff2)} bytes, GSUB+GPOS present, all required Bengali glyphs present.")
+          EOF
+          rm -rf _font_tmp NotoSansBengali-v3.011.zip
+
       - name: Build test site and validate fixtures
         run: node scripts/build.mjs --mode=test --out=_site
+
+      - name: Verify bundled fonts and OFL-1.1 licence in _site
+        run: |
+          test -s _site/fonts/NotoSansBengali-Regular.woff2
+          test -s _site/fonts/NotoSansBengali-Bold.woff2
+          test -s _site/licenses/src-bn-font/OFL-1.1.txt
+          echo "Verified _site/fonts/*.woff2 and _site/licenses/src-bn-font/OFL-1.1.txt"
 
       - name: Generate PWA icons
         run: |
@@ -79,3 +144,4 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        
