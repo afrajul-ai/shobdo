@@ -1,18 +1,20 @@
 # Primary-Source Licence Archive: English Wiktionary (`src-wikt`)
 
 * **Snapshot Date:** 2026-11-19
+* **Archived Full CC BY-SA 4.0 Text:** `licenses/src-wikt/CC-BY-SA-4.0.txt`
 * **Canonical Policy URLs:**
-  * `https://en.wiktionary.org/wiki/Wiktionary:Copyrights`
-  * `https://en.wiktionary.org/wiki/Wiktionary:Text_of_Creative_Commons_Attribution-ShareAlike_4.0_International_License`
-  * `https://foundation.wikimedia.org/wiki/Policy:Terms_of_Use`
-  * `https://creativecommons.org/licenses/by-sa/4.0/legalcode.en`
+  * `https://en.wiktionary.org/wiki/Wiktionary:Copyrights` (retrieved 2026-11-19)
+  * `https://en.wiktionary.org/wiki/Wiktionary:Text_of_Creative_Commons_Attribution-ShareAlike_4.0_International_License` (retrieved 2026-11-19)
+  * `https://foundation.wikimedia.org/wiki/Policy:Terms_of_Use` (retrieved 2026-11-19)
+  * `https://creativecommons.org/licenses/by-sa/4.0/legalcode.txt` (retrieved 2026-11-19)
 
-## Archived Terms Summary (Retrieved Directly from Primary Sources)
-1. **Dual Licensing (Wiktionary:Copyrights & Wikimedia ToU §7):**
-   "Permission is granted to copy, distribute and/or modify the text of all Wiktionary entries under the terms of the Creative Commons Attribution-ShareAlike 4.0 International License, and the GNU Free Documentation License, Version 1.1 or any later version published by the Free Software Foundation; with no Invariant Sections, with no Front-Cover Texts, and with no Back-Cover Texts."
-2. **External / Fair-Use Exceptions (Wiktionary:Copyrights):**
-   Entries may include text (e.g., contemporary-author quotations used under fair use), images, or sounds from external sources with different copyright terms; copyright holders of that material retain their rights.
-3. **CC BY-SA 4.0 Core Conditions (§3 & §4):**
-   * **Attribution (§3(a)):** Provide creator/contributor credit (via link to the Wiktionary page/revision history), copyright/disclaimer notices, license link, and modification indicator.
-   * **Share-Alike (§3(b)):** Distribute Adapted Material under CC BY-SA 4.0 (or a BY-SA Compatible License) with no effective technological measures.
-   * **Sui Generis Database Rights (§4):** Licensed/waived under CC BY-SA 4.0 and Wikimedia ToU.
+## CC BY-SA 4.0 vs. GFDL Distinction
+1. **CC BY-SA 4.0 (Primary Election for SHOBDO):**
+   * Grants worldwide, royalty-free reuse, adaptation, and redistribution (including offline JSON shards) under Attribution (§3(a)) and ShareAlike (§3(b)), and covers Sui Generis Database Rights (§4).
+   * SHOBDO elects to comply with **CC BY-SA 4.0** (full text archived in `licenses/src-wikt/CC-BY-SA-4.0.txt`).
+2. **GFDL (GNU Free Documentation License — Not Elected):**
+   * Wiktionary's dual license also includes GFDL (unversioned, no Invariant Sections, no Front/Back-Cover Texts).
+   * GFDL requires a GFDL "transparent copy" (wiki text) and GFDL licensing of derivatives. SHOBDO does **not** elect GFDL and must **exclude** any older/imported Wiktionary text marked GFDL-only (not dual-licensed under CC BY-SA 4.0).
+3. **External / Fair-Use Exceptions:**
+   * Per `Wiktionary:Copyrights`, embedded contemporary-author quotations or third-party media used under "fair use" or special permission are **not** CC BY-SA 4.0 and must be excluded from SHOBDO.
+   
