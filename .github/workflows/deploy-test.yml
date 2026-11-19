@@ -45,6 +45,9 @@ jobs:
       - name: Run release-mode UI correctness tests
         run: node scripts/test-ui-mode.mjs
 
+      - name: Run attribution completeness tests
+        run: node scripts/test-attribution.mjs
+
       - name: Build test site and validate fixtures
         run: node scripts/build.mjs --mode=test --out=_site
 
