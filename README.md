@@ -1,8 +1,50 @@
 # SHOBDO (শব্দ)
 
-An offline-first, learner-focused English-to-Bengali and Bengali-to-English dictionary Progressive Web App (PWA).
+An offline-first, learner-focused English-to-Bengali and Bengali-to-English dictionary Progressive Web App (PWA), built under **PRD and Technical Specification v0.2.1**.
 
-**Status:** Stage 0 — Empty `test` deployment shell.
-**Licence:** Licence pending (decisions D1 and D10 are unresolved; no code or data licence is declared yet).
+* **Current version:** `v0.6.3-stage7` (`test` build mode only; `"TEST DATA, NOT VERIFIED"` banner active)
+* **Technical Pilot (`TP-20`):** Stages 0–7 implemented and awaiting formal owner/reviewer sign-off
+* **Licence:** **Licence pending** (`D1` and `D10` are unresolved; no `LICENSE` file or data licence is declared yet per Gate `G6`)
+* **Privacy Notice:** Draft (`docs/privacy-notice.md` v0.1; pending legal review and project contact point)
 
-See `docs/DECISIONS.md` for current architectural and governance statuses.
+## Implemented Features (Stages 0–7)
+* Zero-bundler plain JavaScript ES modules + JSDoc, Cache Storage, and IndexedDB
+* Installable offline PWA (`manifest.json`, `sw.js`, CI-generated PNG icons, `?debug=1` diagnostics)
+* Layered data build & fail-closed governance gates (`scripts/build.mjs`, `docs/governance.json`, `licenses/audit-register.json`)
+* 20 `TP-20` illustrative `fixture` entries (`fix-001` to `fix-020`)
+* Offline search (`src/search.js`): exact, prefix, inflected-form, and fuzzy matching
+* Dictionary Entry screen (`src/entryView.js`) with dynamic *"Sources and licences"* panel
+* Local persistence (`src/storage.js`): Bookmarks, Personal Vocabulary notes/tags, Search History, JSON Export/Import
+* A–Z Browse, Settings (scoped SHOBDO cache & Service Worker cleanup), About shell, and Draft Privacy Notice view
+
+## Tested Features
+* **CI (`Node.js 24` via GitHub Actions):**
+  * `scripts/test-negative.mjs` (10 negative, governance, provenance, and external-request tests)
+  * `scripts/test-storage.mjs` (IndexedDB transaction completion, error, and abort handling)
+  * `scripts/test-sw-cleanup.mjs` (10 Service Worker scope/scriptURL safety test groups)
+  * `scripts/test-ui-mode.mjs` (release-mode UI label & `FIXTURE` badge suppression checks)
+  * `scripts/test-attribution.mjs` (IPA, word-form, and sense attribution checks)
+  * `scripts/build.mjs --mode=test --out=_site` (20 fixtures validated, zero external requests)
+* **Device (`OPPO CPH2617`, `Android 15`, `Brave / Chromium 157.0.0.0`):**
+  * Live `test` deployment, PWA install, Airplane Mode offline reopen, `?debug=1`, search, Entry screen, IndexedDB persistence across restarts, JSON Export/Import, A–Z, Settings, About, and Draft Privacy view
+
+## Awaiting Verification (Before Formal TP-20 Acceptance)
+* Visual sign-off on Bengali Unicode rendering (`utshob`, `constitution`, `behold`) against reference expectations
+* Simulated failed-download update-resilience check
+* Standalone Chrome version confirmation on `OPPO CPH2617` (`B10`)
+* Cleanup of any leftover nested files under `docs/licenses/` from early mobile commits
+
+## Unresolved Governance Decisions
+* **D1:** Primary-source licence audits (`LA-1`) and owner sign-off
+* **D5:** Reviewer sign-off on Bengali Editorial Style Guide (`SG-0.1`) and named West Bengal spelling reference
+* **D7:** Named qualified human reviewers, written criteria, and independence declarations (`G4` blocks release)
+* **D10:** Code, data, and contributor licence approvals (`G6`)
+* **B9:** Privacy-notice legal review and `[project contact]` address
+
+## Not Yet Implemented
+* `EP-100` (100-entry editorial pilot) and `Alpha 300` / `1,000` real dictionary entries
+* Bengali-to-English reverse search (Stage 9) and Bengali alphabetical browsing
+* Bundled Bengali font (pending `LA-1` font licence audit)
+* Production `release` deployment (blocked by `D1`, `D5`, `D7`, `D10`)
+
+See `docs/DECISIONS.md` and `docs/governance.json` for current decision statuses.
