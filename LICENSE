@@ -22,7 +22,8 @@ SOFTWARE.
 
 ---------------------------------------------------------------------------
 NOTE ON DICTIONARY DATA:
+NOTE ON DICTIONARY DATA:
 This MIT License applies ONLY to SHOBDO's software/code. Original dictionary
-data and contributor submissions in /data/layers/original/ are licensed
-separately under CC BY-SA 4.0. External dictionary layers remain gated
-pending LA-1 primary-source audits (Decision D1).
+entries in /data/layers/original/ are All Rights Reserved for now. Any
+Wiktionary-derived fields (if approved under D1/LA-1) remain under
+CC BY-SA 4.0 in their separate /data/layers/wiktionary/ layer.
