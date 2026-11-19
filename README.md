@@ -4,7 +4,9 @@ An offline-first, learner-focused English-to-Bengali and Bengali-to-English dict
 
 * **Current version:** `v0.6.3-stage7` (`test` build mode only; `"TEST DATA, NOT VERIFIED"` banner active)
 * **Technical Pilot (`TP-20`):** Stages 0–7 implemented and awaiting formal owner/reviewer sign-off
-* **Licence:** **Licence pending** (`D1` and `D10` are unresolved; no `LICENSE` file or data licence is declared yet per Gate `G6`)
+* **Code Licence:** MIT License (`LICENSE` — applies to software/code only)
+* **Original Data & Contributor Licence:** CC BY-SA 4.0 (applies to original dictionary content and contributor submissions; external sources remain gated pending `D1` / `LA-1`)
+* 
 * **Privacy Notice:** Draft (`docs/privacy-notice.md` v0.1; pending legal review and project contact point)
 
 ## Implemented Features (Stages 0–7)
