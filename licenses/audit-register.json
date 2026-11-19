@@ -56,13 +56,19 @@
     {
       "source_id": "src-bn-font",
       "name": "Bengali font to be bundled",
-      "status": "not_audited",
-      "licence_snapshot": null,
-      "obligations": [],
-      "compatibility_notes": [],
-      "auditor": null,
+      "status": "in_review",
+      "licence_snapshot": "licenses/src-bn-font/README.md",
+      "obligations": [
+        "Self-host font files locally (no external CDN requests)",
+        "Retain upstream copyright notice and full SIL OFL 1.1 licence text",
+        "Do not sell font standalone or misuse Reserved Font Names"
+      ],
+      "compatibility_notes": [
+        "OFL-1.1 does not affect MIT code or dictionary data licences."
+      ],
+      "auditor": "Gemini (LA-1 primary-source retrieval)",
       "signed_off_by": null,
-      "date": null
+      "date": "2026-11-19"
     },
     {
       "source_id": "src-wordlist",
