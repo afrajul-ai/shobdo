@@ -1,112 +1,19 @@
-{
-  "schema_version": "LA-1",
-  "sources": [
-    {
-      "source_id": "src-wikt",
-      "name": "English Wiktionary",
-      "status": "in_review",
-      "licence_snapshot": "licenses/src-wikt/README.md",
-      "obligations": [
-        "Attribution with link to exact Wiktionary page/revision and CC BY-SA 4.0",
-        "Indicate if changes were made (modified: none | minor | substantial)",
-        "Share-Alike: Wiktionary-derived fields remain under CC BY-SA 4.0",
-        "Exclude fair-use quotations, third-party media, and GFDL-only material"
-      ],
-      "compatibility_notes": [
-        "Public GitHub Pages URL triggers CC BY-SA 4.0 Share obligations for Wiktionary-derived fields.",
-        "Original entries (All rights reserved) stay isolated in /data/layers/original/."
-      ],
-      "auditor": "Gemini (LA-1 primary-source retrieval)",
-      "signed_off_by": null,
-      "date": "2026-11-19"
-    },
-    {
-      "source_id": "src-wn30",
-      "name": "Princeton WordNet 3.0",
-      "status": "not_audited",
-      "licence_snapshot": null,
-      "obligations": [],
-      "compatibility_notes": [],
-      "auditor": null,
-      "signed_off_by": null,
-      "date": null
-    },
-    {
-      "source_id": "src-oewn",
-      "name": "Open English WordNet",
-      "status": "not_audited",
-      "licence_snapshot": null,
-      "obligations": [],
-      "compatibility_notes": [],
-      "auditor": null,
-      "signed_off_by": null,
-      "date": null
-    },
-    {
-      "source_id": "src-tatoeba",
-      "name": "Tatoeba",
-      "status": "not_audited",
-      "licence_snapshot": null,
-      "obligations": [],
-      "compatibility_notes": [],
-      "auditor": null,
-      "signed_off_by": null,
-      "date": null
-    },
-    {
-      "source_id": "src-bn-font",
-      "name": "Bengali font to be bundled",
-      "status": "not_audited",
-      "licence_snapshot": null,
-      "obligations": [],
-      "compatibility_notes": [],
-      "auditor": null,
-      "signed_off_by": null,
-      "date": null
-    },
-    {
-      "source_id": "src-wordlist",
-      "name": "Core word list",
-      "status": "not_audited",
-      "licence_snapshot": null,
-      "obligations": [],
-      "compatibility_notes": [],
-      "auditor": null,
-      "signed_off_by": null,
-      "date": null
-    },
-    {
-      "source_id": "src-gpl-bn",
-      "name": "GPL-labelled Bengali datasets",
-      "status": "rejected",
-      "licence_snapshot": null,
-      "obligations": [],
-      "compatibility_notes": ["Entered as rejected per v0.2.1 Section 3.6."],
-      "auditor": null,
-      "signed_off_by": null,
-      "date": null
-    },
-    {
-      "source_id": "src-indowordnet",
-      "name": "IndoWordNet",
-      "status": "permission_required",
-      "licence_snapshot": null,
-      "obligations": [],
-      "compatibility_notes": ["Cannot be used without explicit permission per v0.2.1 Section 3.6."],
-      "auditor": null,
-      "signed_off_by": null,
-      "date": null
-    },
-    {
-      "source_id": "src-published-dicts",
-      "name": "Published dictionaries",
-      "status": "rejected",
-      "licence_snapshot": null,
-      "obligations": [],
-      "compatibility_notes": ["Cannot be copied per v0.2.1 Section 3.6."],
-      "auditor": null,
-      "signed_off_by": null,
-      "date": null
-    }
-  ]
-}
+# LA-1 Audit Report: English Wiktionary (`src-wikt`)
+
+* **Audit Status:** `in_review` (awaiting owner sign-off; zero data imported)
+* **Retrieved On:** 2026-11-19
+* **Primary Licence Archive:** `licenses/src-wikt/WIKTIONARY-COPYRIGHTS-ARCHIVE.md`
+* **Distribution Context:** Public GitHub Pages URL (counts as public "Sharing" under CC BY-SA 4.0)
+
+## Plain-Language Obligations
+1. **Attribution:** Link back to the exact Wiktionary entry URL/revision (`source_url`, `source_revision`), link to CC BY-SA 4.0, retain warranty-disclaimer notices, and indicate modifications (`modified: none | minor | substantial`).
+2. **Share-Alike:** Adapted or translated Wiktionary-derived fields must remain licensed under CC BY-SA 4.0 with no added restrictions.
+3. **Database Rights:** Covered under CC BY-SA 4.0 Section 4 and Wikimedia Terms of Use.
+4. **Exclusions:** Do not import contemporary fair-use quotations, third-party media, or GFDL-only material.
+
+## Compatibility with SHOBDO (`D10`)
+* **Original entries (All rights reserved):** Kept strictly separate in `/data/layers/original/`.
+* **Code (MIT):** Kept separate from dictionary data (`LICENSE`).
+
+## Proposed Attribution Wording (For Test If Approved)
+`Adapted from English Wiktionary (<source_url>), licensed under CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/).`
