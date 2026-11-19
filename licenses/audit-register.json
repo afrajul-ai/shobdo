@@ -4,20 +4,21 @@
     {
       "source_id": "src-wikt",
       "name": "English Wiktionary",
-      "status": "in_review",
+      "status": "approved_with_conditions",
       "licence_snapshot": "licenses/src-wikt/CC-BY-SA-4.0.txt; licenses/src-wikt/WIKTIONARY-COPYRIGHTS-ARCHIVE.md",
       "obligations": [
-        "Attribution with link to exact Wiktionary page/revision and CC BY-SA 4.0",
-        "Indicate if changes were made (modified: none | minor | substantial)",
-        "Share-Alike: Wiktionary-derived fields remain under CC BY-SA 4.0",
-        "Exclude fair-use quotations, third-party media, and GFDL-only material"
+        "Elect CC BY-SA 4.0 only; exclude GFDL-only pages and revisions",
+        "Record source_url, source_revision, modified (none | minor | substantial), licence_id, licence_version, and attribution_text on every Wiktionary-derived field, displayed via Sources and licences and attributions.json; preserve supplied creator/copyright notices without inventing missing details",
+        "Keep Wiktionary-derived fields under CC BY-SA 4.0 in /data/layers/wiktionary/, strictly separate from /data/layers/original/ (All rights reserved) and MIT code",
+        "Exclude contemporary fair-use quotations and third-party media",
+        "LA-1 audit sign-off only: no Wiktionary entries authorised for import yet; D1, D5, and D7 release gates remain in place"
       ],
       "compatibility_notes": [
         "Public GitHub Pages URL triggers CC BY-SA 4.0 Share obligations for Wiktionary-derived fields.",
         "SHOBDO elects CC BY-SA 4.0 (not GFDL); original entries stay isolated in /data/layers/original/."
       ],
       "auditor": "Gemini (LA-1 primary-source retrieval)",
-      "signed_off_by": null,
+      "signed_off_by": "afrajul-ai",
       "date": "2026-11-19"
     },
     {
@@ -116,4 +117,4 @@
       "date": null
     }
   ]
-}
+    }
