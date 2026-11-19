@@ -54,30 +54,23 @@
       "date": null
     },
     {
-         {
-       "source_id": "src-bn-font",
-       "name": "Bengali font to be bundled (Noto Sans Bengali v3.011)",
--      "status": "in_review",
-+      "status": "approved_with_conditions",
-       "licence_snapshot": "licenses/src-bn-font/OFL-1.1.txt; notofonts/bengali@77700fd",
-       "obligations": [
--        "Self-host font files locally (no external CDN requests)",
--        "Retain upstream copyright notice (Copyright 2022 The Noto Project Authors) and full SIL OFL 1.1 licence text",
--        "Do not sell font standalone or misuse Reserved Font Names"
-+        "Self-host Noto Sans Bengali locally, with zero external CDN requests for font assets",
-+        "Retain licenses/src-bn-font/OFL-1.1.txt and the upstream copyright notice in SHOBDO's About section",
-+        "Respect OFL-1.1 restrictions on standalone selling and Reserved Font Names",
-+        "Keep font licensing separate from MIT code and dictionary data licences"
-       ],
-       "compatibility_notes": [
-         "OFL-1.1 does not affect MIT code or dictionary data licences."
-       ],
-       "auditor": "Gemini (LA-1 primary-source retrieval)",
--      "signed_off_by": null,
--      "date": "2026-11-19"
-+      "signed_off_by": "afrajul-ai",
-+      "date": "2026-11-19"
-     },
+      "source_id": "src-bn-font",
+      "name": "Bengali font to be bundled (Noto Sans Bengali v3.011)",
+      "status": "approved_with_conditions",
+      "licence_snapshot": "licenses/src-bn-font/OFL-1.1.txt; notofonts/bengali@77700fd",
+      "obligations": [
+        "Self-host Noto Sans Bengali locally, with zero external CDN requests for font assets",
+        "Retain licenses/src-bn-font/OFL-1.1.txt and the upstream copyright notice in SHOBDO's About section",
+        "Respect OFL-1.1 restrictions on standalone selling and Reserved Font Names",
+        "Keep font licensing separate from MIT code and dictionary data licences"
+      ],
+      "compatibility_notes": [
+        "OFL-1.1 does not affect MIT code or dictionary data licences."
+      ],
+      "auditor": "Gemini (LA-1 primary-source retrieval)",
+      "signed_off_by": "afrajul-ai",
+      "date": "2026-11-19"
+    },
     {
       "source_id": "src-wordlist",
       "name": "Core word list",
