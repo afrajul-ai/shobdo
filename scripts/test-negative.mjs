@@ -1,5 +1,5 @@
 /**
- * @file Stage 2+ negative & gate tests (v0.2.1 Section 3.5 + Release Governance + Provenance).
+ * @file Stage 2+ negative & gate tests (v0.2.1 Section 3.5 + Release Governance incl. D5 + Provenance).
  */
 
 import fs from 'node:fs';
@@ -9,6 +9,7 @@ import { buildSite, checkNoExternalRequests } from './build.mjs';
 
 function makeTempProject(name, gov = {
   D1_data_source_approved: false,
+  D5_style_guide_approved: false,
   D7_reviewers_registered: false,
   D10_licences_approved: false,
   release_enabled: false
@@ -108,7 +109,7 @@ function expectFail(label, fn, expectedPattern) {
   expectFail('Mixed/conflicting classes', () => buildSite({ rootDir: dir, outDir: path.join(dir, '_out'), mode: 'test', copyStatic: false }), /Field conflict/i);
 }
 
-// 4. Release fails when D1/D7/D10 are unresolved
+// 4. Release fails when D1/D5/D7/D10 are unresolved
 {
   const dir = makeTempProject('release-blocked-d1');
   fs.writeFileSync(
@@ -118,10 +119,36 @@ function expectFail(label, fn, expectedPattern) {
   expectFail('Release blocked by unresolved D1', () => buildSite({ rootDir: dir, outDir: path.join(dir, '_out'), mode: 'release', copyStatic: false }), /D1/i);
 }
 
-// 5. Release fails when D7 is false even if D1 & D10 are true
+// 5. Release fails when D5 is false even if D1, D7, D10 are true
+{
+  const dir = makeTempProject('release-blocked-d5-false', {
+    D1_data_source_approved: true,
+    D5_style_guide_approved: false,
+    D7_reviewers_registered: true,
+    D10_licences_approved: true,
+    release_enabled: true
+  });
+  fs.writeFileSync(path.join(dir, 'LICENSE'), 'Pending');
+  expectFail('Release blocked by D5=false', () => buildSite({ rootDir: dir, outDir: path.join(dir, '_out'), mode: 'release', copyStatic: false }), /D5/i);
+}
+
+// 6. Release fails when D5 is missing even if D1, D7, D10 are true
+{
+  const dir = makeTempProject('release-blocked-d5-missing', {
+    D1_data_source_approved: true,
+    D7_reviewers_registered: true,
+    D10_licences_approved: true,
+    release_enabled: true
+  });
+  fs.writeFileSync(path.join(dir, 'LICENSE'), 'Pending');
+  expectFail('Release blocked by missing D5', () => buildSite({ rootDir: dir, outDir: path.join(dir, '_out'), mode: 'release', copyStatic: false }), /D5/i);
+}
+
+// 7. Release fails when D7 is false even if D1, D5, D10 are true
 {
   const dir = makeTempProject('release-blocked-d7', {
     D1_data_source_approved: true,
+    D5_style_guide_approved: true,
     D7_reviewers_registered: false,
     D10_licences_approved: true,
     release_enabled: true
@@ -129,10 +156,11 @@ function expectFail(label, fn, expectedPattern) {
   expectFail('Release blocked by unresolved D7', () => buildSite({ rootDir: dir, outDir: path.join(dir, '_out'), mode: 'release', copyStatic: false }), /D7/i);
 }
 
-// 6. Fixture in release mode fails
+// 8. Fixture in release mode fails
 {
   const dir = makeTempProject('fixture-in-release', {
     D1_data_source_approved: true,
+    D5_style_guide_approved: true,
     D7_reviewers_registered: true,
     D10_licences_approved: true,
     release_enabled: true
@@ -145,7 +173,7 @@ function expectFail(label, fn, expectedPattern) {
   expectFail('Fixture in release mode', () => buildSite({ rootDir: dir, outDir: path.join(dir, '_out'), mode: 'release', copyStatic: false }), /forbidden in release mode/i);
 }
 
-// 7. Original provenance checks
+// 9. Original provenance checks
 {
   const dir = makeTempProject('original-provenance');
   fs.writeFileSync(
@@ -166,7 +194,7 @@ function expectFail(label, fn, expectedPattern) {
   expectFail('Original edited_from_source rejected', () => buildSite({ rootDir: dir, outDir: path.join(dir, '_out'), mode: 'test', copyStatic: false }), /independent/i);
 }
 
-// 8. Recursive external-request check catches nested JS fetch, ignores comments
+// 10. Recursive external-request check catches nested JS fetch, ignores comments
 {
   const out = fs.mkdtempSync(path.join(os.tmpdir(), 'shobdo-ext-'));
   fs.mkdirSync(path.join(out, 'src', 'nested'), { recursive: true });
@@ -177,5 +205,5 @@ function expectFail(label, fn, expectedPattern) {
   expectFail('Nested external fetch rejected', () => checkNoExternalRequests(out), /External URL reference found/i);
 }
 
-console.log('All 8 negative & governance tests passed!');
-                      
+console.log('All 10 negative & governance tests passed!');
+    
