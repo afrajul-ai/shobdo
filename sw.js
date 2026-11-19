@@ -1,9 +1,8 @@
 /**
- * @file Stage 4 Service Worker for SHOBDO offline app shell and fixture data.
+ * @file Service Worker for SHOBDO offline app shell, self-hosted fonts, and fixture data.
  */
 
-const APP_VERSION = '0.6.3-stage7';
-
+const APP_VERSION = '0.6.4-stage7';
 const CACHE_NAME = `shobdo-shell-${APP_VERSION}`;
 
 const SHELL_ASSETS = [
@@ -16,7 +15,10 @@ const SHELL_ASSETS = [
   './src/entryView.js',
   './src/storage.js',
   './src/sw-cleanup.js',
-  './src/ui-mode.js'
+  './src/ui-mode.js',
+  './fonts/NotoSansBengali-Regular.woff2',
+  './fonts/NotoSansBengali-Bold.woff2',
+  './licenses/src-bn-font/OFL-1.1.txt',
   './data/dictionary.json',
   './data/attributions.json',
   './icons/icon-192.png',
@@ -67,3 +69,4 @@ self.addEventListener('fetch', (event) => {
     })
   );
 });
+    
