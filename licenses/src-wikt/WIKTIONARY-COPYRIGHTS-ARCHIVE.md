@@ -17,4 +17,3 @@
    * GFDL requires a GFDL "transparent copy" (wiki text) and GFDL licensing of derivatives. SHOBDO does **not** elect GFDL and must **exclude** any older/imported Wiktionary text marked GFDL-only (not dual-licensed under CC BY-SA 4.0).
 3. **External / Fair-Use Exceptions:**
    * Per `Wiktionary:Copyrights`, embedded contemporary-author quotations or third-party media used under "fair use" or special permission are **not** CC BY-SA 4.0 and must be excluded from SHOBDO.
-   
