@@ -11,7 +11,7 @@
 | D7 | Reviewers | Volunteers; author is never approver; Bengali-reading approver required | **BLOCKED** (`D7_reviewers_registered: false`; publishing disabled) |
 | D8 | Analytics | None; privacy notice (`docs/privacy-notice.md`, Draft v0.1) | Provisionally approved |
 | D9 | Vocabulary scope | TP-20 and EP-100 separate; Alpha 300, launch 1,000, stretch 2,500 | Provisionally approved |
-| D10 | Licences of code and data | Pending (working assumption: code MIT/Apache-2.0; data CC BY-SA 4.0 if Wiktionary approved) | Pending final approval (`D10_licences_approved: false`; no `LICENSE` file) |
+| D10 | Licences of code and data | **Code:** MIT License (LICENSE). **Original data & contributor submissions:** CC BY-SA 4.0 (kept separate from code). External data licences pending LA-1. | **Approved** (D10_licences_approved: true) |
 
 ## Technical Pilot (`TP-20`) & Test Device (`B10`)
 
