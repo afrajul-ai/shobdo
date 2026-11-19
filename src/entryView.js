@@ -1,17 +1,10 @@
 /**
- * @file Stage 6 Dictionary Entry screen with Bookmark, Vocabulary note, and Sources panel.
+ * @file Dictionary Entry screen with Bookmark, Vocabulary note, and Sources panel.
  */
 
 import { getVocabNote, isBookmarked, saveVocabNote, toggleBookmark } from './storage.js';
 import { getUiLabels } from './ui-mode.js';
 
-/**
- * Create an element with optional className and textContent.
- * @param {string} tag
- * @param {string} [className]
- * @param {string} [text]
- * @returns {HTMLElement}
- */
 function el(tag, className = '', text = '') {
   const node = document.createElement(tag);
   if (className) node.className = className;
@@ -19,22 +12,10 @@ function el(tag, className = '', text = '') {
   return node;
 }
 
-/**
- * Resolve effective rights for a field, sense, or entry.
- * @param {object | undefined} fieldObj
- * @param {object | undefined} senseObj
- * @param {object | undefined} entryObj
- * @returns {object}
- */
 function resolveRights(fieldObj, senseObj, entryObj) {
   return fieldObj?.rights || senseObj?.rights_default || entryObj?.rights_default || { class: 'unknown' };
 }
 
-/**
- * Format a human-readable label for a rights class.
- * @param {object} rights
- * @returns {string}
- */
 function formatRightsSummary(rights) {
   const cls = rights.class || 'unknown';
   if (cls === 'fixture') {
@@ -47,11 +28,20 @@ function formatRightsSummary(rights) {
   return licence ? `${cls} — ${licence}` : cls;
 }
 
-/**
- * Render the collapsible "Sources and licences" panel driven by rights data.
- * @param {object} entry
- * @returns {HTMLDetailsElement}
- */
+function appendRightsRow(list, label, rights) {
+  const li = el('li');
+  const badge = el('span', `rights-badge rights-${rights.class || 'unknown'}`, rights.class || 'unknown');
+  li.append(badge, document.createTextNode(` ${label}: ${formatRightsSummary(rights)}`));
+  if (rights.source_url) {
+    const link = document.createElement('a');
+    link.href = rights.source_url;
+    link.textContent = ' (source)';
+    link.rel = 'noopener noreferrer';
+    li.appendChild(link);
+  }
+  list.appendChild(li);
+}
+
 function buildSourcesPanel(entry) {
   const details = document.createElement('details');
   details.className = 'sources-panel';
@@ -64,6 +54,15 @@ function buildSourcesPanel(entry) {
   );
 
   const list = el('ul', 'sources-list');
+
+  if (entry.ipa) {
+    appendRightsRow(list, 'Entry · IPA', resolveRights(entry.ipa, undefined, entry));
+  }
+  if (entry.forms) {
+    const formsObj = Array.isArray(entry.forms) ? undefined : entry.forms;
+    appendRightsRow(list, 'Entry · Word forms', resolveRights(formsObj, undefined, entry));
+  }
+
   (entry.senses || []).forEach((sense, index) => {
     const fieldGroups = [
       ['Definition (EN)', sense.definition_en],
@@ -77,18 +76,7 @@ function buildSourcesPanel(entry) {
 
     for (const [label, fieldVal] of fieldGroups) {
       if (!fieldVal) continue;
-      const rights = resolveRights(fieldVal, sense, entry);
-      const li = el('li');
-      const badge = el('span', `rights-badge rights-${rights.class || 'unknown'}`, rights.class || 'unknown');
-      li.append(badge, document.createTextNode(` Sense ${index + 1} · ${label}: ${formatRightsSummary(rights)}`));
-      if (rights.source_url) {
-        const link = document.createElement('a');
-        link.href = rights.source_url;
-        link.textContent = ' (source)';
-        link.rel = 'noopener noreferrer';
-        li.appendChild(link);
-      }
-      list.appendChild(li);
+      appendRightsRow(list, `Sense ${index + 1} · ${label}`, resolveRights(fieldVal, sense, entry));
     }
   });
 
@@ -97,11 +85,6 @@ function buildSourcesPanel(entry) {
   return details;
 }
 
-/**
- * Render the Personal Vocabulary Note card for an entry.
- * @param {object} entry
- * @returns {Promise<HTMLElement>}
- */
 async function buildVocabBox(entry) {
   const box = el('section', 'vocab-box');
   box.appendChild(el('h3', 'vocab-title', 'Personal Vocabulary Note'));
@@ -139,18 +122,9 @@ async function buildVocabBox(entry) {
   return box;
 }
 
-/**
- * Render a full dictionary entry into containerEl.
- * @param {HTMLElement} containerEl
- * @param {object} entry
- * @param {() => void} onBack
- * @returns {Promise<void>}
- */
 export async function renderEntryView(containerEl, entry, onBack, buildMode = 'test') {
   containerEl.innerHTML = '';
   const ui = getUiLabels(buildMode);
-  
-  containerEl.innerHTML = '';
 
   const topBar = el('div', 'entry-topbar');
   const backBtn = el('button', 'back-btn', '← Back');
@@ -193,8 +167,9 @@ export async function renderEntryView(containerEl, entry, onBack, buildMode = 't
     header.appendChild(tr);
   }
 
-  if (Array.isArray(entry.forms) && entry.forms.length > 0) {
-    header.appendChild(el('p', 'entry-forms', `Forms: ${entry.forms.join(', ')}`));
+  const formsList = Array.isArray(entry.forms) ? entry.forms : entry.forms?.values;
+  if (Array.isArray(formsList) && formsList.length > 0) {
+    header.appendChild(el('p', 'entry-forms', `Forms: ${formsList.join(', ')}`));
   }
 
   containerEl.appendChild(header);
@@ -286,3 +261,4 @@ export async function renderEntryView(containerEl, entry, onBack, buildMode = 't
   containerEl.appendChild(await buildVocabBox(entry));
   containerEl.appendChild(buildSourcesPanel(entry));
 }
+  
