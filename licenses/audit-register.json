@@ -1,6 +1,15 @@
 {
   "schema_version": "LA-1",
   "sources": [
+        {
+      "source_id": "src-wordlist",
+      "name": "Project-Curated Pilot Headword List (EP-100)",
+      "status": "not_applicable_original",
+      "used_in_build": false,
+      "external_source_used": false,
+      "headword_list_doc": "docs/ep100-headwords.md",
+      "notes": "Approach A selected: original 100-headword planning list curated in docs/ep100-headwords.md. Not an externally licensed dataset; no external word-list source is approved and no dictionary entries are imported."
+        }
     {
       "source_id": "src-wikt",
       "name": "English Wiktionary",
