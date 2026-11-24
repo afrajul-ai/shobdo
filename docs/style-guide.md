@@ -51,4 +51,23 @@
   * `C3` Labels (`15` pts)
   * `C4` Examples (`20` pts)
   * `C5` Related data (`10` pts)
-  
+  * `C6` Conformity & review record (`15` pts)
+* **Proposed Thresholds (to be calibrated and confirmed after `EP-100`):**
+  * *Basic tier:* All hard gates pass, score `>= 80`, `C2 >= 70%` (`>= 17.5/25`), zero open Critical or Major defects.
+  * *Full tier:* All hard gates pass, score `>= 90`, every criterion `>= 70%`, zero open Critical or Major defects.
+* **Defect Severity Levels:**
+  * **Critical:** Wrong meaning/merged senses, rights/licence violation, copied third-party text, prohibited AI-only field, offensive usage marked neutral.
+  * **Major:** Wrong register/region/sense_type/POS, ungrammatical or unnatural Bengali, example mismatched to sense, সাধু/চলিত mixing.
+  * **Minor:** Typo, spacing/punctuation slip, missed accepted spelling variant.
+* **Returned vs. Rejected / Parked:**
+  * **Returned:** Entry fails a threshold or has open defects and is sent back to the author/editor with a defect list in `/data/reviews/<id>.json` for correction and resubmission.
+  * **Rejected / Parked:** Entry fails an incurable hard gate (e.g., copied/prohibited content) or fails 3 resubmission rounds; escalated to the **project owner and lead Bengali-reading reviewer** for an editorial decision.
+
+## 8. Source Hierarchy (Orthography vs. Usage)
+* **For Spelling & Orthographic Conventions:**
+  1. `docs/style-decisions.md` (binding project precedents recorded by reviewers).
+  2. *Akademi Banan Abhidhan* (Paschimbanga Bangla Akademi, 1997 edition — pending `D7` reviewer confirmation of exact revised/reprint edition; consulted for rules only).
+* **For Actual Usage & Meaning:**
+  1. Qualified Bengali-reading reviewers and verified published Bengali/English usage evidence.
+  2. Audit-approved reference sources (`licenses/audit-register.json`).
+* **When Disputed:** If neither spelling nor usage is settled, park the entry rather than guessing.
