@@ -15,12 +15,13 @@
    - **Adverbs, Prepositions & Connectors (12):** Everyday time, place, frequency, and linking words.
 3. **Originality & Provenance Hygiene:** Curated independently for `SHOBDO` pilot planning rather than reproducing any proprietary publisher word list (such as Oxford 3000, Dolch, Fry, or NGSL) or external dataset.
 4. **Separation from Dictionary Data:** This file is a planning index only. Any future dictionary entries authored from these headwords must be stored separately in `/data/entries/` and `/data/layers/` with full per-field `rights` provenance under `G2` and `LA-1` / `D5` / `D7` rules.
+5. **Multiple Parts of Speech:** EP-100 assigns each headword one primary planned part of speech for pilot organisation. During entry authoring, include secondary parts of speech and common senses where they are useful to learners; do not create duplicate headwords solely because a word has multiple parts of speech.
 
 ## Headword List (100 Items)
 
 ### A. Verbs (1–28)
-1. ask
-2. answer
+1. answer
+2. ask
 3. bring
 4. build
 5. buy
@@ -40,7 +41,7 @@
 19. learn
 20. listen
 21. open
-22. practice
+22. practise
 23. read
 24. remember
 25. share
