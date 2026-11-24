@@ -64,7 +64,7 @@
 ## 8. Source Hierarchy (Orthography vs. Usage)
 * **For Spelling & Orthographic Conventions:**
   1. `docs/style-decisions.md` (binding project precedents recorded by reviewers).
-  2. *Akademi Banan Abhidhan* (Paschimbanga Bangla Akademi — edition `unverified`; consulted for rules only).
+  2. *Akademi Banan Abhidhan* (Paschimbanga Bangla Akademi — edition - **SD-01 (West Bengal Spelling Reference):** *Akademi Banan Abhidhan* (পশ্চিমবঙ্গ বাংলা আকাদেমি, 1997 edition — pending D7 reviewer confirmation of exact revised/reprint edition); consulted for rules only).
 * **For Actual Usage & Meaning:**
   1. Qualified Bengali-reading reviewers and verified published Bengali/English usage evidence.
   2. Audit-approved reference sources (`licenses/audit-register.json`).
