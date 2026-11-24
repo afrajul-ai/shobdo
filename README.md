@@ -27,17 +27,17 @@ An offline-first, learner-focused English-to-Bengali and Bengali-to-English dict
   * `scripts/test-negative.mjs` (10 negative, governance, provenance, and external-request tests)
   * `scripts/test-storage.mjs` (IndexedDB transaction completion, error, and abort handling)
   * `scripts/test-sw-cleanup.mjs` (10 Service Worker scope/scriptURL safety test groups)
+  * `scripts/test-sw-update.mjs` (Node-based isolated Service Worker update-resilience test harness, covering 5 test groups: simulated failed downloads, preservation of the previous cache, successful subsequent updates, and offline fallback; not a real-browser integration test)
   * `scripts/test-ui-mode.mjs` (release-mode UI label & `FIXTURE` badge suppression checks)
   * `scripts/test-attribution.mjs` (IPA, word-form, and sense attribution checks)
   * `scripts/build.mjs --mode=test --out=_site` (20 fixtures validated, local font and `OFL-1.1.txt` assets verified, `node --check sw.js`, zero external requests)
 * **Device (`OPPO CPH2617`, `Android 15`, `Brave / Chromium 157.0.0.0`):**
-  * Live `test` deployment, PWA install, Airplane Mode offline reopen (including self-hosted Noto Sans Bengali `v0.6.4-stage7` rendering), `?debug=1`, search, Entry screen, IndexedDB persistence across restarts, JSON Export/Import, A–Z, Settings, About, and Draft Privacy view
+  * Live `test` deployment, PWA install, Airplane Mode offline reopen (including self-hosted Noto Sans Bengali `v0.6.4-stage7` rendering, visually verified clean on `উৎসব`, `constitution`, and `behold`), `?debug=1`, search, Entry screen, IndexedDB persistence across restarts, JSON Export/Import, A–Z, Settings, About, and Draft Privacy view
+* **Device (`OPPO CPH2617`, `Android 15`, standalone Chrome `157.0.8103.78` — `B10`):**
+  * Standalone Chrome version verified separately from `Brave / Chromium 157.0.0.0`
 
 ## Awaiting Verification (Before Formal TP-20 Acceptance)
-* Visual sign-off on Bengali Unicode rendering (`utshob`, `constitution`, `behold`) against reference expectations
-* Simulated failed-download update-resilience check
-* Standalone Chrome version confirmation on `OPPO CPH2617` (`B10`)
-* Cleanup of any leftover nested files under `docs/licenses/` from early mobile commits
+No remaining manual TP-20 verification items. Formal owner/reviewer sign-off is still pending.
 
 ## Unresolved Governance Decisions
 * **D1:** Primary-source licence audits (`LA-1`) and owner sign-off
