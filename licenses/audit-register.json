@@ -50,26 +50,18 @@
       "signed_off_by": "afrajul-ai",
       "date": "2026-11-24"
     },
-    {
+        {
       "source_id": "src-oewn",
       "name": "Open English WordNet (2025 Edition)",
-      "status": "approved_with_conditions",
-      "licence_snapshot": "licenses/src-oewn/WORDNET-LICENSE.txt; licenses/src-oewn/README.md",
-      "obligations": [
-        "Scope limited to OEWN 2025 standard edition (2025-edition / dc343f2); 2025 Plus is not assessed",
-        "Credit both The Open English WordNet Team (CC BY 4.0) and Princeton WordNet (WordNet 3.1 License), linking to https://github.com/globalwordnet/english-wordnet and https://creativecommons.org/licenses/by/4.0/",
-        "Record source_url, source_revision, modified (none | minor | substantial), licence_id, licence_version, and attribution_text on every OEWN-derived field, displayed via Sources and licences and attributions.json",
-        "Retain Princeton WordNet copyright (WordNet 3.1 / 2011), warranty disclaimer, and title notices; do not use Princeton University or Princeton in advertising or publicity",
-        "Keep OEWN-derived fields in /data/layers/oewn/, strictly separate from /data/layers/original/, /data/layers/wiktionary/, and MIT code",
-        "LA-1 audit sign-off only: no OEWN entries authorised for import yet; D1, D5, and D7 release gates remain in place"
-      ],
+      "status": "not_audited",
+      "licence_snapshot": null,
+      "obligations": [],
       "compatibility_notes": [
-        "CC BY 4.0 + WordNet 3.1 License impose no ShareAlike copyleft on SHOBDO original Bengali entries or MIT code.",
-        "2025 standard edition covers common nouns, verbs, adjectives, and adverbs (proper nouns moved to Open English Namenet)."
+        "Pending verification of exact WNDB_License.txt snapshot inside the 2025-edition (dc343f2) release archive; licenses/src-oewn/WORDNET-LICENSE.txt currently holds an unverified WordNet 3.0 / 2006 text and 2025 Plus is not assessed."
       ],
-      "auditor": "Gemini (LA-1 primary-source retrieval)",
-      "signed_off_by": "afrajul-ai",
-      "date": "2026-11-24"
+      "auditor": null,
+      "signed_off_by": null,
+      "date": null
     },
     {
       "source_id": "src-tatoeba",
