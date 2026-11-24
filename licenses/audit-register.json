@@ -68,9 +68,10 @@
       "name": "Tatoeba",
       "status": "approved_with_conditions",
       "licence_snapshot": "licenses/src-tatoeba/README.md",
-      "obligations": [
+            "obligations": [
         "Textual sentences only (sentences_detailed.tar.bz2 + links.tar.bz2); Tatoeba audio files are excluded",
-        "Credit Tatoeba (https://tatoeba.org), state CC BY 2.0 FR (or CC0 1.0 where applicable), and record sentence source_url, contributor username, modified (none | minor | substantial), licence_id, licence_version, and attribution_text on every field",
+        "Perform sentence-level licence identification using sentences_CC0.tar.bz2 vs. sentences_detailed.tar.bz2: label CC0 1.0 sentences accurately as CC0-1.0 (never mislabel CC0 sentences as CC BY 2.0 FR)",
+        "For CC BY 2.0 FR sentences, credit Tatoeba (https://tatoeba.org) and the contributor username from sentences_detailed.tar.bz2, recording sentence source_url, modified (none | minor | substantial), licence_id (CC-BY-2.0-FR), licence_version, and attribution_text on every field",
         "Use weekly export datasets only (flagged 'red' sentences excluded) and subject imported examples to D5/D7 human review",
         "Keep Tatoeba-derived examples in /data/layers/tatoeba/, strictly separate from /data/layers/original/, /data/layers/wiktionary/, /data/layers/oewn/, and MIT code",
         "LA-1 audit sign-off only: no Tatoeba sentences authorised for import yet; D1, D5, and D7 release gates remain in place"
