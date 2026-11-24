@@ -40,11 +40,12 @@ An offline-first, learner-focused English-to-Bengali and Bengali-to-English dict
 No remaining manual TP-20 verification items. Formal owner/reviewer sign-off is still pending.
 
 ## Unresolved Governance Decisions
-* **D1:** Primary-source licence audits (`LA-1`) and owner sign-off
+* **D1:** Remaining primary-source licence audits (`LA-1`, including `src-oewn` snapshot verification) and external data import authorisation (all external imports remain gated)
 * **D5:** Reviewer sign-off on Bengali Editorial Style Guide (`SG-0.1`) and named West Bengal spelling reference
 * **D7:** Named qualified human reviewers, written criteria, and independence declarations (`G4` blocks release)
-* **D10:** Code, data, and contributor licence approvals (`G6`)
 * **B9:** Privacy-notice legal review and `[project contact]` address
+
+*Note on `D10` (`docs/governance.json` -> `D10_licences_approved: true`): SHOBDO's core licensing policy (MIT software licence, All-rights-reserved original entries, and layer isolation) is approved; this does not authorise external data imports or bypass per-source `LA-1` restrictions under `D1`.*
 
 ## Not Yet Implemented
 * `EP-100` (100-entry editorial pilot) and `Alpha 300` / `1,000` real dictionary entries
