@@ -1,6 +1,5 @@
 # EP-100: Original Project-Curated Pilot Headword List
-
-- **Status:** Proposed Draft (Awaiting Owner Review)
+- **Status:** Approved by Owner (`afrajul-ai`, `2026-11-24`) — **Headword Planning List Only** (no definitions, translations, examples, or dictionary entries are approved or created)
 - **Dataset Origin:** Original project-curated planning list (`SHOBDO` project)
 - **External Dataset Used:** None (`src-wordlist` not used; no third-party frequency list or publisher syllabus copied)
 - **Scope Boundary:** Headwords and intended part-of-speech planning buckets only. Contains **no** definitions, Bengali translations, IPA, example sentences, or dictionary entries. Does **not** alter `docs/governance.json` or any release gate (`D1`, `D5`, `D7`, `D10`, `release_enabled`).
