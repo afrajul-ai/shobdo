@@ -1,0 +1,40 @@
+name: Verify OEWN 2025 Snapshot (Read-Only)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  verify-oewn:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download and verify OEWN 2025 archives and WNDB_License.txt
+        run: |
+          set -euo pipefail
+          EXPECTED_SIZE="9618697"
+          EXPECTED_SHA="73355e48f8117a24ca9ebc23ed75b35434e6cd21cc9dd3984e80aff5a5f63636"
+
+          curl -fsSL -o gh-oewn-2025.zip "https://github.com/globalwordnet/english-wordnet/releases/download/2025-edition/english-wordnet-2025.zip"
+          curl -fsSL -o enword-oewn-2025.zip "https://en-word.net/static/english-wordnet-2025.zip"
+          curl -fsSL -o commit-WNDB_License.txt "https://raw.githubusercontent.com/globalwordnet/english-wordnet/dc343f2/WNDB_License.txt"
+
+          ACTUAL_SIZE=$(wc -c < gh-oewn-2025.zip)
+          GH_SHA=$(sha256sum gh-oewn-2025.zip | awk '{print $1}')
+          ENWORD_SHA=$(sha256sum enword-oewn-2025.zip | awk '{print $1}')
+
+          echo "GitHub archive size: $ACTUAL_SIZE (expected $EXPECTED_SIZE)"
+          echo "GitHub archive SHA-256: $GH_SHA"
+          echo "en-word.net SHA-256:    $ENWORD_SHA"
+          echo "Expected SHA-256:       $EXPECTED_SHA"
+
+          test "$ACTUAL_SIZE" = "$EXPECTED_SIZE"
+          test "$GH_SHA" = "$EXPECTED_SHA"
+          test "$ENWORD_SHA" = "$EXPECTED_SHA"
+
+          ARCHIVE_PATH=$(unzip -Z1 gh-oewn-2025.zip | grep -E '(^|/)WNDB_License\.txt$' | head -n1)
+          echo "Extracted license path in zip: $ARCHIVE_PATH"
+          unzip -p gh-oewn-2025.zip "$ARCHIVE_PATH" > archive-WNDB_License.txt
+
+          cmp -s archive-WNDB_License.txt commit-WNDB_License.txt && echo "MATCH: Byte-for-byte identical!"
+          echo "=== VERIFIED WNDB_License.txt ==="
+          cat archive-WNDB_License.txt
+          
