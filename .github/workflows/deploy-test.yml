@@ -46,8 +46,13 @@ jobs:
 
       - name: Run Service Worker cleanup safety tests
         run: node scripts/test-sw-cleanup.mjs        
-             node --check scripts/test-sw-update.mjs
-             node scripts/test-sw-update.mjs
+      
+      - name: Run Service Worker cleanup safety tests
+        run: node scripts/test-sw-cleanup.mjs
+
+      - name: Run Service Worker update-resilience tests
+        run: node scripts/test-sw-update.mjs
+
 
       - name: Run release-mode UI correctness tests
         run: node scripts/test-ui-mode.mjs
