@@ -17,4 +17,3 @@
 2. **Attribution for `CC BY 2.0 FR` Sentences:** Credit **Tatoeba** (`https://tatoeba.org`), state **`CC BY 2.0 FR`**, and preserve each sentence ID URL, contributor username (from `sentences_detailed.tar.bz2`), `modified` (`none | minor | substantial`), and `attribution_text` in *Sources and licences* and `data/attributions.json`. For `CC0 1.0` sentences, preserve `licence_id: "CC0-1.0"` and source sentence URL.
 3. **Quality & Copyright Filter:** Use only weekly export files (which exclude flagged `"red"` sentences) and require human review under `D5` / `D7` before any future release.
 4. **Layer Isolation:** Keep Tatoeba-derived examples strictly in `/data/layers/tatoeba/` (`rights.class: "tatoeba"`), separate from `/data/layers/original/`, `/data/layers/wiktionary/`, `/data/layers/oewn/`, and MIT code.
-5. 
