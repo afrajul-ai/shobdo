@@ -5,7 +5,7 @@
 
 ## 1. Primary Spelling Standard & Reference
 * **Language Variety:** Standard colloquial Bengali (**চলিত ভাষা**) as used in West Bengal (`SG-1`).
-* **Primary Orthographic Reference:** Paschimbanga Bangla Akademi's *Akademi Banan Abhidhan* (*আকাদেমি বানান অভিধান*). **Edition status: `unverified`** (exact edition, publication year, and bibliographic details to be recorded in `docs/style-decisions.md` after a reviewer verifies the physical book or a reliable catalogue record). Consult for spelling rules only; never copy its entries.
+* **Primary Orthographic Reference:** Paschimbanga Bangla Akademi's *Akademi Banan Abhidhan* (*আকাদেমি বানান অভিধান*, **1997 edition — pending `D7` reviewer confirmation** of exact revised/reprint edition; bibliographic details to be confirmed in `docs/style-decisions.md`). Consult for spelling rules only; never copy its entries.
 
 ## 2. Regional Variants (`wb`, `bd`, `general`)
 * Retain well-established Bangladesh-standard variants in V1 labelled **`bd`** alongside West Bengal headline forms labelled **`wb`**.
@@ -22,7 +22,9 @@
 * **Address Form (`SG-13`):** Examples default to neutral-polite **`আপনি`** with matching verb forms, unless demonstrating informality (`informal`).
 
 ## 4. Unicode, Punctuation & Spelling Variants
-* **Unicode (`SG-6`–`SG-7`):** Store all text in Unicode **NFC**; never hand-edit code points. `ZWJ`/`ZWNJ` are permitted only from a reviewer-approved list.
+* **Unicode (`SG-6`–`SG-7`, `SD-08`):** Store all text in Unicode **NFC**; never hand-edit code points. Arbitrary or unlisted use of `ZWJ` (`U+200D`) and `ZWNJ` (`U+200C`) is disallowed; they are permitted **only** from a reviewer-approved list for documented cases:
+  * **`ZWJ` (`U+200D`):** Only to render `র‍্য` in Bengali transliterations of English loanwords (e.g., `র‍্যাকেট`, `র‍্যাঙ্ক`).
+  * **`ZWNJ` (`U+200C`):** Only where an explicit হসন্ত (`্`) must remain visible instead of merging into a conjunct.
 * **Digits (`SG-9`):** Use Bengali digits (`০–৯`) in Bengali text and ASCII digits (`0–9`) in English text.
 * **Punctuation (`SG-10`):** End complete Bengali sentences with the Bengali **দাড়ি (`।`, `U+0964`)**, never `.`, and never mix both in one field. Do **not** force sentence punctuation into headwords, labels, fragments, or other non-sentence fields.
 * **Spelling Variants (`SG-8`):** Keep one preferred headline form distinct from a `variants` field used for search only. Include only documented, accepted alternatives—never arbitrary typos or every possible phonetic spelling.
@@ -49,23 +51,4 @@
   * `C3` Labels (`15` pts)
   * `C4` Examples (`20` pts)
   * `C5` Related data (`10` pts)
-  * `C6` Conformity & review record (`15` pts)
-* **Proposed Thresholds (to be calibrated and confirmed after `EP-100`):**
-  * *Basic tier:* All hard gates pass, score `>= 80`, `C2 >= 70%` (`>= 17.5/25`), zero open Critical or Major defects.
-  * *Full tier:* All hard gates pass, score `>= 90`, every criterion `>= 70%`, zero open Critical or Major defects.
-* **Defect Severity Levels:**
-  * **Critical:** Wrong meaning/merged senses, rights/licence violation, copied third-party text, prohibited AI-only field, offensive usage marked neutral.
-  * **Major:** Wrong register/region/sense_type/POS, ungrammatical or unnatural Bengali, example mismatched to sense, সাধু/চলিত mixing.
-  * **Minor:** Typo, spacing/punctuation slip, missed accepted spelling variant.
-* **Returned vs. Rejected / Parked:**
-  * **Returned:** Entry fails a threshold or has open defects and is sent back to the author/editor with a defect list in `/data/reviews/<id>.json` for correction and resubmission.
-  * **Rejected / Parked:** Entry fails an incurable hard gate (e.g., copied/prohibited content) or fails 3 resubmission rounds; escalated to the **project owner and lead Bengali-reading reviewer** for an editorial decision.
-
-## 8. Source Hierarchy (Orthography vs. Usage)
-* **For Spelling & Orthographic Conventions:**
-  1. `docs/style-decisions.md` (binding project precedents recorded by reviewers).
-  2. *Akademi Banan Abhidhan* (Paschimbanga Bangla Akademi — edition - **SD-01 (West Bengal Spelling Reference):** *Akademi Banan Abhidhan* (পশ্চিমবঙ্গ বাংলা আকাদেমি, 1997 edition — pending D7 reviewer confirmation of exact revised/reprint edition); consulted for rules only).
-* **For Actual Usage & Meaning:**
-  1. Qualified Bengali-reading reviewers and verified published Bengali/English usage evidence.
-  2. Audit-approved reference sources (`licenses/audit-register.json`).
-* **When Disputed:** If neither spelling nor usage is settled, park the entry rather than guessing.
+  
