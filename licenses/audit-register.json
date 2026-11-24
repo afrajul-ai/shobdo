@@ -50,14 +50,14 @@
       "signed_off_by": "afrajul-ai",
       "date": "2026-11-24"
     },
-        {
+    {
       "source_id": "src-oewn",
       "name": "Open English WordNet (2025 Edition)",
       "status": "not_audited",
-      "licence_snapshot": null,
+      "licence_snapshot": "licenses/src-oewn/WORDNET-LICENSE.txt; licenses/src-oewn/README.md",
       "obligations": [],
       "compatibility_notes": [
-        "Pending verification of exact WNDB_License.txt snapshot inside the 2025-edition (dc343f2) release archive; licenses/src-oewn/WORDNET-LICENSE.txt currently holds an unverified WordNet 3.0 / 2006 text and 2025 Plus is not assessed."
+        "Snapshot verified 2026-11-24 via GitHub Actions (Verify OEWN 2025 Snapshot): english-wordnet-2025.zip (release 2025-edition / commit dc343f2; https://github.com/globalwordnet/english-wordnet/releases/download/2025-edition/english-wordnet-2025.zip and https://en-word.net/static/english-wordnet-2025.zip; 9,618,697 bytes; SHA-256 73355e48f8117a24ca9ebc23ed75b35434e6cd21cc9dd3984e80aff5a5f63636) matches dc343f2/WNDB_License.txt byte-for-byte. Owner sign-off still pending; 2025 Plus is not assessed."
       ],
       "auditor": null,
       "signed_off_by": null,
