@@ -3,7 +3,7 @@
 - **Source ID:** `src-oewn`
 - **Intended Audit Target:** Open English WordNet `2025` Edition (standard edition: common nouns, verbs, adjectives, and adverbs; GitHub release tag `2025-edition`, commit `dc343f2`, released 2025-12-30; `en-word.net` date `2025-12-31`)
 - **Not Assessed:** Open English WordNet `2025 Plus` (`2025+`, which adds curated proper nouns from Open English Namenet) has **not** been independently assessed in this audit.
-- **Audit Status:** `not_audited` — snapshot verified; owner approval pending.
+- **Audit Status:** `approved_with_conditions` (signed off by `afrajul-ai`, `2026-11-24`; 2025 standard edition only)`
 - **Import Status:** Audit-only; no OEWN entries are imported into SHOBDO. No import is authorised.
 - **Primary Sources:**
   - Repository: https://github.com/globalwordnet/english-wordnet
