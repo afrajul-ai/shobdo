@@ -1,20 +1,23 @@
 # LA-1 Audit Archive: `src-oewn` (Open English WordNet)
 
 - **Source ID:** `src-oewn`
-- **Audited Release:** Open English WordNet `2025` / `2025 Plus` (2025-12-31)
+- **Intended Audit Target:** Open English WordNet `2025` Edition (standard edition: common nouns, verbs, adjectives, and adverbs; GitHub release tag `2025-edition`, commit `dc343f2`, released 2025-12-30; `en-word.net` date `2025-12-31`)
+- **Not Assessed:** Open English WordNet `2025 Plus` (`2025+`, which adds curated proper nouns from Open English Namenet) has **not** been independently assessed in this audit.
+- **Audit Status:** `not_audited` — audit documentation under review; owner approval pending.
+- **Import Status:** Audit-only; no OEWN entries are imported into SHOBDO. No import is authorised.
 - **Primary Sources:**
   - Repository: https://github.com/globalwordnet/english-wordnet
+  - Releases (`2025-edition`, `dc343f2`): https://github.com/globalwordnet/english-wordnet/releases
   - Upstream `LICENSE.md`: https://github.com/globalwordnet/english-wordnet/blob/master/LICENSE.md
+  - Upstream `WNDB_License.txt` (reference): https://github.com/globalwordnet/english-wordnet/blob/main/WNDB_License.txt
   - Downloads: https://en-word.net/downloads
   - CC BY 4.0 Legal Code: https://creativecommons.org/licenses/by/4.0/legalcode.txt
-  - Princeton WordNet License: https://wordnet.princeton.edu/license-and-commercial-use
-  - **Audit Status:** `not_audited` — audit documentation under review; owner approval pending.
-- **Import Status:** Audit-only; no OEWN entries are imported into SHOBDO. No import is authorised.
-- **Import Status:** Audit-only; no OEWN entries are imported into SHOBDO yet.
 
-## Licensing & Obligations
+## Licensing & Snapshot Verification Notes
 
-1. **Dual-Layer Licence:** OEWN contributions (`2019–present`, The Open English WordNet Team) are under **CC BY 4.0**; underlying Princeton WordNet data is under the **WordNet License** (`WORDNET-LICENSE.txt`).
-2. **Attribution Required (`CC BY 4.0` + `LICENSE.md`):** Credit both **The Open English WordNet Team** and **Princeton WordNet**, link to the OEWN source and `https://creativecommons.org/licenses/by/4.0/`, retain warranty disclaimers, and record whether SHOBDO modified the field (`none | minor | substantial`).
-3. **No-Publicity Rule:** Do **not** use "Princeton University" or "Princeton" in advertising or publicity.
-4. **Layer Isolation:** Keep OEWN-derived fields strictly in `/data/layers/oewn/` (`rights.class: "oewn"`), separate from `/data/layers/original/`, `/data/layers/wiktionary/`, and MIT code.
+1. **Dual-Layer Licence:** OEWN contributions (`2019–present`, The Open English WordNet Team) are under **CC BY 4.0**; underlying Princeton WordNet data is subject to the **WordNet License** (`WNDB_License.txt`, WordNet 3.1 / Copyright 2011).
+2. **Unresolved Snapshot Limitation:** `licenses/src-oewn/WORDNET-LICENSE.txt` must match the verbatim upstream `WNDB_License.txt` from the `2025-edition` (`dc343f2`) release. A current `main`-branch file does not automatically prove the exact historical snapshot bundled in the `2025-edition` release archive; this remains pending verification before owner sign-off.
+3. **Attribution Required (`CC BY 4.0` + `LICENSE.md`):** Credit both **The Open English WordNet Team** and **Princeton WordNet**, link to the OEWN source and `https://creativecommons.org/licenses/by/4.0/`, retain warranty disclaimers, and record whether SHOBDO modified the field (`none | minor | substantial`).
+4. **No-Publicity Rule:** Do **not** use "Princeton University" or "Princeton" in advertising or publicity.
+5. **Layer Isolation:** Keep OEWN-derived fields strictly in `/data/layers/oewn/` (`rights.class: "oewn"`), separate from `/data/layers/original/`, `/data/layers/wiktionary/`, and MIT code.
+6. 
