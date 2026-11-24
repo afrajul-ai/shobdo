@@ -82,17 +82,6 @@
       "date": "2026-11-19"
     },
     {
-      "source_id": "src-wordlist",
-      "name": "Core word list",
-      "status": "not_audited",
-      "licence_snapshot": null,
-      "obligations": [],
-      "compatibility_notes": [],
-      "auditor": null,
-      "signed_off_by": null,
-      "date": null
-    },
-    {
       "source_id": "src-gpl-bn",
       "name": "GPL-labelled Bengali datasets",
       "status": "rejected",
