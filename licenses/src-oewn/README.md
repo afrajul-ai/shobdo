@@ -15,8 +15,8 @@
 
 ## Licensing & Snapshot Verification Notes
 
-1. **Dual-Layer Licence:** OEWN contributions (`2019–present`, The Open English WordNet Team) are under **CC BY 4.0**; underlying Princeton WordNet data is subject to the **WordNet License** (`WNDB_License.txt`, WordNet 3.1 / Copyright 2011).
-2. **Unresolved Snapshot Limitation:** `licenses/src-oewn/WORDNET-LICENSE.txt` must match the verbatim upstream `WNDB_License.txt` from the `2025-edition` (`dc343f2`) release. A current `main`-branch file does not automatically prove the exact historical snapshot bundled in the `2025-edition` release archive; this remains pending verification before owner sign-off.
+1. **Dual-Layer Licence:** OEWN contributions (`2019–present`, The Open English WordNet Team) are under **CC BY 4.0**; underlying Princeton WordNet data is subject to the **WordNet License** (`WNDB_License.txt`).
+2. **Unresolved Snapshot Limitation:** `licenses/src-oewn/WORDNET-LICENSE.txt` currently contains WordNet 3.0 / Copyright 2006 text, whereas upstream `main` references WordNet 3.1 / Copyright 2011 (`WNDB_License.txt`). A current `main`-branch file does not prove the exact historical snapshot bundled in the `2025-edition` (`dc343f2`) release archive; this must be verified directly from `dc343f2` before owner sign-off.
 3. **Attribution Required (`CC BY 4.0` + `LICENSE.md`):** Credit both **The Open English WordNet Team** and **Princeton WordNet**, link to the OEWN source and `https://creativecommons.org/licenses/by/4.0/`, retain warranty disclaimers, and record whether SHOBDO modified the field (`none | minor | substantial`).
 4. **No-Publicity Rule:** Do **not** use "Princeton University" or "Princeton" in advertising or publicity.
-5. **Layer Isolation:** Keep OEWN-derived fields strictly in `/data/layers/oewn/` (`rights.class: "oewn"`), separate from `/data/layers/original/`, `/data/layers/wiktionary/`, and MIT code. 
+5. **Layer Isolation:** Keep OEWN-derived fields strictly in `/data/layers/oewn/` (`rights.class: "oewn"`), separate from `/data/layers/original/`, `/data/layers/wiktionary/`, and MIT code.
