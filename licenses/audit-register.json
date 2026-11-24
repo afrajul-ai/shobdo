@@ -1,118 +1,118 @@
 {
-  "schema_version": "LA-1",
-  "sources": [
-        {
-      "source_id": "src-wordlist",
-      "name": "Project-Curated Pilot Headword List (EP-100)",
-      "status": "not_applicable_original",
-      "used_in_build": false,
-      "external_source_used": false,
-      "headword_list_doc": "docs/ep100-headwords.md",
-      "notes": "Approach A selected: original 100-headword planning list curated in docs/ep100-headwords.md. Not an externally licensed dataset; no external word-list source is approved and no dictionary entries are imported."
-        },
-    {
-      "source_id": "src-wikt",
-      "name": "English Wiktionary",
-      "status": "approved_with_conditions",
-      "licence_snapshot": "licenses/src-wikt/CC-BY-SA-4.0.txt; licenses/src-wikt/WIKTIONARY-COPYRIGHTS-ARCHIVE.md",
-      "obligations": [
-        "Elect CC BY-SA 4.0 only; exclude GFDL-only pages and revisions",
-        "Record source_url, source_revision, modified (none | minor | substantial), licence_id, licence_version, and attribution_text on every Wiktionary-derived field, displayed via Sources and licences and attributions.json; preserve supplied creator/copyright notices without inventing missing details",
-        "Keep Wiktionary-derived fields under CC BY-SA 4.0 in /data/layers/wiktionary/, strictly separate from /data/layers/original/ (All rights reserved) and MIT code",
-        "Exclude contemporary fair-use quotations and third-party media",
-        "LA-1 audit sign-off only: no Wiktionary entries authorised for import yet; D1, D5, and D7 release gates remain in place"
-      ],
-      "compatibility_notes": [
-        "Public GitHub Pages URL triggers CC BY-SA 4.0 Share obligations for Wiktionary-derived fields.",
-        "SHOBDO elects CC BY-SA 4.0 (not GFDL); original entries stay isolated in /data/layers/original/."
-      ],
-      "auditor": "Gemini (LA-1 primary-source retrieval)",
-      "signed_off_by": "afrajul-ai",
-      "date": "2026-11-19"
-    },
-    {
-      "source_id": "src-wn30",
-      "name": "Princeton WordNet 3.0",
-      "status": "not_audited",
-      "licence_snapshot": null,
-      "obligations": [],
-      "compatibility_notes": [],
-      "auditor": null,
-      "signed_off_by": null,
-      "date": null
-    },
-    {
-      "source_id": "src-oewn",
-      "name": "Open English WordNet",
-      "status": "not_audited",
-      "licence_snapshot": null,
-      "obligations": [],
-      "compatibility_notes": [],
-      "auditor": null,
-      "signed_off_by": null,
-      "date": null
-    },
-    {
-      "source_id": "src-tatoeba",
-      "name": "Tatoeba",
-      "status": "not_audited",
-      "licence_snapshot": null,
-      "obligations": [],
-      "compatibility_notes": [],
-      "auditor": null,
-      "signed_off_by": null,
-      "date": null
-    },
-    {
-      "source_id": "src-bn-font",
-      "name": "Bengali font to be bundled (Noto Sans Bengali v3.011)",
-      "status": "approved_with_conditions",
-      "licence_snapshot": "licenses/src-bn-font/OFL-1.1.txt; notofonts/bengali@77700fd",
-      "obligations": [
-        "Self-host Noto Sans Bengali locally, with zero external CDN requests for font assets",
-        "Retain licenses/src-bn-font/OFL-1.1.txt and the upstream copyright notice in SHOBDO's About section",
-        "Respect OFL-1.1 restrictions on standalone selling and Reserved Font Names",
-        "Keep font licensing separate from MIT code and dictionary data licences"
-      ],
-      "compatibility_notes": [
-        "OFL-1.1 does not affect MIT code or dictionary data licences."
-      ],
-      "auditor": "Gemini (LA-1 primary-source retrieval)",
-      "signed_off_by": "afrajul-ai",
-      "date": "2026-11-19"
-    },
-    {
-      "source_id": "src-gpl-bn",
-      "name": "GPL-labelled Bengali datasets",
-      "status": "rejected",
-      "licence_snapshot": null,
-      "obligations": [],
-      "compatibility_notes": ["Entered as rejected per v0.2.1 Section 3.6."],
-      "auditor": null,
-      "signed_off_by": null,
-      "date": null
-    },
-    {
-      "source_id": "src-indowordnet",
-      "name": "IndoWordNet",
-      "status": "permission_required",
-      "licence_snapshot": null,
-      "obligations": [],
-      "compatibility_notes": ["Cannot be used without explicit permission per v0.2.1 Section 3.6."],
-      "auditor": null,
-      "signed_off_by": null,
-      "date": null
-    },
-    {
-      "source_id": "src-published-dicts",
-      "name": "Published dictionaries",
-      "status": "rejected",
-      "licence_snapshot": null,
-      "obligations": [],
-      "compatibility_notes": ["Cannot be copied per v0.2.1 Section 3.6."],
-      "auditor": null,
-      "signed_off_by": null,
-      "date": null
-    }
-  ]
-    }
+"schema_version": "LA-1",
+"sources": [
+{
+"source_id": "src-wordlist",
+"name": "Project-Curated Pilot Headword List (EP-100)",
+"status": "not_applicable_original",
+"used_in_build": false,
+"external_source_used": false,
+"headword_list_doc": "docs/ep100-headwords.md",
+"notes": "Approach A selected: original 100-headword planning list curated in docs/ep100-headwords.md. Not an externally licensed dataset; no external word-list source is approved and no dictionary entries are imported."
+},
+{
+"source_id": "src-wikt",
+"name": "English Wiktionary",
+"status": "approved_with_conditions",
+"licence_snapshot": "licenses/src-wikt/CC-BY-SA-4.0.txt; licenses/src-wikt/WIKTIONARY-COPYRIGHTS-ARCHIVE.md",
+"obligations": [
+"Elect CC BY-SA 4.0 only; exclude GFDL-only pages and revisions",
+"Record source_url, source_revision, modified (none | minor | substantial), licence_id, licence_version, and attribution_text on every Wiktionary-derived field, displayed via Sources and licences and attributions.json; preserve supplied creator/copyright notices without inventing missing details",
+"Keep Wiktionary-derived fields under CC BY-SA 4.0 in /data/layers/wiktionary/, strictly separate from /data/layers/original/ (All rights reserved) and MIT code",
+"Exclude contemporary fair-use quotations and third-party media",
+"LA-1 audit sign-off only: no Wiktionary entries authorised for import yet; D1, D5, and D7 release gates remain in place"
+],
+"compatibility_notes": [
+"Public GitHub Pages URL triggers CC BY-SA 4.0 Share obligations for Wiktionary-derived fields.",
+"SHOBDO elects CC BY-SA 4.0 (not GFDL); original entries stay isolated in /data/layers/original/."
+],
+"auditor": "Gemini (LA-1 primary-source retrieval)",
+"signed_off_by": "afrajul-ai",
+"date": "2026-11-19"
+},
+{
+"source_id": "src-wn30",
+"name": "Princeton WordNet 3.0",
+"status": "not_audited",
+"licence_snapshot": null,
+"obligations": [],
+"compatibility_notes": [],
+"auditor": null,
+"signed_off_by": null,
+"date": null
+},
+{
+"source_id": "src-oewn",
+"name": "Open English WordNet",
+"status": "not_audited",
+"licence_snapshot": null,
+"obligations": [],
+"compatibility_notes": [],
+"auditor": null,
+"signed_off_by": null,
+"date": null
+},
+{
+"source_id": "src-tatoeba",
+"name": "Tatoeba",
+"status": "not_audited",
+"licence_snapshot": null,
+"obligations": [],
+"compatibility_notes": [],
+"auditor": null,
+"signed_off_by": null,
+"date": null
+},
+{
+"source_id": "src-bn-font",
+"name": "Bengali font to be bundled (Noto Sans Bengali v3.011)",
+"status": "approved_with_conditions",
+"licence_snapshot": "licenses/src-bn-font/OFL-1.1.txt; notofonts/bengali@77700fd",
+"obligations": [
+"Self-host Noto Sans Bengali locally, with zero external CDN requests for font assets",
+"Retain licenses/src-bn-font/OFL-1.1.txt and the upstream copyright notice in SHOBDO's About section",
+"Respect OFL-1.1 restrictions on standalone selling and Reserved Font Names",
+"Keep font licensing separate from MIT code and dictionary data licences"
+],
+"compatibility_notes": [
+"OFL-1.1 does not affect MIT code or dictionary data licences."
+],
+"auditor": "Gemini (LA-1 primary-source retrieval)",
+"signed_off_by": "afrajul-ai",
+"date": "2026-11-19"
+},
+{
+"source_id": "src-gpl-bn",
+"name": "GPL-labelled Bengali datasets",
+"status": "rejected",
+"licence_snapshot": null,
+"obligations": [],
+"compatibility_notes": ["Entered as rejected per v0.2.1 Section 3.6."],
+"auditor": null,
+"signed_off_by": null,
+"date": null
+},
+{
+"source_id": "src-indowordnet",
+"name": "IndoWordNet",
+"status": "permission_required",
+"licence_snapshot": null,
+"obligations": [],
+"compatibility_notes": ["Cannot be used without explicit permission per v0.2.1 Section 3.6."],
+"auditor": null,
+"signed_off_by": null,
+"date": null
+},
+{
+"source_id": "src-published-dicts",
+"name": "Published dictionaries",
+"status": "rejected",
+"licence_snapshot": null,
+"obligations": [],
+"compatibility_notes": ["Cannot be copied per v0.2.1 Section 3.6."],
+"auditor": null,
+"signed_off_by": null,
+"date": null
+}
+]
+}
