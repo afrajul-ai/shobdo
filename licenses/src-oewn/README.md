@@ -8,7 +8,8 @@
   - Downloads: https://en-word.net/downloads
   - CC BY 4.0 Legal Code: https://creativecommons.org/licenses/by/4.0/legalcode.txt
   - Princeton WordNet License: https://wordnet.princeton.edu/license-and-commercial-use
-- **Audit Status:** `approved_with_conditions` (signed off by `afrajul-ai`, `2026-11-24`)
+  - **Audit Status:** `not_audited` — audit documentation under review; owner approval pending.
+- **Import Status:** Audit-only; no OEWN entries are imported into SHOBDO. No import is authorised.
 - **Import Status:** Audit-only; no OEWN entries are imported into SHOBDO yet.
 
 ## Licensing & Obligations
