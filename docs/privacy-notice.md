@@ -12,4 +12,4 @@
 
 **Children.** SHOBDO collects no personal information from anyone, including children.
 
-**Changes and contact.** Changes are shown by a new version number and date at the top of this notice. Contact: [project contact, [GitHub Issues](https://github.com/afrajul-ai/shobdo/issues) (`https://github.com/afrajul-ai/shobdo/issues`).
+**Changes and contact.** Changes are shown by a new version number and date at the top of this notice. Contact: [GitHub Issues](https://github.com/afrajul-ai/shobdo/issues).
