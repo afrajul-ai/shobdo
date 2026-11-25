@@ -1,0 +1,69 @@
+{
+  "s1": {
+    "definition_en": {
+      "text": "To say something to someone in order to get information or help.",
+      "rights": {
+        "class": "original",
+        "author_id": "afrajul-ai",
+        "authoring_method": "independent",
+        "origin": "ai_assisted",
+        "ai_model": "gemini",
+        "prompt_id": "ep100-draft-batch-1",
+        "contributor_permission": true
+      }
+    },
+    "translations": [
+      {
+        "text": "জিজ্ঞাসা করা",
+        "rights": {
+          "class": "original",
+          "author_id": "afrajul-ai",
+          "authoring_method": "independent",
+          "origin": "ai_assisted",
+          "ai_model": "gemini",
+          "prompt_id": "ep100-draft-batch-1",
+          "contributor_permission": true
+        }
+      },
+      {
+        "text": "চাওয়া",
+        "rights": {
+          "class": "original",
+          "author_id": "afrajul-ai",
+          "authoring_method": "independent",
+          "origin": "ai_assisted",
+          "ai_model": "gemini",
+          "prompt_id": "ep100-draft-batch-1",
+          "contributor_permission": true
+        }
+      }
+    ],
+    "explanation_bn": {
+      "text": "কোনো কিছু জানার জন্য প্রশ্ন করা বা সাহায্য চাওয়া।",
+      "rights": {
+        "class": "original",
+        "author_id": "afrajul-ai",
+        "authoring_method": "independent",
+        "origin": "ai_assisted",
+        "ai_model": "gemini",
+        "prompt_id": "ep100-draft-batch-1",
+        "contributor_permission": true
+      }
+    },
+    "examples": [
+      {
+        "en": "Ask the teacher if you do not understand.",
+        "bn": "না বুঝলে শিক্ষককে জিজ্ঞাসা করুন।",
+        "rights": {
+          "class": "original",
+          "author_id": "afrajul-ai",
+          "authoring_method": "independent",
+          "origin": "ai_assisted",
+          "ai_model": "gemini",
+          "prompt_id": "ep100-draft-batch-1",
+          "contributor_permission": true
+        }
+      }
+    ]
+  }
+}
