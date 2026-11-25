@@ -1,0 +1,124 @@
+{
+  "s1": {
+    "definition_en": {
+      "text": "To say or write something back when someone asks a question or calls you.",
+      "rights": {
+        "class": "original",
+        "author_id": "afrajul-ai",
+        "authoring_method": "independent",
+        "origin": "ai_assisted",
+        "ai_model": "gemini",
+        "prompt_id": "ep100-draft-batch-1",
+        "contributor_permission": true
+      }
+    },
+    "translations": [
+      {
+        "text": "উত্তর দেওয়া",
+        "rights": {
+          "class": "original",
+          "author_id": "afrajul-ai",
+          "authoring_method": "independent",
+          "origin": "ai_assisted",
+          "ai_model": "gemini",
+          "prompt_id": "ep100-draft-batch-1",
+          "contributor_permission": true
+        }
+      }
+    ],
+    "explanation_bn": {
+      "text": "কোনো প্রশ্নের জবাব বলা বা লেখা।",
+      "rights": {
+        "class": "original",
+        "author_id": "afrajul-ai",
+        "authoring_method": "independent",
+        "origin": "ai_assisted",
+        "ai_model": "gemini",
+        "prompt_id": "ep100-draft-batch-1",
+        "contributor_permission": true
+      }
+    },
+    "examples": [
+      {
+        "en": "Please answer my question.",
+        "bn": "দয়া করে আমার প্রশ্নের উত্তর দিন।",
+        "rights": {
+          "class": "original",
+          "author_id": "afrajul-ai",
+          "authoring_method": "independent",
+          "origin": "ai_assisted",
+          "ai_model": "gemini",
+          "prompt_id": "ep100-draft-batch-1",
+          "contributor_permission": true
+        }
+      }
+    ]
+  },
+  "s2": {
+    "definition_en": {
+      "text": "Something you say or write in reply to a question.",
+      "rights": {
+        "class": "original",
+        "author_id": "afrajul-ai",
+        "authoring_method": "independent",
+        "origin": "ai_assisted",
+        "ai_model": "gemini",
+        "prompt_id": "ep100-draft-batch-1",
+        "contributor_permission": true
+      }
+    },
+    "translations": [
+      {
+        "text": "উত্তর",
+        "rights": {
+          "class": "original",
+          "author_id": "afrajul-ai",
+          "authoring_method": "independent",
+          "origin": "ai_assisted",
+          "ai_model": "gemini",
+          "prompt_id": "ep100-draft-batch-1",
+          "contributor_permission": true
+        }
+      },
+      {
+        "text": "জবাব",
+        "rights": {
+          "class": "original",
+          "author_id": "afrajul-ai",
+          "authoring_method": "independent",
+          "origin": "ai_assisted",
+          "ai_model": "gemini",
+          "prompt_id": "ep100-draft-batch-1",
+          "contributor_permission": true
+        }
+      }
+    ],
+    "explanation_bn": {
+      "text": "প্রশ্নের পর যে কথা বা লেখা দিয়ে জবাব দেওয়া হয়।",
+      "rights": {
+        "class": "original",
+        "author_id": "afrajul-ai",
+        "authoring_method": "independent",
+        "origin": "ai_assisted",
+        "ai_model": "gemini",
+        "prompt_id": "ep100-draft-batch-1",
+        "contributor_permission": true
+      }
+    },
+    "examples": [
+      {
+        "en": "Your answer is right.",
+        "bn": "আপনার উত্তর ঠিক।",
+        "rights": {
+          "class": "original",
+          "author_id": "afrajul-ai",
+          "authoring_method": "independent",
+          "origin": "ai_assisted",
+          "ai_model": "gemini",
+          "prompt_id": "ep100-draft-batch-1",
+          "contributor_permission": true
+        }
+      }
+    ]
+  }
+}
