@@ -1,0 +1,9 @@
+{
+  "id": "ep100-001",
+  "headword": "answer",
+  "status": "draft",
+  "senses": [
+    { "key": "s1", "pos": "verb" },
+    { "key": "s2", "pos": "noun" }
+  ]
+}
