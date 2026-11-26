@@ -1,0 +1,112 @@
+{
+  "s1": {
+    "definition_en": {
+      "text": "A set of printed or written pages fastened together inside a cover.",
+      "rights": {
+        "class": "original",
+        "author_id": "afrajul-ai",
+        "authoring_method": "independent",
+        "origin": "ai_assisted",
+        "ai_model": "gemini",
+        "prompt_id": "ep100-draft-batch-1",
+        "contributor_permission": true
+      }
+    },
+    "translations": [
+      {
+        "text": "বই",
+        "rights": {
+          "class": "original",
+          "author_id": "afrajul-ai",
+          "authoring_method": "independent",
+          "origin": "ai_assisted",
+          "ai_model": "gemini",
+          "prompt_id": "ep100-draft-batch-1",
+          "contributor_permission": true
+        }
+      }
+    ],
+    "explanation_bn": {
+      "text": "মলাটের ভেতরে বাঁধাই করা ছাপা বা লেখা পাতার সমষ্টি।",
+      "rights": {
+        "class": "original",
+        "author_id": "afrajul-ai",
+        "authoring_method": "independent",
+        "origin": "ai_assisted",
+        "ai_model": "gemini",
+        "prompt_id": "ep100-draft-batch-1",
+        "contributor_permission": true
+      }
+    },
+    "examples": [
+      {
+        "en": "Keep this book in your bag.",
+        "bn": "এই বইটি আপনার ব্যাগে রাখুন।",
+        "rights": {
+          "class": "original",
+          "author_id": "afrajul-ai",
+          "authoring_method": "independent",
+          "origin": "ai_assisted",
+          "ai_model": "gemini",
+          "prompt_id": "ep100-draft-batch-1",
+          "contributor_permission": true
+        }
+      }
+    ]
+  },
+  "s2": {
+    "definition_en": {
+      "text": "To arrange to have a seat, room, or ticket saved for you.",
+      "rights": {
+        "class": "original",
+        "author_id": "afrajul-ai",
+        "authoring_method": "independent",
+        "origin": "ai_assisted",
+        "ai_model": "gemini",
+        "prompt_id": "ep100-draft-batch-1",
+        "contributor_permission": true
+      }
+    },
+    "translations": [
+      {
+        "text": "আগে থেকে রাখা",
+        "rights": {
+          "class": "original",
+          "author_id": "afrajul-ai",
+          "authoring_method": "independent",
+          "origin": "ai_assisted",
+          "ai_model": "gemini",
+          "prompt_id": "ep100-draft-batch-1",
+          "contributor_permission": true
+        }
+      }
+    ],
+    "explanation_bn": {
+      "text": "আগে থেকেই আসন, ঘর বা টিকিট নিজের জন্য ঠিক করে রাখা।",
+      "rights": {
+        "class": "original",
+        "author_id": "afrajul-ai",
+        "authoring_method": "independent",
+        "origin": "ai_assisted",
+        "ai_model": "gemini",
+        "prompt_id": "ep100-draft-batch-1",
+        "contributor_permission": true
+      }
+    },
+    "examples": [
+      {
+        "en": "We need to book two train tickets.",
+        "bn": "আমাদের দুটো ট্রেনের টিকিট আগে থেকে কেটে রাখতে হবে।",
+        "rights": {
+          "class": "original",
+          "author_id": "afrajul-ai",
+          "authoring_method": "independent",
+          "origin": "ai_assisted",
+          "ai_model": "gemini",
+          "prompt_id": "ep100-draft-batch-1",
+          "contributor_permission": true
+        }
+      }
+    ]
+  }
+      }
